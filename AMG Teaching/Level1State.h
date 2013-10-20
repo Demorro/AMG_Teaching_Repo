@@ -1,11 +1,12 @@
 #pragma once
 #include "state.h"
-#include "TextureManager.h"
+#include "Level.h"
+#include "Assets.h"
 
 class Level1State : public State
 {
 public:
-	Level1State(void);
+	Level1State();
 	~Level1State(void);
 
 	/** 
@@ -21,5 +22,6 @@ public:
 	void Draw(sf::RenderWindow &renderWindow);
 
 private:
-
+	Level loadedLevel;
+	sf::Color skyColour;
 };

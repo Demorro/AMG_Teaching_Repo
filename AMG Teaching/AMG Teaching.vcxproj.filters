@@ -25,6 +25,12 @@
     <Filter Include="Header Files\Systems">
       <UniqueIdentifier>{fe761bc2-74de-47db-8d6d-f4cd930d75e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\PugiXML">
+      <UniqueIdentifier>{88c62bab-5e3d-4778-9928-1317c5312ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PugiXML">
+      <UniqueIdentifier>{473c7615-e66f-4183-a81a-fced5ae3272d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="State.cpp">
@@ -45,6 +51,12 @@
     <ClCompile Include="Level1State.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml.cpp">
+      <Filter>Source Files\PugiXML</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -61,6 +73,21 @@
     </ClInclude>
     <ClInclude Include="Level1State.h">
       <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pugiconfig.hpp">
+      <Filter>Header Files\PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml.hpp">
+      <Filter>Header Files\PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorMath.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

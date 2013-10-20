@@ -41,7 +41,7 @@ void Application::Run()
         }
 
 		stateManager.Update(event, eventFired);
-        window.clear();
+		window.clear();
 		stateManager.Draw(window);
         window.display();
 
