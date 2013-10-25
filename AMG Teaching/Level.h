@@ -35,11 +35,15 @@ private:
 
 	enum LevelLayers
 	{
+		BACKGROUNDCOLOUR,
 		BACKGROUND,
 		OBJECTS,
 		FOREGROUND,
 		COLLISION
 	};
+
+	//The background colour of the level
+	sf::Color backgroundColor;
 
 	//Loads a layer into the level, done like this so we can load layers in different orders if we want.
 	void LoadLayer(LevelLayers layer);

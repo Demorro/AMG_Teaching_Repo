@@ -23,5 +23,4 @@ public:
 
 private:
 	Level loadedLevel;
-	sf::Color skyColour;
 };

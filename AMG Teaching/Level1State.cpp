@@ -19,11 +19,6 @@ bool Level1State::Load()
 		return false;
 	}
 
-	//Set the colour of the sky, cleared to this before anything else in draw.
-	skyColour.r = 80;
-	skyColour.g = 160;
-	skyColour.b = 230;
-
 	return true;
 }
 
@@ -35,9 +30,6 @@ void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 void Level1State::Draw(sf::RenderWindow &renderWindow)
 {
 	//Draw things here
-	//Clear the screen to the sky colour
-	renderWindow.clear(skyColour);
-
-	//Draw the level
+	//Draw the level first
 	loadedLevel.Draw(renderWindow);
 }

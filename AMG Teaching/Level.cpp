@@ -3,12 +3,13 @@
 
 Level::Level()
 {
-
+	backgroundColor = sf::Color::Black;
 }
 
 Level::Level(std::string levelDataPath)
 {
 	LoadLevel(levelDataPath);
+	backgroundColor = sf::Color::Black;
 }
 
 Level::~Level(void)
@@ -32,6 +33,7 @@ bool Level::LoadLevel(std::string levelPath)
 		return false;
 	}
 
+	LoadLayer(BACKGROUNDCOLOUR);
 	LoadLayer(BACKGROUND);
 	LoadLayer(OBJECTS);
 	LoadLayer(FOREGROUND);
@@ -49,7 +51,15 @@ void Level::LoadLayer(LevelLayers layer)
 	//Scan through the document and find the layer node that is the one we are trying to load
 	for(pugi::xml_node beginNode = levelDoc.child("Level").child("Layers").first_child(); beginNode; beginNode = beginNode.next_sibling())
 	{
-		if(layer == BACKGROUND)
+		if(layer == BACKGROUNDCOLOUR)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "BackgroundColour")
+			{
+				startNode = beginNode;
+			}
+		}
+		else if(layer == BACKGROUND)
 		{
 			nodeName = beginNode.attribute("Name").value();
 			if(nodeName == "Background")
@@ -88,8 +98,37 @@ void Level::LoadLayer(LevelLayers layer)
 		}
 	}
 
+
+	//Load in the background colour
+	if(layer == BACKGROUNDCOLOUR)
+	{
+		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
+		{
+			//Get the RGBA values for the one entry
+			int red;
+			std::stringstream redStream(traversalNode.child("FillColor").child_value("R"));
+			redStream >> red;
+
+			int green;
+			std::stringstream greenStream(traversalNode.child("FillColor").child_value("G"));
+			greenStream >> green;
+
+			int blue;
+			std::stringstream blueStream(traversalNode.child("FillColor").child_value("B"));
+			blueStream >> blue;
+
+			int alpha;
+			std::stringstream alphaStream(traversalNode.child("FillColor").child_value("A"));
+			alphaStream >> alpha;
+
+			backgroundColor.r = red;
+			backgroundColor.b = blue;
+			backgroundColor.g = green;
+			backgroundColor.a = alpha;
+		}
+	}
 	//The collision data needs to be loaded in differently to the sprite based texture data.
-	if(layer != COLLISION)
+	else if((layer != COLLISION) && (layer != BACKGROUNDCOLOUR))
 	{
 		//Now we have the root node of the layer, start loading in dat data! Yeah Baby Yeah!
 		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
@@ -196,6 +235,9 @@ std::vector<sf::Rect<int>> *Level::GetCollisionBounds()
 
 void Level::Draw(sf::RenderWindow &window)
 {
+	//Clear the screen to the sky colour
+	window.clear(backgroundColor);
+
 	for(size_t i = 0; i < backgroundSprites.size(); i++)
 	{
 		window.draw(backgroundSprites[i]);
