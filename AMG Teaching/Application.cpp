@@ -18,6 +18,8 @@ Application::Application()
 	
 	window.setVerticalSyncEnabled(WINDOW_V_SYNC);
 
+	stateManager = std::unique_ptr<StateManager>(new StateManager());
+
 }
 
 Application::~Application()
@@ -40,9 +42,9 @@ void Application::Run()
 			eventFired = true;
         }
 
-		stateManager.Update(event, eventFired);
+		stateManager->Update(event, eventFired);
 		window.clear();
-		stateManager.Draw(window);
+		stateManager->Draw(window);
         window.display();
 
 		if(!GetRunning())

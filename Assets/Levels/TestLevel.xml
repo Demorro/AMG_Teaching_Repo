@@ -29,8 +29,8 @@
             <Items>
                 <Item xsi:type="TextureItem" Name="Texture_0064" Visible="true">
                     <Position>
-                        <X>189</X>
-                        <Y>104</Y>
+                        <X>142</X>
+                        <Y>-22</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -56,8 +56,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0048" Visible="true">
                     <Position>
-                        <X>123</X>
-                        <Y>190</Y>
+                        <X>168</X>
+                        <Y>234</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -83,8 +83,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0049" Visible="true">
                     <Position>
-                        <X>275</X>
-                        <Y>67</Y>
+                        <X>320</X>
+                        <Y>111</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -110,8 +110,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0051" Visible="true">
                     <Position>
-                        <X>523</X>
-                        <Y>191</Y>
+                        <X>568</X>
+                        <Y>235</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -137,8 +137,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0053" Visible="true">
                     <Position>
-                        <X>776</X>
-                        <Y>72</Y>
+                        <X>821</X>
+                        <Y>116</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -164,8 +164,170 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0054" Visible="true">
                     <Position>
-                        <X>1103</X>
-                        <Y>140</Y>
+                        <X>1183</X>
+                        <Y>157</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\Clound.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\Clound</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>50</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0076" Visible="true">
+                    <Position>
+                        <X>4439</X>
+                        <Y>278</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\Characters\Saiger.png</texture_filename>
+                    <asset_name>Assets\Images\Characters\Saiger</asset_name>
+                    <Origin>
+                        <X>92</X>
+                        <Y>125</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0078" Visible="true">
+                    <Position>
+                        <X>1560</X>
+                        <Y>213</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\Clound.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\Clound</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>50</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0079" Visible="true">
+                    <Position>
+                        <X>1742</X>
+                        <Y>45</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\Clound.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\Clound</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>50</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0080" Visible="true">
+                    <Position>
+                        <X>2000</X>
+                        <Y>149</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\Clound.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\Clound</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>50</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0081" Visible="true">
+                    <Position>
+                        <X>2253</X>
+                        <Y>30</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\Clound.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\Clound</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>50</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0082" Visible="true">
+                    <Position>
+                        <X>2540</X>
+                        <Y>158</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -998,11 +1160,11 @@
     </Layers>
     <CustomProperties />
     <EditorRelated>
-        <NextItemNumber>75</NextItemNumber>
+        <NextItemNumber>82</NextItemNumber>
         <ContentRootFolder>C:\Coding\C++\AMG Teaching\AMG_Teaching_Repo</ContentRootFolder>
         <CameraPosition>
-            <X>731.8535</X>
-            <Y>448.6922</Y>
+            <X>2663.78223</X>
+            <Y>506.9779</Y>
         </CameraPosition>
         <Version>1.3.0.0</Version>
     </EditorRelated>

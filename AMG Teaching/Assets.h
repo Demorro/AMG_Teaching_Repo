@@ -2,3 +2,4 @@
 
 
 #define TESTLEVEL "../Assets/Levels/TestLevel.xml"
+#define PLAYERTEXTURE "../Assets/Images/Characters/PlayerPlaceHolder.png"

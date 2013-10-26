@@ -5,6 +5,9 @@ StateManager::StateManager()
 	curState = NULL;
 	//Define what state we start with.
 	SwitchState(State::LEVEL1_STATE);
+
+	deltaTime = 0.0f;
+	newTime = 0.0f;
 }
 
 StateManager::~StateManager()
@@ -21,9 +24,10 @@ void StateManager::Update(sf::Event events, bool eventFired)
 			SwitchState(curState->GetTarget());
 		}
 
-		FindDeltaTime();
 		//Run the update loop for the current state
 		curState->Update(events, eventFired, deltaTime);
+
+		FindDeltaTime();
 	}
 }
 

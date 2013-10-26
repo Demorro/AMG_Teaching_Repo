@@ -83,10 +83,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level1State.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -94,9 +96,11 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level1State.h" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="State.h" />

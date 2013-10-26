@@ -2,6 +2,11 @@
 #include "state.h"
 #include "Level.h"
 #include "Assets.h"
+#include "Camera.h"
+#include "Player.h"
+
+#define PLAYERSTART sf::Vector2f(300,558)
+#define DEBUG_STATE true
 
 class Level1State : public State
 {
@@ -22,5 +27,12 @@ public:
 	void Draw(sf::RenderWindow &renderWindow);
 
 private:
+	//Loads in and stored data representations of the level, as well as rendering it
 	Level loadedLevel;
+	
+	//Controls the camera for this stage
+	std::unique_ptr<Camera> stageCam;
+
+	//The main player character
+	std::unique_ptr<Player> player;
 };

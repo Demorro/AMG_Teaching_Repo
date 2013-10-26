@@ -28,7 +28,7 @@ public:
 	static sf::RenderWindow& GetWindow();
 
 private:
-	StateManager stateManager;
+	std::unique_ptr<StateManager> stateManager;
 
 	// Instance of the window used to catch events and display graphical content.
 	sf::RenderWindow window;
