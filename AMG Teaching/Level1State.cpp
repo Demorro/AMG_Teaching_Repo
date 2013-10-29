@@ -30,10 +30,11 @@ bool Level1State::Load()
 void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 {
 	//Update things here, remember about deltatime for framerate independent movement
-	stageCam->Update(events, eventFired, &player->GetPosition(),sf::Vector2f(0,-200));
 
-	//temporary
-	player->Move(deltaTime * 50.0,0.0f);
+	//Update the player, handles movement and collision and every other darn thing
+	player->Update(events,eventFired,deltaTime,loadedLevel.GetCollisionBounds());
+	//Camera update, follow the player
+	stageCam->Update(events, eventFired, &player->GetPosition(),sf::Vector2f(0,0));
 }
 
 void Level1State::Draw(sf::RenderWindow &renderWindow)
@@ -43,15 +44,4 @@ void Level1State::Draw(sf::RenderWindow &renderWindow)
 	loadedLevel.Draw(renderWindow);
 	player->Render(renderWindow);
 
-
-	if(DEBUG_STATE)
-	{
-		sf::RectangleShape playerDebugDrawRect;
-		playerDebugDrawRect.setSize(sf::Vector2f(player->GetSprite().getGlobalBounds().width,player->GetSprite().getGlobalBounds().height));
-		playerDebugDrawRect.setPosition(player->GetSprite().getGlobalBounds().left,player->GetSprite().getGlobalBounds().top);
-		playerDebugDrawRect.setFillColor(sf::Color::Transparent);
-		playerDebugDrawRect.setOutlineThickness(1.0f);
-		playerDebugDrawRect.setOutlineColor(sf::Color::Green);
-		renderWindow.draw(playerDebugDrawRect);
-	}
 }

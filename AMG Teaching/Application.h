@@ -3,12 +3,12 @@
 #include "StateManager.h"
 
 // Window properties
-#define WINDOW_TITLE_TEXT		"Martial Farts"
+#define WINDOW_TITLE_TEXT		"Martial Farts - Alpha 0.1"
 #define WINDOW_PIXEL_WIDTH		1280
 #define WINDOW_PIXEL_HEIGHT		720
 #define WINDOW_MAX_FRAMERATE	120
-#define WINDOW_FRAMELIMIT	true
-#define WINDOW_V_SYNC		false
+#define WINDOW_FRAMELIMIT	false
+#define WINDOW_V_SYNC		true
 
 class Application
 {

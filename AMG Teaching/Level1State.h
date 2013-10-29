@@ -5,8 +5,7 @@
 #include "Camera.h"
 #include "Player.h"
 
-#define PLAYERSTART sf::Vector2f(300,558)
-#define DEBUG_STATE true
+#define PLAYERSTART sf::Vector2f(300,545)
 
 class Level1State : public State
 {

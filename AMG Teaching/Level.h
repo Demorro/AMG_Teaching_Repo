@@ -9,7 +9,7 @@
 #include "VectorMath.h"
 
 //you should do a check against this if you're drawing any debug sprites so it can be toggled easily
-#define LEVEL_DEBUG true
+#define LEVEL_DEBUG false
 
 class Level
 {
@@ -26,7 +26,7 @@ public:
 	void Draw(sf::RenderWindow &window);
 
 	//Returns a pointer to the collision rects so they can be iterated over to check for collision
-	std::vector<sf::Rect<int>> *GetCollisionBounds();
+	std::vector<sf::Rect<float>> GetCollisionBounds();
 
 private:
 
@@ -55,7 +55,7 @@ private:
 	std::vector<sf::Sprite> objectSprites;
 	std::vector<sf::Sprite> foregroundSprites;
 
-	std::vector<sf::Rect<int>> collisionBounds;
+	std::vector<sf::Rect<float>> collisionBounds;
 
 };
 

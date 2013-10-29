@@ -221,16 +221,16 @@ void Level::LoadLayer(LevelLayers layer)
 			heightStream >> height;
 
 			//Create a rect with the parsed properties
-			sf::Rect<int> collisionRect(xPos,yPos,width,height);
+			sf::Rect<float> collisionRect(xPos,yPos,width,height);
 			//And finally push it onto the collision bounds storage vector
 			collisionBounds.push_back(collisionRect);
 		}
 	}
 }
 
-std::vector<sf::Rect<int>> *Level::GetCollisionBounds()
+std::vector<sf::Rect<float>> Level::GetCollisionBounds()
 {
-	return &collisionBounds;
+	return collisionBounds;
 }
 
 void Level::Draw(sf::RenderWindow &window)
