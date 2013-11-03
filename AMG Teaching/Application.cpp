@@ -6,7 +6,14 @@ sf::RenderWindow* Application::windowRef = NULL;
 Application::Application()
 {
 	// Initialise window
-	window.create(sf::VideoMode(WINDOW_PIXEL_WIDTH, WINDOW_PIXEL_HEIGHT, 32), WINDOW_TITLE_TEXT);
+	if(WINDOW_FULLSCREEN)
+	{
+		window.create(sf::VideoMode(WINDOW_PIXEL_WIDTH, WINDOW_PIXEL_HEIGHT, 32), WINDOW_TITLE_TEXT, sf::Style::Fullscreen);
+	}
+	else
+	{
+		window.create(sf::VideoMode(WINDOW_PIXEL_WIDTH, WINDOW_PIXEL_HEIGHT, 32), WINDOW_TITLE_TEXT);
+	}
 
 	//Set the window reference to the created window so we can grab it from anywhere
 	SetWindow(&window);
@@ -17,7 +24,6 @@ Application::Application()
 	}
 	
 	window.setVerticalSyncEnabled(WINDOW_V_SYNC);
-
 	stateManager = std::unique_ptr<StateManager>(new StateManager());
 
 }

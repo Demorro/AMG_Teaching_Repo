@@ -8,6 +8,7 @@ StateManager::StateManager()
 
 	deltaTime = 0.0f;
 	newTime = 0.0f;
+	deltaTimeAccumulator = 0.0f;
 }
 
 StateManager::~StateManager()
@@ -16,19 +17,27 @@ StateManager::~StateManager()
 
 void StateManager::Update(sf::Event events, bool eventFired)
 {
-	if(curState != NULL)
+	deltaTimeAccumulator += (deltaTime * 1000);
+	
+	while(deltaTimeAccumulator >= SIMULATIONTIMESTEP)
 	{
-		// Switch the state if a signal has been given from the current state
-		if(curState->Switch())
+		if(curState != NULL)
 		{
-			SwitchState(curState->GetTarget());
+			// Switch the state if a signal has been given from the current state
+			if(curState->Switch())
+			{
+				SwitchState(curState->GetTarget());
+			}
+
+			//Run the update loop for the current state
+			curState->Update(events, eventFired, deltaTime);
+
+			//Deincrement the accumulator
+			deltaTimeAccumulator -= SIMULATIONTIMESTEP;
 		}
-
-		//Run the update loop for the current state
-		curState->Update(events, eventFired, deltaTime);
-
-		FindDeltaTime();
 	}
+
+	FindDeltaTime();
 }
 
 void StateManager::Draw(sf::RenderWindow& window)

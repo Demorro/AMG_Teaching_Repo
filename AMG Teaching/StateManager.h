@@ -5,6 +5,7 @@
 #include "MenuState.h"
 #include "Level1State.h"
 
+#define SIMULATIONTIMESTEP 16.666f
 
 class StateManager
 {
@@ -29,11 +30,13 @@ private:
 	// A pointer to the current state. 
 	State* curState;
 
-
 	//Finds the delta time each frame. Multiply any time dependent action by deltaTime to get an action that moves at a speed independent of framerate
 	void FindDeltaTime();
 	//The deltaTime variable and two storage variables for finding it in FindDeltaTime()
 	double deltaTime;
 	sf::Int64 newTime;
 	sf::Clock deltaTimeClock;
+
+	//Accumulates the deltatime and is subtracted from when the simulation runs an update step. Refer to www.http://gafferongames.com/game-physics/fix-your-timestep/ for more info
+	double deltaTimeAccumulator;
 };
