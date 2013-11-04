@@ -1,3 +1,4 @@
+
 #pragma once
 #include "SFML\Graphics.hpp"
 #include "Assets.h"
@@ -44,13 +45,13 @@ private:
 	
 	//These functions here are just called in HandleMovement, i've just seperated them because handleMovement was becoming massive, also you can change the order easily
 	//Does the left and right movement for the player, whether the player is on the ground or in the air
-	void DoLeftAndRightMovement();
+	void DoLeftAndRightMovement(float deltaTime);
 	//Handles the jumping
 	void DoJumping();
 	//Deals with adding the drag, whether the player is on the ground or in the air, they both have different values
-	void AddDrag();
+	void AddDrag(float deltaTime);
 	//Pull the player towards the floor
-	void AddGravity();
+	void AddGravity(float deltaTime);
 
 	//Handle collision, done seperately because it's simpler than doing corner-exception cases
 	void HandleHorizontalCollision(std::vector<sf::Rect<float>> &levelCollisionRects);

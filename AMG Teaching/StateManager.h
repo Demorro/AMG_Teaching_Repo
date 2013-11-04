@@ -5,8 +5,6 @@
 #include "MenuState.h"
 #include "Level1State.h"
 
-#define SIMULATIONTIMESTEP 16.666f
-
 class StateManager
 {
 public:
@@ -36,7 +34,4 @@ private:
 	double deltaTime;
 	sf::Int64 newTime;
 	sf::Clock deltaTimeClock;
-
-	//Accumulates the deltatime and is subtracted from when the simulation runs an update step. Refer to www.http://gafferongames.com/game-physics/fix-your-timestep/ for more info
-	double deltaTimeAccumulator;
 };

@@ -17,24 +17,17 @@ StateManager::~StateManager()
 
 void StateManager::Update(sf::Event events, bool eventFired)
 {
-	deltaTimeAccumulator += (deltaTime * 1000);
-	
-	while(deltaTimeAccumulator >= SIMULATIONTIMESTEP)
+
+	if(curState != NULL)
 	{
-		if(curState != NULL)
+		// Switch the state if a signal has been given from the current state
+		if(curState->Switch())
 		{
-			// Switch the state if a signal has been given from the current state
-			if(curState->Switch())
-			{
-				SwitchState(curState->GetTarget());
-			}
-
-			//Run the update loop for the current state
-			curState->Update(events, eventFired, deltaTime);
-
-			//Deincrement the accumulator
-			deltaTimeAccumulator -= SIMULATIONTIMESTEP;
+			SwitchState(curState->GetTarget());
 		}
+
+		//Run the update loop for the current state
+		curState->Update(events, eventFired, deltaTime);
 	}
 
 	FindDeltaTime();

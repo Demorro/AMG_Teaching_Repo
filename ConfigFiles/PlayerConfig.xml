@@ -2,31 +2,31 @@
 <PlayerConfig Name="DefaultPlayerConfig" Visible="true">
 	
 	<!--The maximum speed that the player can move in the horizontal direction-->
-	<MaximumHorizontalSpeed>10</MaximumHorizontalSpeed>
+	<MaximumHorizontalSpeed>500</MaximumHorizontalSpeed>
 
 	<!--The rate at which the player accelerates horizontally while on the ground-->
-	<GroundAcceleration>0.45</GroundAcceleration>
+	<GroundAcceleration>800</GroundAcceleration>
 
 	<!--The rate at which the player accelerates horizontally while in the air-->
-	<AirAcceleration>0.3</AirAcceleration>
+	<AirAcceleration>500</AirAcceleration>
 
 	<!--The rate at which the player decelerates when the player releases the move key while on the ground-->
-	<GroundDrag>0.65</GroundDrag>
+	<GroundDrag>1800</GroundDrag>
 
 	<!--The rate at which the player decelerates when the player releases the move key while in the air-->
 	<AirDrag>0.0</AirDrag>
 
 	<!--The maximum vertical speed the player can acheive while being pulled down due to gravity-->
-	<TerminalVelocity>15</TerminalVelocity>
+	<TerminalVelocity>5000</TerminalVelocity>
 
-	<!--The rate at which the player is pulled back to earth (NOTE : Reducing personal gravity will make the arc feel more "floaty" while increasing it will acheive the opposite, you can adjust jump height with either personal gravity or jumpstrength, but be aware they each contribute different things to the feel of the jump arc)-->
-	<PersonalGravity>0.6</PersonalGravity>
+	<!--The rate at which the player is pulled back to earth (NOTE : Reducing personal gravity will make the arc feel more "floaty" while increasing it will acheive the opposite, 
+	you can adjust jump height with either personal gravity or jumpstrength, but be aware they each contribute different things to the feel of the jump arc)-->
+	<PersonalGravity>2000</PersonalGravity>
 
 	<!--The strength of the jump impulse when the player jumps-->
-	<JumpStrength>14</JumpStrength>
-	
+	<JumpStrength>800</JumpStrength>	
 	
 </PlayerConfig>
 
 
-<!--REMINDER : Remember to tell a programmer to set the code defaults to whats in this file before we ship, knowing me i'll forget because i'm drunk or something. This is important because if someone deletes the config file you want the game to still run anyways.-->
+<!--REMINDER : Remember to tell a programmer to set the code defaults to whats in this file before we ship, knowing me i'll forget because i'm drunk or hibernating or something. This is important because if someone deletes the config file you want the game to still run anyways.-->

@@ -8,7 +8,7 @@ Application::Application()
 	// Initialise window
 	if(WINDOW_FULLSCREEN)
 	{
-		window.create(sf::VideoMode(WINDOW_PIXEL_WIDTH, WINDOW_PIXEL_HEIGHT, 32), WINDOW_TITLE_TEXT, sf::Style::Fullscreen);
+		window.create(sf::VideoMode::getFullscreenModes().front(), WINDOW_TITLE_TEXT, sf::Style::Fullscreen);
 	}
 	else
 	{

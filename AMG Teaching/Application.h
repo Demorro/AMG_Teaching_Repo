@@ -6,10 +6,10 @@
 #define WINDOW_TITLE_TEXT		"Martial Farts - Alpha 0.1"
 #define WINDOW_PIXEL_WIDTH		1280
 #define WINDOW_PIXEL_HEIGHT		720
-#define WINDOW_MAX_FRAMERATE	60
+#define WINDOW_MAX_FRAMERATE	120
 //NEVER HAVE A FRAMELIMITER AND VSYNC AT THE SAME TIME
-#define WINDOW_FRAMELIMIT	false
-#define WINDOW_V_SYNC		true
+#define WINDOW_FRAMELIMIT	true
+#define WINDOW_V_SYNC		false
 #define WINDOW_FULLSCREEN false
 
 class Application

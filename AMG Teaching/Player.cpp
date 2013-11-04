@@ -220,24 +220,24 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 void Player::HandleMovement(float deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects)
 {
 	//update the player velocity to move left and right depending on player input
-	DoLeftAndRightMovement();
+	DoLeftAndRightMovement(deltaTime);
 	//Add the drag horizontally, different whether you are grounded or not
-	AddDrag();
+	AddDrag(deltaTime);
 	//Move horizontal
-	Move(playerState.velocity.x ,0);
+	Move(playerState.velocity.x * deltaTime ,0);
 	//Check to see that the new position is valid horizontally
 	HandleHorizontalCollision(levelCollisionRects);
 	//Deal wid jumping 
 	DoJumping();
 	//Add gravity
-	AddGravity();
+	AddGravity(deltaTime);
 	//Move vertical
-	Move(0, playerState.velocity.y);
+	Move(0, playerState.velocity.y * deltaTime);
 	//Check to see if the new position is valid vertically
 	HandleVerticalCollision(levelCollisionRects);
 }
 //All these functions are just used in HandleMovement, seperated because its cleaner and easier to make logic changes
-void Player::DoLeftAndRightMovement()
+void Player::DoLeftAndRightMovement(float deltaTime)
 {
 	//Left and right movement
 	if((!playerState.INPUT_MoveLeft) || (!playerState.INPUT_MoveRight)) //Dont execute if both left and right are held
@@ -248,9 +248,9 @@ void Player::DoLeftAndRightMovement()
 			if(playerState.INPUT_MoveLeft)
 			{
 				//We dont want to accelerate over our max speed, so check
-				if((playerState.velocity.x - groundAcceleration) > -maximumHorizontalSpeed)
+				if((playerState.velocity.x - (groundAcceleration * deltaTime)) > -maximumHorizontalSpeed)
 				{
-					playerState.velocity.x += -groundAcceleration;
+					playerState.velocity.x = playerState.velocity.x - (groundAcceleration * deltaTime);
 				}
 				else
 				{
@@ -262,10 +262,10 @@ void Player::DoLeftAndRightMovement()
 			if(playerState.INPUT_MoveRight)
 			{
 				//We dont want to accelerate over our max speed, so check
-				if((playerState.velocity.x + groundAcceleration) < maximumHorizontalSpeed)
+				if((playerState.velocity.x + (groundAcceleration * deltaTime)) < maximumHorizontalSpeed)
 				{
 					//you multiply in deltatime here so acceleration is also constant
-					playerState.velocity.x += groundAcceleration;
+					playerState.velocity.x = playerState.velocity.x + (groundAcceleration * deltaTime);
 				}
 				else
 				{
@@ -280,9 +280,9 @@ void Player::DoLeftAndRightMovement()
 			if(playerState.INPUT_MoveLeft)
 			{
 				//We dont want to accelerate over our max speed, so check
-				if((playerState.velocity.x - airAcceleration) > -maximumHorizontalSpeed)
+				if((playerState.velocity.x - (airAcceleration * deltaTime)) > -maximumHorizontalSpeed)
 				{
-					playerState.velocity.x += -airAcceleration;
+					playerState.velocity.x = playerState.velocity.x - (airAcceleration * deltaTime);
 				}
 				else
 				{
@@ -294,10 +294,10 @@ void Player::DoLeftAndRightMovement()
 			if(playerState.INPUT_MoveRight)
 			{
 				//We dont want to accelerate over our max speed, so check
-				if((playerState.velocity.x + airAcceleration) < maximumHorizontalSpeed)
+				if((playerState.velocity.x + (airAcceleration * deltaTime)) < maximumHorizontalSpeed)
 				{
 					//you multiply in deltatime here so acceleration is also constant
-					playerState.velocity.x += airAcceleration;
+					playerState.velocity.x = playerState.velocity.x + (airAcceleration * deltaTime);
 				}
 				else
 				{
@@ -322,7 +322,7 @@ void Player::DoJumping()
 		}
 	}
 }
-void Player::AddDrag()
+void Player::AddDrag(float deltaTime)
 {
 	//Add drag
 	if(playerState.grounded)
@@ -333,9 +333,9 @@ void Player::AddDrag()
 			//only apply drag if we're not actively going in this direction
 			if(!playerState.INPUT_MoveRight)
 			{
-				if((playerState.velocity.x - groundDrag) > 0)
+				if((playerState.velocity.x - (groundDrag * deltaTime)) > 0)
 				{
-					playerState.velocity.x -= groundDrag;
+					playerState.velocity.x = playerState.velocity.x - (groundDrag * deltaTime);
 				}
 				else
 				{
@@ -348,9 +348,9 @@ void Player::AddDrag()
 			//only apply drag if we're not actively going in this direction
 			if(!playerState.INPUT_MoveLeft)
 			{
-				if((playerState.velocity.x + groundDrag) < 0)
+				if((playerState.velocity.x + (groundDrag * deltaTime)) < 0)
 				{
-					playerState.velocity.x += groundDrag;
+					playerState.velocity.x = playerState.velocity.x + (groundDrag * deltaTime);
 				}
 				else
 				{
@@ -367,9 +367,9 @@ void Player::AddDrag()
 			//only apply drag if we're not actively going in this direction
 			if(!playerState.INPUT_MoveRight)
 			{
-				if((playerState.velocity.x - airDrag) > 0)
+				if((playerState.velocity.x - (airDrag * deltaTime)) > 0)
 				{
-					playerState.velocity.x -= airDrag;
+					playerState.velocity.x = playerState.velocity.x - (airDrag * deltaTime);
 				}
 				else
 				{
@@ -382,9 +382,9 @@ void Player::AddDrag()
 			//only apply drag if we're not actively going in this direction
 			if(!playerState.INPUT_MoveLeft)
 			{
-				if((playerState.velocity.x + airDrag) < 0)
+				if((playerState.velocity.x + (airDrag * deltaTime)) < 0)
 				{
-					playerState.velocity.x += airDrag;
+					playerState.velocity.x = playerState.velocity.x + (airDrag * deltaTime);
 				}
 				else
 				{
@@ -394,11 +394,11 @@ void Player::AddDrag()
 		}
 	}
 }
-void Player::AddGravity()
+void Player::AddGravity(float deltaTime)
 {
-	if(playerState.velocity.y + personalGravity < terminalVelocity)
+	if(playerState.velocity.y + (personalGravity * deltaTime) < terminalVelocity)
 	{
-		playerState.velocity.y += personalGravity;
+		playerState.velocity.y = playerState.velocity.y + (personalGravity * deltaTime);
 	}
 	else
 	{
@@ -468,7 +468,6 @@ void Player::Render(sf::RenderWindow &window)
 {
 	window.draw(sprite);
 }
-
 
 //Getters and setters and wrappers around sf::sprite functionality
 void Player::Move(float x, float y)
