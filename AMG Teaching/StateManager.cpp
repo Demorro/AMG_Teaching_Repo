@@ -8,7 +8,6 @@ StateManager::StateManager()
 
 	deltaTime = 0.0f;
 	newTime = 0.0f;
-	deltaTimeAccumulator = 0.0f;
 }
 
 StateManager::~StateManager()

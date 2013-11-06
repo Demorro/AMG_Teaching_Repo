@@ -270,64 +270,10 @@
                         <Y>50</Y>
                     </Origin>
                 </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0081" Visible="true">
-                    <Position>
-                        <X>2352</X>
-                        <Y>58</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Clound.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Clound</asset_name>
-                    <Origin>
-                        <X>100</X>
-                        <Y>50</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0082" Visible="true">
-                    <Position>
-                        <X>2764</X>
-                        <Y>95</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Clound.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Clound</asset_name>
-                    <Origin>
-                        <X>100</X>
-                        <Y>50</Y>
-                    </Origin>
-                </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0096" Visible="true">
                     <Position>
-                        <X>3171</X>
-                        <Y>16</Y>
+                        <X>2747</X>
+                        <Y>-333</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -862,6 +808,330 @@
                     <Origin>
                         <X>100</X>
                         <Y>50</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0349" Visible="true">
+                    <Position>
+                        <X>2425</X>
+                        <Y>46</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0350" Visible="true">
+                    <Position>
+                        <X>2625</X>
+                        <Y>46</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0353" Visible="true">
+                    <Position>
+                        <X>2825</X>
+                        <Y>46</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0354" Visible="true">
+                    <Position>
+                        <X>3022</X>
+                        <Y>46</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0359" Visible="true">
+                    <Position>
+                        <X>2424</X>
+                        <Y>246</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0360" Visible="true">
+                    <Position>
+                        <X>2624</X>
+                        <Y>246</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0361" Visible="true">
+                    <Position>
+                        <X>2824</X>
+                        <Y>246</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0362" Visible="true">
+                    <Position>
+                        <X>3021</X>
+                        <Y>246</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0367" Visible="true">
+                    <Position>
+                        <X>2424</X>
+                        <Y>446</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0368" Visible="true">
+                    <Position>
+                        <X>2624</X>
+                        <Y>446</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0369" Visible="true">
+                    <Position>
+                        <X>2824</X>
+                        <Y>446</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0370" Visible="true">
+                    <Position>
+                        <X>3024</X>
+                        <Y>446</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WoodBacking.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WoodBacking</asset_name>
+                    <Origin>
+                        <X>100</X>
+                        <Y>100</Y>
                     </Origin>
                 </Item>
             </Items>
@@ -2735,6 +3005,1194 @@
                         <Y>25</Y>
                     </Origin>
                 </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0274" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>520</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0275" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>520</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0276" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>470</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0277" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>470</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0278" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>256</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0279" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>256</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0280" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>206</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0281" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>206</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0282" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>156</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0283" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>156</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0284" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>106</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0285" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>106</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0286" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>56</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0287" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>56</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0288" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>6</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0289" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>6</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0290" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0291" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0292" Visible="true">
+                    <Position>
+                        <X>3047</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0293" Visible="true">
+                    <Position>
+                        <X>3097</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0294" Visible="true">
+                    <Position>
+                        <X>2447</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0295" Visible="true">
+                    <Position>
+                        <X>2497</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0296" Visible="true">
+                    <Position>
+                        <X>2447</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0297" Visible="true">
+                    <Position>
+                        <X>2497</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0298" Visible="true">
+                    <Position>
+                        <X>2547</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0299" Visible="true">
+                    <Position>
+                        <X>2597</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0300" Visible="true">
+                    <Position>
+                        <X>2547</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0301" Visible="true">
+                    <Position>
+                        <X>2597</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0302" Visible="true">
+                    <Position>
+                        <X>2647</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0303" Visible="true">
+                    <Position>
+                        <X>2697</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0304" Visible="true">
+                    <Position>
+                        <X>2647</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0305" Visible="true">
+                    <Position>
+                        <X>2697</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0306" Visible="true">
+                    <Position>
+                        <X>2747</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0307" Visible="true">
+                    <Position>
+                        <X>2797</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0308" Visible="true">
+                    <Position>
+                        <X>2747</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0309" Visible="true">
+                    <Position>
+                        <X>2797</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0310" Visible="true">
+                    <Position>
+                        <X>2847</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0311" Visible="true">
+                    <Position>
+                        <X>2897</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0312" Visible="true">
+                    <Position>
+                        <X>2847</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0313" Visible="true">
+                    <Position>
+                        <X>2897</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0314" Visible="true">
+                    <Position>
+                        <X>2947</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0315" Visible="true">
+                    <Position>
+                        <X>2997</X>
+                        <Y>-44</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0316" Visible="true">
+                    <Position>
+                        <X>2947</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0317" Visible="true">
+                    <Position>
+                        <X>2997</X>
+                        <Y>-94</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\WallTile.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\WallTile</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>25</Y>
+                    </Origin>
+                </Item>
             </Items>
             <ScrollSpeed>
                 <X>1</X>
@@ -2800,11 +4258,11 @@
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0221" Visible="true">
                     <Position>
-                        <X>2321</X>
+                        <X>2322</X>
                         <Y>445</Y>
                     </Position>
                     <CustomProperties />
-                    <Width>102</Width>
+                    <Width>100</Width>
                     <Height>100</Height>
                     <FillColor>
                         <R>192</R>
@@ -2926,14 +4384,46 @@
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
                 </Item>
-                <Item xsi:type="RectangleItem" Name="Rectangle_0250" Visible="true">
+                <Item xsi:type="RectangleItem" Name="Rectangle_0343" Visible="true">
                     <Position>
-                        <X>1798</X>
-                        <Y>544</Y>
+                        <X>3022</X>
+                        <Y>-119</Y>
                     </Position>
                     <CustomProperties />
-                    <Width>4794</Width>
-                    <Height>402</Height>
+                    <Width>100</Width>
+                    <Height>400</Height>
+                    <FillColor>
+                        <R>192</R>
+                        <G>0</G>
+                        <B>192</B>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                </Item>
+                <Item xsi:type="RectangleItem" Name="Rectangle_0347" Visible="true">
+                    <Position>
+                        <X>2422</X>
+                        <Y>-119</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>600</Width>
+                    <Height>100</Height>
+                    <FillColor>
+                        <R>192</R>
+                        <G>0</G>
+                        <B>192</B>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                </Item>
+                <Item xsi:type="RectangleItem" Name="Rectangle_0371" Visible="true">
+                    <Position>
+                        <X>3023</X>
+                        <Y>445</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>100</Width>
+                    <Height>100</Height>
                     <FillColor>
                         <R>192</R>
                         <G>0</G>
@@ -2948,22 +4438,18 @@
                 <Y>1</Y>
             </ScrollSpeed>
         </Layer>
-        <Layer Name="Triggers" Visible="true">
+        <Layer Name="Destructibles" Visible="true">
             <Items>
-                <Item xsi:type="TextureItem" Name="PlayerSpawn" Visible="true">
+                <Item xsi:type="TextureItem" Name="Texture_0272" Visible="true">
                     <Position>
-                        <X>540</X>
-                        <Y>471</Y>
+                        <X>2374</X>
+                        <Y>363</Y>
                     </Position>
-                    <CustomProperties>
-                        <Property Name="PlayerSpawn" Type="string" Description="">
-                            <string />
-                        </Property>
-                    </CustomProperties>
+                    <CustomProperties />
                     <Rotation>0</Rotation>
                     <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
+                        <X>1.17200089</X>
+                        <Y>1.17200089</Y>
                     </Scale>
                     <TintColor>
                         <R>255</R>
@@ -2974,11 +4460,38 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\Characters\PlayerPlaceholder.png</texture_filename>
-                    <asset_name>Assets\Images\Characters\PlayerPlaceholder</asset_name>
+                    <texture_filename>Assets\Images\LevelObjects\Door.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\Door</asset_name>
                     <Origin>
-                        <X>43</X>
-                        <Y>69</Y>
+                        <X>35</X>
+                        <Y>70</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0338" Visible="true">
+                    <Position>
+                        <X>3073</X>
+                        <Y>363</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1.17200089</X>
+                        <Y>1.17200089</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\Door.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\Door</asset_name>
+                    <Origin>
+                        <X>35</X>
+                        <Y>70</Y>
                     </Origin>
                 </Item>
             </Items>
@@ -2990,11 +4503,11 @@
     </Layers>
     <CustomProperties />
     <EditorRelated>
-        <NextItemNumber>266</NextItemNumber>
+        <NextItemNumber>371</NextItemNumber>
         <ContentRootFolder>C:\Coding\C++\AMG Teaching\AMG_Teaching_Repo</ContentRootFolder>
         <CameraPosition>
-            <X>9783.564</X>
-            <Y>398.165161</Y>
+            <X>2896.997</X>
+            <Y>437.703247</Y>
         </CameraPosition>
         <Version>1.3.0.0</Version>
     </EditorRelated>
