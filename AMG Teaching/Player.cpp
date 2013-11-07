@@ -29,9 +29,16 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos)
 	jumpKeys.push_back(sf::Keyboard::Space);
 	jumpKeys.push_back(sf::Keyboard::Up);
 	jumpKeys.push_back(sf::Keyboard::W);
+	attackKeys.push_back(sf::Keyboard::K);
 
 	//Read the player movement variables from the config files, or if it cant be found load defaults
 	LoadConfigValues(PLAYERCONFIG);
+
+	//Initialise the attack rect collider
+	attackCollider = sprite.getGlobalBounds();
+	attackCollider.width += attackRange;
+	//start the timer just to make sure it's running
+	attackTimer.restart();
 
 	return true;
 }
@@ -39,14 +46,16 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos)
 bool Player::LoadConfigValues(std::string configFilePath)
 {
 	//set the default move values, in case the loading dosent work these will be used
-	groundAcceleration = 0.45f;
-	airAcceleration = 0.3f;
-	maximumHorizontalSpeed = 10;
-	groundDrag = 0.65f;
+	groundAcceleration = 800;
+	airAcceleration = 500;
+	maximumHorizontalSpeed = 500;
+	groundDrag = 1800;
 	airDrag = 0.0f;
-	personalGravity = 0.6f;
-	terminalVelocity = 15;
-	jumpStrength = 14;
+	personalGravity = 2000;
+	terminalVelocity = 5000;
+	jumpStrength = 800;
+	attackRange = 30;
+	attackDelay = 1;
 
 	pugi::xml_document configDoc;
 
@@ -66,102 +75,21 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	}
 
 	//Work through all the variables we need to load and load em, checking for if they're there or not each time
+	//TODO : This whole things needs refactoring into a generic loader function, this violates DRY like mad.
 	pugi::xml_node rootNode = configDoc.child("PlayerConfig");
-	//Get MaximumHorizontalSpeed
-	pugi::xml_node workingNode = rootNode.child("MaximumHorizontalSpeed");
-	if(workingNode)
-	{
-		std::stringstream horizontalSpeedStream(workingNode.child_value());
-		horizontalSpeedStream >> maximumHorizontalSpeed;
-	}
-	else
-	{
-		std::cout << "Couldn't find MaximumHorizontalSpeed in config file, using default" << std::endl;
-	}
 
-	//Get GroundAcceleration
-	workingNode = rootNode.child("GroundAcceleration");
-	if(workingNode)
-	{
-		std::stringstream groundAccelerationStream(workingNode.child_value());
-		groundAccelerationStream >> groundAcceleration;
-	}
-	else
-	{
-		std::cout << "Couldn't find GroundAcceleration in config file, using default" << std::endl;
-	}
+	//Load in all the numerical config values
+	LoadNumericalValue(maximumHorizontalSpeed,rootNode,"MaximumHorizontalSpeed");
+	LoadNumericalValue(groundAcceleration,rootNode,"GroundAcceleration");
+	LoadNumericalValue(airAcceleration,rootNode,"AirAcceleration");
+	LoadNumericalValue(groundDrag,rootNode,"GroundDrag");
+	LoadNumericalValue(airDrag,rootNode,"AirDrag");
+	LoadNumericalValue(terminalVelocity,rootNode,"TerminalVelocity");
+	LoadNumericalValue(personalGravity,rootNode,"PersonalGravity");
+	LoadNumericalValue(jumpStrength,rootNode,"JumpStrength");
+	LoadNumericalValue(attackRange,rootNode,"AttackRange");
+	LoadNumericalValue(attackDelay,rootNode,"AttackDelay");
 
-	//Get AirAcceleration
-	workingNode = rootNode.child("AirAcceleration");
-	if(workingNode)
-	{
-		std::stringstream airAccelerationStream(workingNode.child_value());
-		airAccelerationStream >> airAcceleration;
-	}
-	else
-	{
-		std::cout << "Couldn't find AirAcceleration in config file, using default" << std::endl;
-	}
-
-	//Get GroundDrag
-	workingNode = rootNode.child("GroundDrag");
-	if(workingNode)
-	{
-		std::stringstream groundDragStream(workingNode.child_value());
-		groundDragStream >> groundDrag;
-	}
-	else
-	{
-		std::cout << "Couldn't find GroundDrag in config file, using default" << std::endl;
-	}
-
-	//Get AirDrag
-	workingNode = rootNode.child("AirDrag");
-	if(workingNode)
-	{
-		std::stringstream airDragStream(workingNode.child_value());
-		airDragStream >> airDrag;
-	}
-	else
-	{
-		std::cout << "Couldn't find AirDrag in config file, using default" << std::endl;
-	}
-
-	//Get TerminalVelocity
-	workingNode = rootNode.child("TerminalVelocity");
-	if(workingNode)
-	{
-		std::stringstream terminalVelocityStream(workingNode.child_value());
-		terminalVelocityStream >> terminalVelocity;
-	}
-	else
-	{
-		std::cout << "Couldn't find TerminalVelocity in config file, using default" << std::endl;
-	}
-
-	//Get PersonalGravity
-	workingNode = rootNode.child("PersonalGravity");
-	if(workingNode)
-	{
-		std::stringstream personalGravityStream(workingNode.child_value());
-		personalGravityStream >> personalGravity;
-	}
-	else
-	{
-		std::cout << "Couldn't find PersonalGravity in config file, using default" << std::endl;
-	}
-
-	//Get JumpStrength
-	workingNode = rootNode.child("JumpStrength");
-	if(workingNode)
-	{
-		std::stringstream jumpStrengthStream(workingNode.child_value());
-		jumpStrengthStream >> jumpStrength;
-	}
-	else
-	{
-		std::cout << "Couldn't find JumpStrength in config file, using default" << std::endl;
-	}
 
 	if(DEBUGPLAYER)
 	{
@@ -174,16 +102,34 @@ bool Player::LoadConfigValues(std::string configFilePath)
 		std::cout << "TerminalVelocity : " << terminalVelocity << std::endl;
 		std::cout << "PersonalGravity : " << personalGravity << std::endl;
 		std::cout << "JumpStrength : " << jumpStrength << std::endl;
+		std::cout << "AttackRange : " << attackRange << std::endl;
+		std::cout << "AttackDelay : " << attackDelay << std::endl;
 	}
 
 	return true;
 }
 
-void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects)
+//For example, if you wanted to load a value "CheesesEaten" from the player config file into float cheeses, you would call LoadNumericalValue(cheeses,rootNode,"CheesesEaten");
+void Player::LoadNumericalValue(float &valueToLoadInto, pugi::xml_node &rootNode, std::string valueNodeName)
+{
+	pugi::xml_node workingNode = rootNode.child(valueNodeName.c_str());
+	if(workingNode)
+	{
+		std::stringstream valueStream(workingNode.child_value());
+		valueStream >> valueToLoadInto;
+	}
+	else
+	{
+		std::cout << "Couldn't find " << valueNodeName << " in config file, using default" << std::endl;
+	}
+}
+
+void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects, std::vector<DestructibleObject> &destructibleObjects)
 {
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
 	ReceiveControlInput(events,eventFired);
 	HandleMovement(deltaTime, levelCollisionRects);
+	DoAttacks(destructibleObjects);
 }
 
 void Player::ReceiveControlInput(sf::Event events, bool eventFired)
@@ -215,6 +161,14 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 			playerState.INPUT_Jump = true;
 		}
 	}
+	//Attack
+	for(int i = 0; i < attackKeys.size(); i++)
+	{
+		if(sf::Keyboard::isKeyPressed(attackKeys[i]))
+		{
+			playerState.INPUT_Attack = true;
+		}
+	}
 }
 
 void Player::HandleMovement(float deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects)
@@ -239,6 +193,10 @@ void Player::HandleMovement(float deltaTime, std::vector<sf::Rect<float>> &level
 //All these functions are just used in HandleMovement, seperated because its cleaner and easier to make logic changes
 void Player::DoLeftAndRightMovement(float deltaTime)
 {
+	//reset the moving states, just so we can keep track
+	playerState.movingLeft = false;
+	playerState.movingRight = false;
+
 	//Left and right movement
 	if((!playerState.INPUT_MoveLeft) || (!playerState.INPUT_MoveRight)) //Dont execute if both left and right are held
 	{
@@ -258,6 +216,8 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 				}
 				//flip the sprite to face left
 				sprite.setScale(-1.0f,1.0f);
+				playerState.facingLeft = true;
+				playerState.facingRight = false;
 			}
 			if(playerState.INPUT_MoveRight)
 			{
@@ -273,6 +233,8 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 				}
 				//flip the sprite to face right
 				sprite.setScale(1.0f,1.0f);
+				playerState.facingLeft = false;
+				playerState.facingRight = true;
 			}
 		}
 		else if(playerState.grounded == false)
@@ -290,6 +252,8 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 				}
 				//flip the sprite to face left
 				sprite.setScale(-1.0f,1.0f);
+				playerState.facingLeft = true;
+				playerState.facingRight = false;
 			}
 			if(playerState.INPUT_MoveRight)
 			{
@@ -305,8 +269,20 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 				}
 				//flip the sprite to face right
 				sprite.setScale(1.0f,1.0f);
+				playerState.facingLeft = false;
+				playerState.facingRight = true;
 			}
 		}
+	}
+
+	//update the state, just to keep track
+	if(playerState.velocity.x > 0)
+	{
+		playerState.movingRight = true;
+	}
+	else if(playerState.velocity.x < 0)
+	{
+		playerState.movingLeft = true;
 	}
 }
 void Player::DoJumping()
@@ -411,6 +387,7 @@ void Player::AddGravity(float deltaTime)
 		playerState.grounded = false;
 	}
 }
+
 void Player::HandleHorizontalCollision(std::vector<sf::Rect<float>> &levelCollisionRects)
 {
 	for(int i = 0; i < levelCollisionRects.size(); i++)
@@ -432,7 +409,6 @@ void Player::HandleHorizontalCollision(std::vector<sf::Rect<float>> &levelCollis
 		}
 	}
 }
-
 void Player::HandleVerticalCollision(std::vector<sf::Rect<float>> &levelCollisionRects)
 {
 	for(int i = 0; i < levelCollisionRects.size(); i++)
@@ -464,16 +440,78 @@ void Player::HandleVerticalCollision(std::vector<sf::Rect<float>> &levelCollisio
 	}
 }
 
+void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects)
+{
+	playerState.attacking = false;
+	if(playerState.INPUT_Attack)
+	{
+		//if the correct amount of time has passed since the last attack
+		if(attackTimer.getElapsedTime().asSeconds() > attackDelay)
+		{
+			//We can attack, so do it!
+			playerState.attacking = true;
+			//check against all the objects to see if the attack collider colliders
+			for(int i = 0; i < destructibleObjects.size(); i++)
+			{
+				if(attackCollider.intersects(destructibleObjects[i].GetCollisionRect()))
+				{
+					destructibleObjects[i].Destroy();
+				}
+			}
+			//Reset the timer so we can't attack again immediately
+			attackTimer.restart();
+		}
+	}
+}
+
 void Player::Render(sf::RenderWindow &window)
 {
 	window.draw(sprite);
+
+	if(DEBUGPLAYER)
+	{
+		//Badly written debug code to show the collision rects of the player and any other related debug information, toggle in header
+		sf::RectangleShape debugAttackCollider = sf::RectangleShape(sf::Vector2f(attackCollider.width,attackCollider.height));
+		debugAttackCollider.setPosition(attackCollider.left,attackCollider.top);
+		debugAttackCollider.setFillColor(sf::Color::Transparent);
+		debugAttackCollider.setOutlineColor(sf::Color::Red);
+		debugAttackCollider.setOutlineThickness(1.0f);
+		window.draw(debugAttackCollider);
+
+		sf::RectangleShape debugPlayerCollider = sf::RectangleShape(sf::Vector2f(GetCollider().width,GetCollider().height));
+		debugPlayerCollider.setPosition(GetCollider().left,GetCollider().top);
+		debugPlayerCollider.setFillColor(sf::Color::Transparent);
+		debugPlayerCollider.setOutlineColor(sf::Color::Green);
+		debugPlayerCollider.setOutlineThickness(1.0f);
+		window.draw(debugPlayerCollider);
+	}
 }
 
-//Getters and setters and wrappers around sf::sprite functionality
+
+
+
 void Player::Move(float x, float y)
 {
 	sf::Vector2f movementChange(x,y);
 	sprite.move(movementChange);
+
+	HandleAttackColliderPositioning();
+}
+
+//Called in move, makes sure the attack collider is in the right place
+void Player::HandleAttackColliderPositioning()
+{
+	//move the attackCollider along with the player, otherwise we wont be able to check attack hitboxes
+	attackCollider.top = GetCollider().top;
+	//make sure the attackCollider is flipped the correct way
+	if(playerState.facingRight)
+	{
+		attackCollider.left = GetCollider().left;
+	}
+	else if(playerState.facingLeft)
+	{
+		attackCollider.left = GetCollider().left - attackRange;
+	}
 }
 
 void Player::SetPosition(float xPos, float yPos)

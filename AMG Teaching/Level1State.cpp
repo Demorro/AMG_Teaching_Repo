@@ -32,7 +32,7 @@ void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 	//Update things here, remember about deltatime for framerate independent movement
 
 	//Update the player, handles movement and collision and every other darn thing
-	player->Update(events,eventFired,deltaTime,loadedLevel.GetCollisionBounds());
+	player->Update(events,eventFired,deltaTime,loadedLevel.GetCollisionBounds(),loadedLevel.GetDestructibleObjects());
 	//Camera update, follow the player
 	stageCam->Update(events, eventFired, &player->GetPosition(),sf::Vector2f(0,0));
 }

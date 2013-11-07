@@ -12,7 +12,7 @@ Application::Application()
 	}
 	else
 	{
-		window.create(sf::VideoMode(WINDOW_PIXEL_WIDTH, WINDOW_PIXEL_HEIGHT, 32), WINDOW_TITLE_TEXT);
+		window.create(sf::VideoMode(WINDOW_PIXEL_WIDTH, WINDOW_PIXEL_HEIGHT, 32), WINDOW_TITLE_TEXT,sf::Style::Close);
 	}
 
 	//Set the window reference to the created window so we can grab it from anywhere
@@ -37,6 +37,7 @@ void Application::Run()
 	while(window.isOpen())
     {
 		bool eventFired = false;
+		bool dontUpdate = false;
 
 		sf::Event event;
         while (window.pollEvent(event))
@@ -48,10 +49,14 @@ void Application::Run()
 			eventFired = true;
         }
 
-		stateManager->Update(event, eventFired);
-		window.clear();
-		stateManager->Draw(window);
-        window.display();
+		//if the window is moving we dont want to update
+		if(dontUpdate == false)
+		{
+			stateManager->Update(event, eventFired);
+			window.clear();
+			stateManager->Draw(window);
+			window.display();
+		}
 
 		if(!GetRunning())
 		{

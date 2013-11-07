@@ -26,6 +26,12 @@
 	<!--The strength of the jump impulse when the player jumps-->
 	<JumpStrength>800</JumpStrength>	
 	
+	<!--The range that the main attack, probably a kick, extends from the player-->
+	<AttackRange>30</AttackRange>
+	
+	<!--The delay time between attacks in seconds-->
+	<AttackDelay>0.4</AttackDelay>
+	
 </PlayerConfig>
 
 

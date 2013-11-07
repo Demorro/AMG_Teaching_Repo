@@ -3,7 +3,7 @@
 #include "StateManager.h"
 
 // Window properties
-#define WINDOW_TITLE_TEXT		"Martial Farts - Alpha 0.1"
+#define WINDOW_TITLE_TEXT		"Martial Farts - Alpha 0.2"
 #define WINDOW_PIXEL_WIDTH		1280
 #define WINDOW_PIXEL_HEIGHT		720
 #define WINDOW_MAX_FRAMERATE	120

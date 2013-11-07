@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DestructibleObject.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level1State.cpp" />
     <ClCompile Include="main.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DestructibleObject.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level1State.h" />
     <ClInclude Include="MenuState.h" />

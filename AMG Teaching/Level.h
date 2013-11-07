@@ -7,6 +7,8 @@
 #include <sstream>
 #include <memory>
 #include "VectorMath.h"
+#include "Assets.h"
+#include "DestructibleObject.h"
 
 //you should do a check against this if you're drawing any debug sprites so it can be toggled easily
 #define LEVEL_DEBUG false
@@ -25,8 +27,11 @@ public:
 	//Renders the loaded level
 	void Draw(sf::RenderWindow &window);
 
-	//Returns a pointer to the collision rects so they can be iterated over to check for collision
+	//Returns the collision rects so they can be iterated over to check for collision
 	std::vector<sf::Rect<float>> GetCollisionBounds();
+
+	//Returns all the destructible objects in the level
+	std::vector<DestructibleObject> &GetDestructibleObjects();
 
 private:
 
@@ -39,7 +44,8 @@ private:
 		BACKGROUND,
 		OBJECTS,
 		FOREGROUND,
-		COLLISION
+		COLLISION,
+		DESTRUCTIBLES
 	};
 
 	//The background colour of the level
@@ -55,6 +61,9 @@ private:
 	std::vector<sf::Sprite> objectSprites;
 	std::vector<sf::Sprite> foregroundSprites;
 
+	//The first sprite is the normal, non destructed object, while the second is the destroyed sprite. These MUST be the same size.
+	std::vector<DestructibleObject> destructibleObjects;
+	
 	std::vector<sf::Rect<float>> collisionBounds;
 
 };

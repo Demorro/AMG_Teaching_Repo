@@ -81,4 +81,9 @@ void StateManager::FindDeltaTime()
 	newTime = deltaTimeClock.getElapsedTime().asMicroseconds();
 
 	deltaTime = double(newTime - oldTime)/1000000;
+	//Things get weird if deltaTime is huuuuuge, i.e less that 8fps or so, so cap it at that. The reason for this is because the colliders will be moving in huge jumps, they might just clip through a collider and bugger off.
+	if(deltaTime > 0.125f)
+	{
+		deltaTime = 0.125f;
+	}
 }

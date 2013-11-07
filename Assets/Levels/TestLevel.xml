@@ -920,7 +920,7 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0359" Visible="true">
                     <Position>
-                        <X>2424</X>
+                        <X>2422</X>
                         <Y>246</Y>
                     </Position>
                     <CustomProperties />
@@ -947,7 +947,7 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0360" Visible="true">
                     <Position>
-                        <X>2624</X>
+                        <X>2622</X>
                         <Y>246</Y>
                     </Position>
                     <CustomProperties />
@@ -974,7 +974,7 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0361" Visible="true">
                     <Position>
-                        <X>2824</X>
+                        <X>2822</X>
                         <Y>246</Y>
                     </Position>
                     <CustomProperties />
@@ -1001,7 +1001,7 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0362" Visible="true">
                     <Position>
-                        <X>3021</X>
+                        <X>3022</X>
                         <Y>246</Y>
                     </Position>
                     <CustomProperties />
@@ -1028,7 +1028,7 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0367" Visible="true">
                     <Position>
-                        <X>2424</X>
+                        <X>2422</X>
                         <Y>446</Y>
                     </Position>
                     <CustomProperties />
@@ -1055,7 +1055,7 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0368" Visible="true">
                     <Position>
-                        <X>2624</X>
+                        <X>2622</X>
                         <Y>446</Y>
                     </Position>
                     <CustomProperties />
@@ -1082,7 +1082,7 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0369" Visible="true">
                     <Position>
-                        <X>2824</X>
+                        <X>2822</X>
                         <Y>446</Y>
                     </Position>
                     <CustomProperties />
@@ -1109,7 +1109,7 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0370" Visible="true">
                     <Position>
-                        <X>3024</X>
+                        <X>3022</X>
                         <Y>446</Y>
                     </Position>
                     <CustomProperties />
@@ -4506,8 +4506,8 @@
         <NextItemNumber>371</NextItemNumber>
         <ContentRootFolder>C:\Coding\C++\AMG Teaching\AMG_Teaching_Repo</ContentRootFolder>
         <CameraPosition>
-            <X>2896.997</X>
-            <Y>437.703247</Y>
+            <X>2284.80615</X>
+            <Y>338.7509</Y>
         </CameraPosition>
         <Version>1.3.0.0</Version>
     </EditorRelated>

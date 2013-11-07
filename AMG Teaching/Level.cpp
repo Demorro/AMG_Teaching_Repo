@@ -38,6 +38,7 @@ bool Level::LoadLevel(std::string levelPath)
 	LoadLayer(OBJECTS);
 	LoadLayer(FOREGROUND);
 	LoadLayer(COLLISION);
+	LoadLayer(DESTRUCTIBLES);
 
 	return true;
 }
@@ -91,6 +92,14 @@ void Level::LoadLayer(LevelLayers layer)
 				startNode = beginNode;
 			}
 		}
+		else if(layer == DESTRUCTIBLES)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "Destructibles")
+			{
+				startNode = beginNode;
+			}
+		}
 		else
 		{
 			std::cout << "Error : Level::LoadLayer()" << std::endl;
@@ -127,7 +136,7 @@ void Level::LoadLayer(LevelLayers layer)
 			backgroundColor.a = alpha;
 		}
 	}
-	//The collision data needs to be loaded in differently to the sprite based texture data.
+	//The collision data and destructibles needs to be loaded in differently to the normal sprite based texture data.
 	else if((layer != COLLISION) && (layer != BACKGROUNDCOLOUR))
 	{
 		//Now we have the root node of the layer, start loading in dat data! Yeah Baby Yeah!
@@ -197,6 +206,44 @@ void Level::LoadLayer(LevelLayers layer)
 			{
 				foregroundSprites.push_back(objectSprite);
 			}
+			else if(layer == DESTRUCTIBLES)
+			{
+				//if we are here, we have just loaded in a non destructible sprite as a normal sprite
+				//Create a sprite for the destroyed version of this object, the same as objectSprite for now
+				sf::Sprite destroyedObjectSprite = objectSprite;
+
+				//Load the destroyed object image
+				std::unique_ptr<sf::Texture> destroyedTex(new sf::Texture());
+
+				//Find the image in the same directory which is names the same as the default image, but has the destructible suffix, indicating that it is the destroyed image
+				//This means we need to change textureName.png or whatever to textureName-Destructed.png
+				texName = texName + DESTRUCTABLESUFFIX;
+				relativeTexPath.insert(relativeTexPath.find('.'),DESTRUCTABLESUFFIX);
+
+				//This if statement checks if the key is already in the map. If the key is already in the map loading another texture will be wasteful, so we just use the entry already stored
+				if(textureMap.find(texName) != textureMap.end())
+				{
+					destroyedObjectSprite.setTexture(*textureMap[texName]);
+				}
+				else
+				{
+					std::cout << "Loading Texture : " << relativeTexPath << std::endl;
+					if(destroyedTex->loadFromFile("..\\" + relativeTexPath))
+					{
+						textureMap[texName] = std::move(destroyedTex);
+						destroyedObjectSprite.setTexture(*textureMap[texName]);	
+					}
+					else
+					{
+						std::cout << "Cannot find destroyed version of texture, should be at : " << relativeTexPath << std::endl;
+						std::cout << "FIX THIS IMMEDIATELY, returning out, undefined behaviour could result" << std::endl;
+						return;
+					}
+					
+				}
+				//Push the sprite pair into the destuctibles vector
+				destructibleObjects.push_back(DestructibleObject(objectSprite,destroyedObjectSprite));
+			}
 		}
 	}
 	//The collision layer needs to be loaded into rects
@@ -230,9 +277,26 @@ void Level::LoadLayer(LevelLayers layer)
 
 std::vector<sf::Rect<float>> Level::GetCollisionBounds()
 {
-	return collisionBounds;
+	//Done this way so we can add any non-static bounds to the end of it and deal with it in one go
+	std::vector<sf::Rect<float>> returnedBounds;
+	returnedBounds = collisionBounds;
+
+	//Add the collision bounds to any destructable that isnt destroyed
+	for(size_t i = 0; i < destructibleObjects.size(); i++)
+	{
+		if(destructibleObjects[i].IsIntact())
+		{
+			returnedBounds.push_back(destructibleObjects[i].GetCollisionRect());
+		}
+	}
+
+	return returnedBounds;
 }
 
+std::vector<DestructibleObject> &Level::GetDestructibleObjects()
+{
+	return destructibleObjects;
+}
 void Level::Draw(sf::RenderWindow &window)
 {
 	//Clear the screen to the sky colour
@@ -241,6 +305,10 @@ void Level::Draw(sf::RenderWindow &window)
 	for(size_t i = 0; i < backgroundSprites.size(); i++)
 	{
 		window.draw(backgroundSprites[i]);
+	}
+	for(size_t i = 0; i < destructibleObjects.size(); i++)
+	{
+		destructibleObjects[i].Render(window);
 	}
 	for(size_t i = 0; i < objectSprites.size(); i++)
 	{
