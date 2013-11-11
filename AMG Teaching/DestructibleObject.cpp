@@ -6,9 +6,17 @@ DestructibleObject::DestructibleObject(sf::Sprite intactSprite, sf::Sprite destr
 	this->intactSprite = intactSprite;
 	this->destroyedSprite = destroyedSprite;
 
-	isIntact = startIntact;
+	if(startIntact)
+	{
+		SetDestructibleState(Intact);
+	}
+	else
+	{
+		SetDestructibleState(Destroyed);
+	}
 
 	collisionRect = intactSprite.getGlobalBounds();
+	
 }
 
 
@@ -16,17 +24,32 @@ DestructibleObject::~DestructibleObject(void)
 {
 }
 
-void DestructibleObject::Destroy()
+void DestructibleObject::Update(double deltaTime)
 {
-	if(IsIntact())
+	if(GetDestructibleState() == BeingDestroyed)
 	{
-		isIntact = false;
+		SetDestructibleState(Destroyed);
 	}
 }
 
-bool DestructibleObject::IsIntact()
+void DestructibleObject::Destroy()
 {
-	return isIntact;
+	//only bother destroying if it isnt already destroyed
+	if(GetDestructibleState() == Intact)
+	{
+		SetDestructibleState(BeingDestroyed);
+	}
+}
+
+
+void DestructibleObject::SetDestructibleState(DestructibleObject::DestroyedState state)
+{
+	destructibleState = state;
+}
+
+DestructibleObject::DestroyedState DestructibleObject::GetDestructibleState()
+{
+	return destructibleState;
 }
 
 sf::Rect<float> DestructibleObject::GetCollisionRect()
@@ -36,7 +59,7 @@ sf::Rect<float> DestructibleObject::GetCollisionRect()
 
 void DestructibleObject::Render(sf::RenderWindow &window)
 {
-	if(IsIntact())
+	if(GetDestructibleState() == Intact)
 	{
 		window.draw(intactSprite);
 	}
@@ -45,3 +68,4 @@ void DestructibleObject::Render(sf::RenderWindow &window)
 		window.draw(destroyedSprite);
 	}
 }
+

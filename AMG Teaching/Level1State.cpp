@@ -17,6 +17,7 @@ bool Level1State::Load()
 	//Load level 1
 	if(!loadedLevel.LoadLevel(TESTLEVEL))
 	{
+		std::cout << "Level failed to load for some reason" << std::endl;
 		return false;
 	}
 	
@@ -35,6 +36,8 @@ void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 	player->Update(events,eventFired,deltaTime,loadedLevel.GetCollisionBounds(),loadedLevel.GetDestructibleObjects());
 	//Camera update, follow the player
 	stageCam->Update(events, eventFired, &player->GetPosition(),sf::Vector2f(0,0));
+	//Update the level logic
+	loadedLevel.Update(deltaTime);
 }
 
 void Level1State::Draw(sf::RenderWindow &renderWindow)

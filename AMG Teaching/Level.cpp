@@ -16,6 +16,15 @@ Level::~Level(void)
 {
 }
 
+void Level::Update(double deltaTime)
+{
+	//run the updates for the destructibles, but only if neccesary (ie the destroy animations are playing,)
+	for(size_t i = 0; i < destructibleObjects.size(); i++)
+	{
+		destructibleObjects[i].Update(deltaTime);
+	}
+}
+
 bool Level::LoadLevel(std::string levelPath)
 {
 
@@ -173,17 +182,17 @@ void Level::LoadLayer(LevelLayers layer)
 
 			std::unique_ptr<sf::Texture> tex(new sf::Texture());
 			//This if statement checks if the key is already in the map. If the key is already in the map loading another texture will be wasteful, so we just use the entry already stored
-			if(textureMap.find(texName) != textureMap.end())
+			if(loadedMapTextures.find(texName) != loadedMapTextures.end())
 			{
-				objectSprite.setTexture(*textureMap[texName]);
+				objectSprite.setTexture(*loadedMapTextures[texName]);
 			}
 			else
 			{
 				std::cout << "Loading Texture : " << relativeTexPath << std::endl;
 				tex->loadFromFile("..\\" + relativeTexPath);
-				textureMap[texName] = std::move(tex);
+				loadedMapTextures[texName] = std::move(tex);
 
-				objectSprite.setTexture(*textureMap[texName]);
+				objectSprite.setTexture(*loadedMapTextures[texName]);
 			}
 
 			objectSprite.setOrigin(objectSprite.getGlobalBounds().left + (objectSprite.getLocalBounds().width/2) , objectSprite.getGlobalBounds().top + (objectSprite.getLocalBounds().height/2));
@@ -208,41 +217,8 @@ void Level::LoadLayer(LevelLayers layer)
 			}
 			else if(layer == DESTRUCTIBLES)
 			{
-				//if we are here, we have just loaded in a non destructible sprite as a normal sprite
-				//Create a sprite for the destroyed version of this object, the same as objectSprite for now
-				sf::Sprite destroyedObjectSprite = objectSprite;
-
-				//Load the destroyed object image
-				std::unique_ptr<sf::Texture> destroyedTex(new sf::Texture());
-
-				//Find the image in the same directory which is names the same as the default image, but has the destructible suffix, indicating that it is the destroyed image
-				//This means we need to change textureName.png or whatever to textureName-Destructed.png
-				texName = texName + DESTRUCTABLESUFFIX;
-				relativeTexPath.insert(relativeTexPath.find('.'),DESTRUCTABLESUFFIX);
-
-				//This if statement checks if the key is already in the map. If the key is already in the map loading another texture will be wasteful, so we just use the entry already stored
-				if(textureMap.find(texName) != textureMap.end())
-				{
-					destroyedObjectSprite.setTexture(*textureMap[texName]);
-				}
-				else
-				{
-					std::cout << "Loading Texture : " << relativeTexPath << std::endl;
-					if(destroyedTex->loadFromFile("..\\" + relativeTexPath))
-					{
-						textureMap[texName] = std::move(destroyedTex);
-						destroyedObjectSprite.setTexture(*textureMap[texName]);	
-					}
-					else
-					{
-						std::cout << "Cannot find destroyed version of texture, should be at : " << relativeTexPath << std::endl;
-						std::cout << "FIX THIS IMMEDIATELY, returning out, undefined behaviour could result" << std::endl;
-						return;
-					}
-					
-				}
-				//Push the sprite pair into the destuctibles vector
-				destructibleObjects.push_back(DestructibleObject(objectSprite,destroyedObjectSprite));
+				//Add a new destructible sprite to the destructibles container, at the moment it takes 3 sprites, so load em all up and pack em in!
+				destructibleObjects.push_back(DestructibleObject(objectSprite,LoadDestroyedDebrisImage(objectSprite,texName,relativeTexPath)));
 			}
 		}
 	}
@@ -275,6 +251,49 @@ void Level::LoadLayer(LevelLayers layer)
 	}
 }
 
+sf::Sprite Level::LoadDestroyedDebrisImage(sf::Sprite &originalSprite, std::string originalTextureName, std::string originalRelativeTexPath)
+{
+	//if we are here, we have just loaded in a non destructible sprite as a normal sprite
+	//Create a sprite for the destroyed version of this object, the same as objectSprite for now
+	sf::Sprite destroyedObjectSprite = originalSprite;
+
+	//Load the destroyed object image
+	std::unique_ptr<sf::Texture> destroyedTex(new sf::Texture());
+
+	//Find the image in the same directory that is marked to be the destructible debtris, meaning it will be called DESTRUCTIBLEDEBRISNAME.
+	//This means we need to change textureName.png or whatever to textureNameDebris.png, or something like that, so we have a unique marker in the map
+	originalTextureName = originalTextureName + DESTRUCTIBLEDEBRISNAME;
+	//The relative texture path is the same as the orginal image, except the actual image name is replaced by the DESTRUCTIBLEDEBRISNAME, normally just Debris.png
+	originalRelativeTexPath = originalRelativeTexPath.substr(0,originalRelativeTexPath.find_last_of("\\"));
+	//at this point the relative tex path is just to the folder that should contain all the destructible object assets for this particular object
+	originalRelativeTexPath = originalRelativeTexPath + "\\" + DESTRUCTIBLEDEBRISNAME;
+
+	//This if statement checks if the key is already in the map. If the key is already in the map loading another texture will be wasteful, so we just use the entry already stored
+	if(loadedMapTextures.find(originalTextureName) != loadedMapTextures.end())
+	{
+		destroyedObjectSprite.setTexture(*loadedMapTextures[originalTextureName]);
+	}
+	else
+	{
+		std::cout << "Loading Texture : " << originalRelativeTexPath << std::endl;
+		if(destroyedTex->loadFromFile("..\\" + originalRelativeTexPath))
+		{
+			loadedMapTextures[originalTextureName] = std::move(destroyedTex);
+			destroyedObjectSprite.setTexture(*loadedMapTextures[originalTextureName]);	
+		}
+		else
+		{
+			std::cout << "Cannot find destroyed version of texture, should be at : " << originalRelativeTexPath << std::endl;
+			std::cout << "FIX THIS IMMEDIATELY, returning out, undefined behaviour could result" << std::endl;
+			return sf::Sprite();
+		}
+					
+	}
+	
+	//return the destroyed sprite all set up
+	return destroyedObjectSprite;
+}
+
 std::vector<sf::Rect<float>> Level::GetCollisionBounds()
 {
 	//Done this way so we can add any non-static bounds to the end of it and deal with it in one go
@@ -284,7 +303,7 @@ std::vector<sf::Rect<float>> Level::GetCollisionBounds()
 	//Add the collision bounds to any destructable that isnt destroyed
 	for(size_t i = 0; i < destructibleObjects.size(); i++)
 	{
-		if(destructibleObjects[i].IsIntact())
+		if(destructibleObjects[i].GetDestructibleState() == DestructibleObject::Intact)
 		{
 			returnedBounds.push_back(destructibleObjects[i].GetCollisionRect());
 		}

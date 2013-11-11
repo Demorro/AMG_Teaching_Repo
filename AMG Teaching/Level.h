@@ -9,9 +9,11 @@
 #include "VectorMath.h"
 #include "Assets.h"
 #include "DestructibleObject.h"
+#include "SFML\Audio.hpp"
 
 //you should do a check against this if you're drawing any debug sprites so it can be toggled easily
 #define LEVEL_DEBUG false
+
 
 class Level
 {
@@ -23,6 +25,9 @@ public:
 
 	//Loads the level in from the xml file found at levelPath
 	bool LoadLevel(std::string levelPath);
+
+	//Runs any logic the level needs to do
+	void Update(double deltaTime);
 
 	//Renders the loaded level
 	void Draw(sf::RenderWindow &window);
@@ -55,7 +60,7 @@ private:
 	void LoadLayer(LevelLayers layer);
 
 	//The textures the level uses are stored here. Some fancy stuff is done so one texture is never duplicated to save on the memory footprint and increase performence.
-	std::map<std::string, std::unique_ptr<sf::Texture>> textureMap;
+	std::map<std::string, std::unique_ptr<sf::Texture>> loadedMapTextures;
 
 	std::vector<sf::Sprite> backgroundSprites;
 	std::vector<sf::Sprite> objectSprites;
@@ -63,7 +68,9 @@ private:
 
 	//The first sprite is the normal, non destructed object, while the second is the destroyed sprite. These MUST be the same size.
 	std::vector<DestructibleObject> destructibleObjects;
-	
+	//loads in the ancillary assets for the destructibles and puts them into the relevent containers
+	//Give em the original loaded sprite from the destructibles layer, loaded in using the normal sprite loading code, then the texture name and relative texture name already parsed using the regular sprite loading code.
+	sf::Sprite LoadDestroyedDebrisImage(sf::Sprite &originalSprite, std::string originalTextureName, std::string originalRelativeTexPath);
 	std::vector<sf::Rect<float>> collisionBounds;
 
 };

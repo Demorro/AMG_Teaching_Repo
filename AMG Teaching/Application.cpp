@@ -5,6 +5,9 @@ sf::RenderWindow* Application::windowRef = NULL;
 
 Application::Application()
 {
+	
+	srand(std::time(NULL));
+
 	// Initialise window
 	if(WINDOW_FULLSCREEN)
 	{

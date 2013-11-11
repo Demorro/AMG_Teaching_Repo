@@ -128,8 +128,8 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 {
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
 	ReceiveControlInput(events,eventFired);
-	HandleMovement(deltaTime, levelCollisionRects);
 	DoAttacks(destructibleObjects);
+	HandleMovement(deltaTime, levelCollisionRects);
 }
 
 void Player::ReceiveControlInput(sf::Event events, bool eventFired)
