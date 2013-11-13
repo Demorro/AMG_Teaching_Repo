@@ -10,6 +10,7 @@
 #include "Assets.h"
 #include "DestructibleObject.h"
 #include "SFML\Audio.hpp"
+#include "AudioManager.h"
 
 //you should do a check against this if you're drawing any debug sprites so it can be toggled easily
 #define LEVEL_DEBUG false
@@ -61,6 +62,8 @@ private:
 
 	//The textures the level uses are stored here. Some fancy stuff is done so one texture is never duplicated to save on the memory footprint and increase performence.
 	std::map<std::string, std::unique_ptr<sf::Texture>> loadedMapTextures;
+	//The sounds the level uses are stored here, yadayadayada
+	std::map<std::string, std::unique_ptr<sf::SoundBuffer>> loadedMapSounds;
 
 	std::vector<sf::Sprite> backgroundSprites;
 	std::vector<sf::Sprite> objectSprites;
@@ -71,6 +74,8 @@ private:
 	//loads in the ancillary assets for the destructibles and puts them into the relevent containers
 	//Give em the original loaded sprite from the destructibles layer, loaded in using the normal sprite loading code, then the texture name and relative texture name already parsed using the regular sprite loading code.
 	sf::Sprite LoadDestroyedDebrisImage(sf::Sprite &originalSprite, std::string originalTextureName, std::string originalRelativeTexPath);
+	sf::Sound LoadDestroyedAudioFile(std::string originalTextureName, std::string originalRelativeTexPath);
+
 	std::vector<sf::Rect<float>> collisionBounds;
 
 };

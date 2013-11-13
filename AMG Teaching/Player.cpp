@@ -1,21 +1,31 @@
 #include "Player.h"
 
 
-Player::Player(std::string playerTexturePath, sf::Vector2f startPos)
+Player::Player(std::string playerTexturePath, sf::Vector2f startPos, AudioManager &audioManager)
 {
-	Initialise(playerTexturePath, startPos);
+	Initialise(playerTexturePath, startPos, audioManager);
 }
 
 Player::~Player(void)
 {
 }
 
-bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos)
+bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, AudioManager &audioManager)
 {
+	//Store a reference to the audiomanager
+	this->audioManager = &audioManager;
+	//Load audio files needed for the player
+	this->audioManager->LoadSoundFile(JUMPSOUND,AudioManager::Jump);
+	this->audioManager->LoadSoundFile(KICKSOUND,AudioManager::Kick);
+	//set the audio to the sf::sound instances
+	jumpSound.setBuffer(audioManager.GetSoundFile(AudioManager::Jump));
+	attackSound.setBuffer(audioManager.GetSoundFile(AudioManager::Kick));
+
 	if(!texture.loadFromFile(playerTexturePath))
 	{
 		return false;
 	}
+	texture.setSmooth(true);
 	sprite.setTexture(texture);
 	//Set the origin to the center of the sprite
 	sprite.setOrigin(sprite.getGlobalBounds().width/2,sprite.getGlobalBounds().height/2);
@@ -293,6 +303,7 @@ void Player::DoJumping()
 		//you can only jump if you're grounded, or if you're in the grace period after falling off a ledge
 		if(playerState.grounded == true) 
 		{
+			jumpSound.play();
 			playerState.velocity.y -= jumpStrength;
 			playerState.grounded = false;
 		}
@@ -450,6 +461,8 @@ void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects)
 		{
 			//We can attack, so do it!
 			playerState.attacking = true;
+			//Play the attack sound
+			attackSound.play();
 			//check against all the objects to see if the attack collider colliders
 			for(int i = 0; i < destructibleObjects.size(); i++)
 			{

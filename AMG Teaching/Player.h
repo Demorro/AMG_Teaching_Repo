@@ -6,13 +6,15 @@
 #include <iostream>
 #include <sstream>
 #include "DestructibleObject.h"
+#include "AudioManager.h"
+#include "SFML\Audio.hpp"
 
 #define DEBUGPLAYER true
 
 class Player
 {
 public:
-	Player(std::string playerTexturePath, sf::Vector2f startPos);
+	Player(std::string playerTexturePath, sf::Vector2f startPos, AudioManager &audioManager);
 	~Player(void);
 
 	//Runs the update logic, the rect vector is because this also runs the collision code
@@ -30,7 +32,10 @@ private:
 	sf::Texture texture;
 	sf::Sprite sprite;
 
-	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos);
+	//Store a reference to the audio manager
+	AudioManager *audioManager;
+
+	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos, AudioManager &audioManager);
 	//Loads the config values from the default config file if it can be found, else just plugs in defaults
 	bool LoadConfigValues(std::string configFilePath);
 	//A generic function that loads in a numerical value from the XML in the structure of the provided config file and puts it into the float thats passed in.
@@ -83,6 +88,9 @@ private:
 	sf::Rect<float> attackCollider;
 	//used to time the attackDelay
 	sf::Clock attackTimer;
+
+	sf::Sound jumpSound;
+	sf::Sound attackSound;
 
 	//This struct should store the complete state of the player, both in what it is currently doing and what it has been commanded to do last frame
 	struct PlayerState

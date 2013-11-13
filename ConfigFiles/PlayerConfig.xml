@@ -30,7 +30,7 @@
 	<AttackRange>30</AttackRange>
 	
 	<!--The delay time between attacks in seconds-->
-	<AttackDelay>0</AttackDelay>
+	<AttackDelay>0.2</AttackDelay>
 	
 </PlayerConfig>
 

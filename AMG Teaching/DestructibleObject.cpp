@@ -1,10 +1,11 @@
 #include "DestructibleObject.h"
 
 
-DestructibleObject::DestructibleObject(sf::Sprite intactSprite, sf::Sprite destroyedSprite, bool startIntact)
+DestructibleObject::DestructibleObject(sf::Sprite intactSprite, sf::Sprite destroyedSprite, sf::Sound destructibleSound, bool startIntact)
 {
 	this->intactSprite = intactSprite;
 	this->destroyedSprite = destroyedSprite;
+	this->destructionSound = destructibleSound;
 
 	if(startIntact)
 	{
@@ -38,6 +39,7 @@ void DestructibleObject::Destroy()
 	if(GetDestructibleState() == Intact)
 	{
 		SetDestructibleState(BeingDestroyed);
+		destructionSound.play();
 	}
 }
 

@@ -4,6 +4,7 @@
 #include "Assets.h"
 #include "Camera.h"
 #include "Player.h"
+#include "AudioManager.h"
 
 #define PLAYERSTART sf::Vector2f(300,545)
 
@@ -34,4 +35,7 @@ private:
 
 	//The main player character
 	std::unique_ptr<Player> player;
+
+	AudioManager audioManager;
+
 };

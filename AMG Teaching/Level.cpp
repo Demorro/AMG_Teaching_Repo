@@ -218,7 +218,7 @@ void Level::LoadLayer(LevelLayers layer)
 			else if(layer == DESTRUCTIBLES)
 			{
 				//Add a new destructible sprite to the destructibles container, at the moment it takes 3 sprites, so load em all up and pack em in!
-				destructibleObjects.push_back(DestructibleObject(objectSprite,LoadDestroyedDebrisImage(objectSprite,texName,relativeTexPath)));
+				destructibleObjects.push_back(DestructibleObject(objectSprite,LoadDestroyedDebrisImage(objectSprite,texName,relativeTexPath),LoadDestroyedAudioFile(texName,relativeTexPath)));
 			}
 		}
 	}
@@ -286,12 +286,51 @@ sf::Sprite Level::LoadDestroyedDebrisImage(sf::Sprite &originalSprite, std::stri
 			std::cout << "Cannot find destroyed version of texture, should be at : " << originalRelativeTexPath << std::endl;
 			std::cout << "FIX THIS IMMEDIATELY, returning out, undefined behaviour could result" << std::endl;
 			return sf::Sprite();
-		}
-					
+		}			
 	}
 	
 	//return the destroyed sprite all set up
 	return destroyedObjectSprite;
+}
+
+sf::Sound Level::LoadDestroyedAudioFile(std::string originalTextureName, std::string originalRelativeTexPath)
+{
+	//if we are here, we need to load in the audio for the destroyed image
+	sf::Sound objectDestructionSound;
+
+	//Load the destroyed object image
+	std::unique_ptr<sf::SoundBuffer> destructionSound(new sf::SoundBuffer());
+
+	//Find the sound in the same directory that is marked to be the destructible soun, meaning it will be called DESTRUCTIBLESOUNDNAME.
+	originalTextureName = originalTextureName + DESTRUCTIBLESOUNDNAME;
+	//The relative texture path is the same as the orginal image, except the actual image name is replaced by the DESTRUCTIBLEDEBRISNAME, normally just Debris.png
+	originalRelativeTexPath = originalRelativeTexPath.substr(0,originalRelativeTexPath.find_last_of("\\"));
+	//at this point the relative tex path is just to the folder that should contain all the destructible object assets for this particular object
+	originalRelativeTexPath = originalRelativeTexPath + "\\" + DESTRUCTIBLESOUNDNAME;
+
+	//This if statement checks if the key is already in the map. If the key is already in the map loading another texture will be wasteful, so we just use the entry already stored
+	if(loadedMapSounds.find(originalTextureName) != loadedMapSounds.end())
+	{
+		objectDestructionSound.setBuffer(*loadedMapSounds[originalTextureName]);
+	}
+	else
+	{
+		std::cout << "Loading Sound : " << originalRelativeTexPath << std::endl;
+		if(destructionSound->loadFromFile("..\\" + originalRelativeTexPath))
+		{
+			loadedMapSounds[originalTextureName] = std::move(destructionSound);
+			objectDestructionSound.setBuffer(*loadedMapSounds[originalTextureName]);	
+		}
+		else
+		{
+			std::cout << "Cannot find destroyed version of sound, should be at : " << originalRelativeTexPath << std::endl;
+			std::cout << "FIX THIS IMMEDIATELY, returning out, undefined behaviour could result" << std::endl;
+			return sf::Sound();
+		}			
+	}
+	
+	//return the destroyed sprite all set up
+	return objectDestructionSound;
 }
 
 std::vector<sf::Rect<float>> Level::GetCollisionBounds()

@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML\Graphics.hpp"
+#include "SFML\Audio.hpp"
 
 
 class DestructibleObject
@@ -15,7 +16,7 @@ public:
 	};
 
 
-	DestructibleObject(sf::Sprite intactSprite, sf::Sprite destroyedSprite, bool startIntact = true);
+	DestructibleObject(sf::Sprite intactSprite, sf::Sprite destroyedSprite, sf::Sound destructibleSound, bool startIntact = true);
 	~DestructibleObject(void);
 	
 	//Renders the correct sprite, whether destroyed or not
@@ -35,6 +36,7 @@ public:
 private:
 	sf::Sprite intactSprite;
 	sf::Sprite destroyedSprite;
+	sf::Sound destructionSound;
 
 	//Taken directly from the intactSprite, as it cant be loaded from the collision layer in the editor because it isn't static, i.e when this object is destroyed it dosen't have collision.
 	sf::Rect<float> collisionRect;
