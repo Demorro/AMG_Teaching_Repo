@@ -25,7 +25,6 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, Au
 	{
 		return false;
 	}
-	texture.setSmooth(true);
 	sprite.setTexture(texture);
 	//Set the origin to the center of the sprite
 	sprite.setOrigin(sprite.getGlobalBounds().width/2,sprite.getGlobalBounds().height/2);
@@ -43,6 +42,14 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, Au
 
 	//Read the player movement variables from the config files, or if it cant be found load defaults
 	LoadConfigValues(PLAYERCONFIG);
+	texture.setSmooth(false);
+
+	doubleJumpKeyTimer.restart();
+	//you need to have 50ms without having a jump key down to double jump again. This isnt a balance thing, it's more of a "Make sure the game dosent jump twice at once" thing
+	doubleJumpKeyTime = 50;
+
+	//The player can double jump in this level
+	ToggleAbility(DoubleJump,true);
 
 	//Initialise the attack rect collider
 	attackCollider = sprite.getGlobalBounds();
@@ -64,6 +71,7 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	personalGravity = 2000;
 	terminalVelocity = 5000;
 	jumpStrength = 800;
+	doubleJumpStrength = 800;
 	attackRange = 30;
 	attackDelay = 1;
 
@@ -89,6 +97,14 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	pugi::xml_node rootNode = configDoc.child("PlayerConfig");
 
 	//Load in all the numerical config values
+
+	//Set the player size and store the loaded scale
+	LoadNumericalValue(loadedScaleX,rootNode,"XScale");
+	LoadNumericalValue(loadedScaleY,rootNode,"YScale");
+	sprite.setScale(loadedScaleX,loadedScaleY);
+
+
+	//Load in the values that define movement and physics
 	LoadNumericalValue(maximumHorizontalSpeed,rootNode,"MaximumHorizontalSpeed");
 	LoadNumericalValue(groundAcceleration,rootNode,"GroundAcceleration");
 	LoadNumericalValue(airAcceleration,rootNode,"AirAcceleration");
@@ -97,6 +113,7 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	LoadNumericalValue(terminalVelocity,rootNode,"TerminalVelocity");
 	LoadNumericalValue(personalGravity,rootNode,"PersonalGravity");
 	LoadNumericalValue(jumpStrength,rootNode,"JumpStrength");
+	LoadNumericalValue(doubleJumpStrength,rootNode,"DoubleJumpStrength");
 	LoadNumericalValue(attackRange,rootNode,"AttackRange");
 	LoadNumericalValue(attackDelay,rootNode,"AttackDelay");
 
@@ -112,6 +129,7 @@ bool Player::LoadConfigValues(std::string configFilePath)
 		std::cout << "TerminalVelocity : " << terminalVelocity << std::endl;
 		std::cout << "PersonalGravity : " << personalGravity << std::endl;
 		std::cout << "JumpStrength : " << jumpStrength << std::endl;
+		std::cout << "DoubleJumpStrength : " << doubleJumpStrength << std::endl;
 		std::cout << "AttackRange : " << attackRange << std::endl;
 		std::cout << "AttackDelay : " << attackDelay << std::endl;
 	}
@@ -139,7 +157,7 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
 	ReceiveControlInput(events,eventFired);
 	DoAttacks(destructibleObjects);
-	HandleMovement(deltaTime, levelCollisionRects);
+	HandleMovement(events, eventFired, deltaTime, levelCollisionRects);
 }
 
 void Player::ReceiveControlInput(sf::Event events, bool eventFired)
@@ -181,7 +199,7 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 	}
 }
 
-void Player::HandleMovement(float deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects)
+void Player::HandleMovement(sf::Event events, bool eventFired, float deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects)
 {
 	//update the player velocity to move left and right depending on player input
 	DoLeftAndRightMovement(deltaTime);
@@ -192,7 +210,7 @@ void Player::HandleMovement(float deltaTime, std::vector<sf::Rect<float>> &level
 	//Check to see that the new position is valid horizontally
 	HandleHorizontalCollision(levelCollisionRects);
 	//Deal wid jumping 
-	DoJumping();
+	DoJumping(events, eventFired);
 	//Add gravity
 	AddGravity(deltaTime);
 	//Move vertical
@@ -225,7 +243,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 					playerState.velocity.x = -maximumHorizontalSpeed;
 				}
 				//flip the sprite to face left
-				sprite.setScale(-1.0f,1.0f);
+				sprite.setScale(-loadedScaleX,loadedScaleY);
 				playerState.facingLeft = true;
 				playerState.facingRight = false;
 			}
@@ -242,7 +260,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 					playerState.velocity.x = maximumHorizontalSpeed;
 				}
 				//flip the sprite to face right
-				sprite.setScale(1.0f,1.0f);
+				sprite.setScale(loadedScaleX,loadedScaleY);
 				playerState.facingLeft = false;
 				playerState.facingRight = true;
 			}
@@ -261,7 +279,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 					playerState.velocity.x = -maximumHorizontalSpeed;
 				}
 				//flip the sprite to face left
-				sprite.setScale(-1.0f,1.0f);
+				sprite.setScale(-loadedScaleX,loadedScaleY);
 				playerState.facingLeft = true;
 				playerState.facingRight = false;
 			}
@@ -278,7 +296,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 					playerState.velocity.x = maximumHorizontalSpeed;
 				}
 				//flip the sprite to face right
-				sprite.setScale(1.0f,1.0f);
+				sprite.setScale(loadedScaleX,loadedScaleY);
 				playerState.facingLeft = false;
 				playerState.facingRight = true;
 			}
@@ -295,7 +313,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 		playerState.movingLeft = true;
 	}
 }
-void Player::DoJumping()
+void Player::DoJumping(sf::Event events, bool eventFired)
 {
 	//Jump
 	if(playerState.INPUT_Jump)
@@ -306,8 +324,42 @@ void Player::DoJumping()
 			jumpSound.play();
 			playerState.velocity.y -= jumpStrength;
 			playerState.grounded = false;
+			playerState.firstJumping = true;
+		}
+		else
+		{
+			//Dont double jump if the player dosent have the ability
+			if(playerState.canDoubleJump)
+			{
+				//If we're not grounded, we could be trying to double jump
+				if(playerState.firstJumping == true)
+				{
+					if(!playerState.doubleJumping)
+					{
+						if(!playerState.grounded)
+						{
+							//check to make sure that the player really can double jump, and the button hasnt just fired twice
+							if(doubleJumpKeyTimer.getElapsedTime().asMilliseconds() > doubleJumpKeyTime)
+							{
+								jumpSound.play();
+								playerState.velocity.y = 0;
+								playerState.velocity.y -= jumpStrength;
+								playerState.firstJumping = false;
+								playerState.doubleJumping = true;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
+
+	//if a jump key is pressed you need to restart this timer to ensure we dont double jump twice at once
+	if(playerState.INPUT_Jump)
+	{
+		doubleJumpKeyTimer.restart();
+	}
+
 }
 void Player::AddDrag(float deltaTime)
 {
@@ -431,6 +483,8 @@ void Player::HandleVerticalCollision(std::vector<sf::Rect<float>> &levelCollisio
 			{
 				SetPosition(GetPosition().x, levelCollisionRects[i].top - (GetCollider().height/2));
 				playerState.grounded = true;
+				playerState.firstJumping = false;
+				playerState.doubleJumping = false;
 				playerState.velocity.y = 0;
 			}
 			//we're going up, snap to bottom of object
@@ -445,6 +499,8 @@ void Player::HandleVerticalCollision(std::vector<sf::Rect<float>> &levelCollisio
 			{
 				SetPosition(GetPosition().x, levelCollisionRects[i].top - (GetCollider().height/2));
 				playerState.grounded = true;
+				playerState.firstJumping = false;
+				playerState.doubleJumping = false;
 				playerState.velocity.y = 0;
 			}
 		}
@@ -474,6 +530,16 @@ void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects)
 			//Reset the timer so we can't attack again immediately
 			attackTimer.restart();
 		}
+	}
+}
+
+void Player::ToggleAbility(Abilities ability, bool active)
+{
+	switch(ability)
+	{
+	case Abilities::DoubleJump :
+		playerState.canDoubleJump = active;
+		break;
 	}
 }
 

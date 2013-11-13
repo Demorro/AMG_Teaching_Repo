@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <PlayerConfig Name="DefaultPlayerConfig" Visible="true">
+
+	<!--The amount that the player is scaled in the X direction, changes the size of the player in the x direction-->
+	<XScale>1</XScale>
+	
+	<!--The amount that the player is scaled in the Y direction, changes the size of the player in the y direction-->
+	<YScale>1</YScale>
 	
 	<!--The maximum speed that the player can move in the horizontal direction-->
 	<MaximumHorizontalSpeed>500</MaximumHorizontalSpeed>
@@ -26,8 +32,11 @@
 	<!--The strength of the jump impulse when the player jumps-->
 	<JumpStrength>800</JumpStrength>	
 	
+	<!--The strength of the double jump impulse when the player jumps in midair-->
+	<DoubleJumpStrength>800</DoubleJumpStrength>
+	
 	<!--The range that the main attack, probably a kick, extends from the player-->
-	<AttackRange>30</AttackRange>
+	<AttackRange>60</AttackRange>
 	
 	<!--The delay time between attacks in seconds-->
 	<AttackDelay>0.2</AttackDelay>

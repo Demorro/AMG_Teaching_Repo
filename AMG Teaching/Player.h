@@ -14,6 +14,12 @@
 class Player
 {
 public:
+
+	enum Abilities
+	{
+		DoubleJump
+	};
+
 	Player(std::string playerTexturePath, sf::Vector2f startPos, AudioManager &audioManager);
 	~Player(void);
 
@@ -28,7 +34,14 @@ public:
 	sf::FloatRect GetCollider();
 	void SetPosition(sf::Vector2f position);
 
+	//Give or take an ability from the player, this function needs to be maintained when a new ability is added, along with the Abilites enum
+	void ToggleAbility(Abilities ability, bool active);
+
 private:
+	//these values are stored here so we can flip the sprite and keep the same scale
+	float loadedScaleX;
+	float loadedScaleY;
+
 	sf::Texture texture;
 	sf::Sprite sprite;
 
@@ -50,7 +63,7 @@ private:
 	std::vector<sf::Keyboard::Key> attackKeys;
 
 	//Reads the current state of input from the playerstate and deals with moving
-	void HandleMovement(float deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects);
+	void HandleMovement(sf::Event events, bool eventFired, float deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects);
 
 	//Called in move, makes sure the attack collider is in the right place
 	void HandleAttackColliderPositioning();
@@ -59,7 +72,7 @@ private:
 	//Does the left and right movement for the player, whether the player is on the ground or in the air
 	void DoLeftAndRightMovement(float deltaTime);
 	//Handles the jumping
-	void DoJumping();
+	void DoJumping(sf::Event events, bool eventFired);
 	//Deals with adding the drag, whether the player is on the ground or in the air, they both have different values
 	void AddDrag(float deltaTime);
 	//Pull the player towards the floor
@@ -81,6 +94,7 @@ private:
 	float personalGravity;
 	float terminalVelocity;
 	float jumpStrength;
+	float doubleJumpStrength;
 	float attackRange;
 	float attackDelay;
 	
@@ -88,6 +102,10 @@ private:
 	sf::Rect<float> attackCollider;
 	//used to time the attackDelay
 	sf::Clock attackTimer;
+
+	//used to ensure that the jumpkeys hasnt been down for a small amount of time so double jump dosent get triggered stupidly.
+	sf::Clock doubleJumpKeyTimer;
+	float doubleJumpKeyTime;
 
 	sf::Sound jumpSound;
 	sf::Sound attackSound;
@@ -100,11 +118,15 @@ private:
 		bool movingRight;
 		bool facingLeft;
 		bool facingRight;
-		bool jumping;
+		bool firstJumping;
+		bool doubleJumping;
 		bool grounded;
 		bool attacking;
 
 		sf::Vector2f velocity;
+
+		//these variables can be toggled to define what abilites the player has
+		bool canDoubleJump;
 
 		//These variables are updated from ReceiveControlInput() and are the last inputs received, should probably be set back to false every frame unless you're doing something weird.
 		bool INPUT_MoveLeft;
@@ -119,13 +141,15 @@ private:
 			facingLeft = false;
 			//the guy starts facing right
 			facingRight = true;
-			jumping = false;
+			firstJumping = false;
+			doubleJumping = false;
 			grounded = false;
 			attacking = false;
 			INPUT_MoveLeft = false;
 			INPUT_MoveRight = false;
 			INPUT_Jump = false;
 			INPUT_Attack = false;
+			canDoubleJump = false;
 			velocity = sf::Vector2f(0,0);
 		}
 
