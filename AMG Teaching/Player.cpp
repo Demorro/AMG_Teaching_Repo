@@ -72,6 +72,7 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	terminalVelocity = 5000;
 	jumpStrength = 800;
 	doubleJumpStrength = 800;
+	doubleJumpVelocityChangeImpulse = 500;
 	attackRange = 30;
 	attackDelay = 1;
 
@@ -114,6 +115,7 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	LoadNumericalValue(personalGravity,rootNode,"PersonalGravity");
 	LoadNumericalValue(jumpStrength,rootNode,"JumpStrength");
 	LoadNumericalValue(doubleJumpStrength,rootNode,"DoubleJumpStrength");
+	LoadNumericalValue(doubleJumpVelocityChangeImpulse,rootNode,"DoubleJumpVelocityChangeImpulse");
 	LoadNumericalValue(attackRange,rootNode,"AttackRange");
 	LoadNumericalValue(attackDelay,rootNode,"AttackDelay");
 
@@ -130,6 +132,7 @@ bool Player::LoadConfigValues(std::string configFilePath)
 		std::cout << "PersonalGravity : " << personalGravity << std::endl;
 		std::cout << "JumpStrength : " << jumpStrength << std::endl;
 		std::cout << "DoubleJumpStrength : " << doubleJumpStrength << std::endl;
+		std::cout << "DoubleJumpVelocityChangeImpulse : " << doubleJumpVelocityChangeImpulse << std::endl;
 		std::cout << "AttackRange : " << attackRange << std::endl;
 		std::cout << "AttackDelay : " << attackDelay << std::endl;
 	}
@@ -344,6 +347,17 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 								jumpSound.play();
 								playerState.velocity.y = 0;
 								playerState.velocity.y -= jumpStrength;
+
+								//This chunk of code allows us to change velocity when we double jump
+								if(playerState.INPUT_MoveLeft)
+								{
+									playerState.velocity.x -= doubleJumpVelocityChangeImpulse;
+								}
+								else if(playerState.INPUT_MoveRight)
+								{
+									playerState.velocity.x += doubleJumpVelocityChangeImpulse;
+								}
+
 								playerState.firstJumping = false;
 								playerState.doubleJumping = true;
 							}

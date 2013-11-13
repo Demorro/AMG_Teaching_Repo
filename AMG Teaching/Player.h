@@ -8,6 +8,7 @@
 #include "DestructibleObject.h"
 #include "AudioManager.h"
 #include "SFML\Audio.hpp"
+#include <math.h>
 
 #define DEBUGPLAYER true
 
@@ -95,6 +96,7 @@ private:
 	float terminalVelocity;
 	float jumpStrength;
 	float doubleJumpStrength;
+	float doubleJumpVelocityChangeImpulse;
 	float attackRange;
 	float attackDelay;
 	
