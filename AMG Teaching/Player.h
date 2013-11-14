@@ -10,7 +10,7 @@
 #include "SFML\Audio.hpp"
 #include <math.h>
 
-#define DEBUGPLAYER true
+#define DEBUGPLAYER false
 
 class Player
 {

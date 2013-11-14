@@ -38,7 +38,7 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, Au
 	jumpKeys.push_back(sf::Keyboard::Space);
 	jumpKeys.push_back(sf::Keyboard::Up);
 	jumpKeys.push_back(sf::Keyboard::W);
-	attackKeys.push_back(sf::Keyboard::K);
+	attackKeys.push_back(sf::Keyboard::X);
 
 	//Read the player movement variables from the config files, or if it cant be found load defaults
 	LoadConfigValues(PLAYERCONFIG);

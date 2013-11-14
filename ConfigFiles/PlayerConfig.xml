@@ -14,7 +14,7 @@
 	<GroundAcceleration>800</GroundAcceleration>
 
 	<!--The rate at which the player accelerates horizontally while in the air-->
-	<AirAcceleration>500</AirAcceleration>
+	<AirAcceleration>600</AirAcceleration>
 
 	<!--The rate at which the player decelerates when the player releases the move key while on the ground-->
 	<GroundDrag>1800</GroundDrag>
