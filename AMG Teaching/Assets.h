@@ -2,6 +2,8 @@
 
 #define PLAYERCONFIG "../ConfigFiles/PlayerConfig.xml"
 
+#define CAMERACONFIG "../ConfigFiles/CameraConfig.xml"
+
 #define TESTLEVEL "../Assets/Levels/TestLevel.xml"
 
 #define PLAYERTEXTURE "../Assets/Images/Characters/SmallGuy.png"

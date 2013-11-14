@@ -16,7 +16,7 @@ void AudioManager::LoadSoundFile(std::string filePath, AudioManager::GameSound s
 	sf::SoundBuffer newLoadedAudio;
 
 	std::cout << "Loading Sound : " << filePath << std::endl;
-	if(newLoadedAudio.loadFromFile(filePath))
+	if(!newLoadedAudio.loadFromFile(filePath))
 	{
 		std::cout << "Cannot load sound" << filePath << std::endl;
 	}

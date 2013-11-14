@@ -21,7 +21,7 @@ bool Level1State::Load()
 		return false;
 	}
 	
-	stageCam = std::unique_ptr<Camera>(new Camera(Application::GetWindow(),1.0f,sf::Vector2f(0,0)));
+	stageCam = std::unique_ptr<Camera>(new Camera(Application::GetWindow(),PLAYERSTART));
 	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,PLAYERSTART,audioManager));
 
 
@@ -35,7 +35,7 @@ void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 	//Update the player, handles movement and collision and every other darn thing
 	player->Update(events,eventFired,deltaTime,loadedLevel.GetCollisionBounds(),loadedLevel.GetDestructibleObjects());
 	//Camera update, follow the player
-	stageCam->Update(events, eventFired, &player->GetPosition(),sf::Vector2f(0,0));
+	stageCam->Update(events, eventFired,deltaTime, &player->GetPosition());
 	//Update the level logic
 	loadedLevel.Update(deltaTime);
 }

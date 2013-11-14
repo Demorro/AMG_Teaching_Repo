@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<CameraConfig Name="DefaultCameraConfig" Visible="true">
+	
+<!--Zoom-->
+<Zoom>1.0</Zoom>
+
+
+<!--The Speed at which the Camera will return to the Center of the Screen when the player Stops Moving-->
+<CameraReturnToCenterSpeed>3.5</CameraReturnToCenterSpeed>
+
+</CameraConfig>
+
+
+<!--REMINDER : Remember to tell a programmer to set the code defaults to whats in this file before we ship, knowing me i'll forget because i'm drunk or hibernating or something. This is important because if someone deletes the config file you want the game to still run anyways.-->
