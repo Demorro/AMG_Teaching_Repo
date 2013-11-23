@@ -4,6 +4,8 @@
 #include "State.h"
 #include "MenuState.h"
 #include "Level1State.h"
+#include "ClockHud.h"
+#include "FrameClock.h"
 
 class StateManager
 {
@@ -30,6 +32,7 @@ private:
 
 	//Finds the delta time each frame. Multiply any time dependent action by deltaTime to get an action that moves at a speed independent of framerate
 	void FindDeltaTime();
+
 	//The deltaTime variable and two storage variables for finding it in FindDeltaTime()
 	double deltaTime;
 	sf::Int64 newTime;

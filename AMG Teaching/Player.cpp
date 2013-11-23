@@ -1,16 +1,16 @@
 #include "Player.h"
 
 
-Player::Player(std::string playerTexturePath, sf::Vector2f startPos, AudioManager &audioManager)
+Player::Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, AudioManager &audioManager)
 {
-	Initialise(playerTexturePath, startPos, audioManager);
+	Initialise(playerTexturePath, startPos, startTextureRect, audioManager);
 }
 
 Player::~Player(void)
 {
 }
 
-bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, AudioManager &audioManager)
+bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, AudioManager &audioManager)
 {
 	//Store a reference to the audiomanager
 	this->audioManager = &audioManager;
@@ -21,14 +21,19 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, Au
 	jumpSound.setBuffer(audioManager.GetSoundFile(AudioManager::Jump));
 	attackSound.setBuffer(audioManager.GetSoundFile(AudioManager::Kick));
 
-	if(!texture.loadFromFile(playerTexturePath))
+	if(!spriteSheet.loadFromFile(PLAYERTEXTURE))
 	{
-		return false;
+		std::cout << "Failed to load player texture" << std::endl;
 	}
-	sprite.setTexture(texture);
+
+	sprite = std::unique_ptr<AnimatedSprite>(new AnimatedSprite(startTextureRect));
+
+	sprite->setTexture(spriteSheet);
 	//Set the origin to the center of the sprite
-	sprite.setOrigin(sprite.getGlobalBounds().width/2,sprite.getGlobalBounds().height/2);
-	sprite.setPosition(startPos);
+	sprite->setOrigin(sprite->getGlobalBounds().width/2,sprite->getGlobalBounds().height/2);
+	sprite->setPosition(startPos);
+
+	LoadAnimations();
 
 	//load the control vectors up
 	moveLeftKeys.push_back(sf::Keyboard::A);
@@ -42,17 +47,16 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, Au
 
 	//Read the player movement variables from the config files, or if it cant be found load defaults
 	LoadConfigValues(PLAYERCONFIG);
-	texture.setSmooth(false);
 
 	doubleJumpKeyTimer.restart();
-	//you need to have 50ms without having a jump key down to double jump again. This isnt a balance thing, it's more of a "Make sure the game dosent jump twice at once" thing
-	doubleJumpKeyTime = 50;
+	//you need to have 65ms without having a jump key down to double jump again. This isnt a balance thing, it's more of a "Make sure the game dosent jump twice at once" thing
+	doubleJumpKeyTime = 65;
 
 	//The player can double jump in this level
 	ToggleAbility(DoubleJump,true);
 
 	//Initialise the attack rect collider
-	attackCollider = sprite.getGlobalBounds();
+	attackCollider = sprite->getGlobalBounds();
 	attackCollider.width += attackRange;
 	//start the timer just to make sure it's running
 	attackTimer.restart();
@@ -102,7 +106,7 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	//Set the player size and store the loaded scale
 	LoadNumericalValue(loadedScaleX,rootNode,"XScale");
 	LoadNumericalValue(loadedScaleY,rootNode,"YScale");
-	sprite.setScale(loadedScaleX,loadedScaleY);
+	sprite->setScale(loadedScaleX,loadedScaleY);
 
 
 	//Load in the values that define movement and physics
@@ -157,6 +161,7 @@ void Player::LoadNumericalValue(float &valueToLoadInto, pugi::xml_node &rootNode
 
 void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects, std::vector<DestructibleObject> &destructibleObjects)
 {
+	sprite->UpdateAnimations();
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
 	ReceiveControlInput(events,eventFired);
 	DoAttacks(destructibleObjects);
@@ -204,6 +209,7 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 
 void Player::HandleMovement(sf::Event events, bool eventFired, float deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects)
 {
+
 	//update the player velocity to move left and right depending on player input
 	DoLeftAndRightMovement(deltaTime);
 	//Add the drag horizontally, different whether you are grounded or not
@@ -228,6 +234,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 	playerState.movingLeft = false;
 	playerState.movingRight = false;
 
+
 	//Left and right movement
 	if((!playerState.INPUT_MoveLeft) || (!playerState.INPUT_MoveRight)) //Dont execute if both left and right are held
 	{
@@ -246,7 +253,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 					playerState.velocity.x = -maximumHorizontalSpeed;
 				}
 				//flip the sprite to face left
-				sprite.setScale(-loadedScaleX,loadedScaleY);
+				sprite->setScale(-loadedScaleX,loadedScaleY);
 				playerState.facingLeft = true;
 				playerState.facingRight = false;
 			}
@@ -263,7 +270,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 					playerState.velocity.x = maximumHorizontalSpeed;
 				}
 				//flip the sprite to face right
-				sprite.setScale(loadedScaleX,loadedScaleY);
+				sprite->setScale(loadedScaleX,loadedScaleY);
 				playerState.facingLeft = false;
 				playerState.facingRight = true;
 			}
@@ -282,7 +289,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 					playerState.velocity.x = -maximumHorizontalSpeed;
 				}
 				//flip the sprite to face left
-				sprite.setScale(-loadedScaleX,loadedScaleY);
+				sprite->setScale(-loadedScaleX,loadedScaleY);
 				playerState.facingLeft = true;
 				playerState.facingRight = false;
 			}
@@ -299,7 +306,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 					playerState.velocity.x = maximumHorizontalSpeed;
 				}
 				//flip the sprite to face right
-				sprite.setScale(loadedScaleX,loadedScaleY);
+				sprite->setScale(loadedScaleX,loadedScaleY);
 				playerState.facingLeft = false;
 				playerState.facingRight = true;
 			}
@@ -508,14 +515,10 @@ void Player::HandleVerticalCollision(std::vector<sf::Rect<float>> &levelCollisio
 				playerState.grounded = false;
 				playerState.velocity.y = 0;
 			}
-			//wtf mate? just snap to top
+			//wtf mate? do nothing
 			else
 			{
-				SetPosition(GetPosition().x, levelCollisionRects[i].top - (GetCollider().height/2));
-				playerState.grounded = true;
-				playerState.firstJumping = false;
-				playerState.doubleJumping = false;
-				playerState.velocity.y = 0;
+
 			}
 		}
 	}
@@ -559,7 +562,7 @@ void Player::ToggleAbility(Abilities ability, bool active)
 
 void Player::Render(sf::RenderWindow &window)
 {
-	window.draw(sprite);
+	window.draw(*sprite);
 
 	if(DEBUGPLAYER)
 	{
@@ -582,14 +585,14 @@ void Player::Render(sf::RenderWindow &window)
 
 
 
-
 void Player::Move(float x, float y)
 {
 	sf::Vector2f movementChange(x,y);
-	sprite.move(movementChange);
+	sprite->move(movementChange);
 
 	HandleAttackColliderPositioning();
 }
+
 
 //Called in move, makes sure the attack collider is in the right place
 void Player::HandleAttackColliderPositioning()
@@ -607,22 +610,45 @@ void Player::HandleAttackColliderPositioning()
 	}
 }
 
+void Player::LoadAnimations()
+{
+	std::vector<sf::IntRect> idleAnim;
+
+	int xOffset = 105;
+	int framesToAdd = 19;
+	sf::Rect<int> frameSize;
+	frameSize.width = 105;
+	frameSize.height = 155;
+
+	for(int i = 0; i < framesToAdd; i++)
+	{
+		idleAnim.push_back(sf::IntRect(i * xOffset,0,frameSize.width,frameSize.height));
+	}
+
+
+	sprite->AddAnimation("Idle",idleAnim,0.035f);
+	sprite->SetRepeating(true);
+	sprite->Play("Idle");
+}
+
 void Player::SetPosition(float xPos, float yPos)
 {
-	sprite.setPosition(xPos,yPos);
+	sprite->setPosition(xPos,yPos);
 }
 
 sf::Vector2f Player::GetPosition()
 {
-	return sprite.getPosition();
+	return sprite->getPosition();
 }
 
 void Player::SetPosition(sf::Vector2f position)
 {
-	sprite.setPosition(position);
+	sprite->setPosition(position);
 }
 
 sf::FloatRect Player::GetCollider()
 {
-	return sprite.getGlobalBounds();
+	sf::FloatRect collider;
+	collider = sprite->getGlobalBounds();
+	return collider;
 }

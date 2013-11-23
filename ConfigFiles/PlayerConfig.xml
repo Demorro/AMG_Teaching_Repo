@@ -8,7 +8,7 @@
 	<YScale>1</YScale>
 	
 	<!--The maximum speed that the player can move in the horizontal direction-->
-	<MaximumHorizontalSpeed>500</MaximumHorizontalSpeed>
+	<MaximumHorizontalSpeed>350</MaximumHorizontalSpeed>
 
 	<!--The rate at which the player accelerates horizontally while on the ground-->
 	<GroundAcceleration>800</GroundAcceleration>

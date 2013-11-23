@@ -9,6 +9,7 @@
 #include "AudioManager.h"
 #include "SFML\Audio.hpp"
 #include <math.h>
+#include "AnimatedSprite.h"
 
 #define DEBUGPLAYER false
 
@@ -21,7 +22,7 @@ public:
 		DoubleJump
 	};
 
-	Player(std::string playerTexturePath, sf::Vector2f startPos, AudioManager &audioManager);
+	Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, AudioManager &audioManager);
 	~Player(void);
 
 	//Runs the update logic, the rect vector is because this also runs the collision code
@@ -43,13 +44,18 @@ private:
 	float loadedScaleX;
 	float loadedScaleY;
 
-	sf::Texture texture;
-	sf::Sprite sprite;
+	sf::Texture spriteSheet;
+	std::unique_ptr<AnimatedSprite> sprite;
+
+	//Loads the player specific animations
+	void LoadAnimations();
 
 	//Store a reference to the audio manager
 	AudioManager *audioManager;
 
-	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos, AudioManager &audioManager);
+	sf::Rect<float> collisionRect;
+
+	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, AudioManager &audioManager);
 	//Loads the config values from the default config file if it can be found, else just plugs in defaults
 	bool LoadConfigValues(std::string configFilePath);
 	//A generic function that loads in a numerical value from the XML in the structure of the provided config file and puts it into the float thats passed in.

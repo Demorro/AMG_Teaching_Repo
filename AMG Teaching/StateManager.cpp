@@ -8,6 +8,7 @@ StateManager::StateManager()
 
 	deltaTime = 0.0f;
 	newTime = 0.0f;
+
 }
 
 StateManager::~StateManager()
@@ -16,7 +17,6 @@ StateManager::~StateManager()
 
 void StateManager::Update(sf::Event events, bool eventFired)
 {
-
 	if(curState != NULL)
 	{
 		// Switch the state if a signal has been given from the current state
@@ -38,6 +38,7 @@ void StateManager::Draw(sf::RenderWindow& window)
 	{
 		curState->Draw(window);
 	}
+
 }
 
 //Automatically detects if the state needs to be switched and then handles the switching.

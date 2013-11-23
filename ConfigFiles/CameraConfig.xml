@@ -6,7 +6,7 @@
 
 
 <!--The Speed at which the Camera will return to the Center of the Screen when the player Stops Moving-->
-<CameraReturnToCenterSpeed>3.5</CameraReturnToCenterSpeed>
+<CameraReturnToCenterSpeed>8.5</CameraReturnToCenterSpeed>
 
 </CameraConfig>
 
