@@ -22,8 +22,6 @@ public:
 	void Move(float xMove, float yMove);
 	void JumpToPoint(float xPos, float yPos);
 	void Zoom(float zoom);
-	//Call to make the camera follow the position supplied, pass null to stop following
-	void Draw(sf::RenderWindow &window);
 
 	bool getlocked();
 
@@ -44,5 +42,9 @@ public:
 
 	// Position of the Center of the Screen
 	sf::Vector2f Center_Point;
+
+private:
+	//Elliot : Added this so I can test precise collision, this is just a 1 to 1 camera/player follow as it was before, set in initialise
+	bool simpleCam;
 };
 

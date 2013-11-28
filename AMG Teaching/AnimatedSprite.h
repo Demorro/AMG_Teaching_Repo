@@ -14,7 +14,10 @@ public:
 
 	void Pause();
 	void Stop();
+	void StopAndReset();
 	void Resume();
+
+	bool IsPlaying();
 
 	void SetCurrentAnimation(std::string animation);
 	void SetRepeating(bool _repeating);
@@ -27,6 +30,7 @@ private:
 	bool repeating;
 	bool shouldPlay;
 	int currentFrame;
+	sf::IntRect startRect;
 	
 	//Stores information about individual animations
 	struct Animation

@@ -10,7 +10,8 @@ public:
 	enum GameSound
 	{
 		Jump,
-		Kick
+		Kick,
+		Fart
 	};
 
 	AudioManager(void);

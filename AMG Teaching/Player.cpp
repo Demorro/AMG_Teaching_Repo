@@ -1,25 +1,27 @@
 #include "Player.h"
 
 
-Player::Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, AudioManager &audioManager)
+Player::Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager)
 {
-	Initialise(playerTexturePath, startPos, startTextureRect, audioManager);
+	Initialise(playerTexturePath, startPos, startTextureRect, boundsRect, audioManager);
 }
 
 Player::~Player(void)
 {
 }
 
-bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, AudioManager &audioManager)
+bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager)
 {
 	//Store a reference to the audiomanager
 	this->audioManager = &audioManager;
 	//Load audio files needed for the player
 	this->audioManager->LoadSoundFile(JUMPSOUND,AudioManager::Jump);
 	this->audioManager->LoadSoundFile(KICKSOUND,AudioManager::Kick);
+	this->audioManager->LoadSoundFile(FARTSOUND,AudioManager::Fart);
 	//set the audio to the sf::sound instances
 	jumpSound.setBuffer(audioManager.GetSoundFile(AudioManager::Jump));
 	attackSound.setBuffer(audioManager.GetSoundFile(AudioManager::Kick));
+	fartSound.setBuffer(audioManager.GetSoundFile(AudioManager::Fart));
 
 	if(!spriteSheet.loadFromFile(PLAYERTEXTURE))
 	{
@@ -33,7 +35,10 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	sprite->setOrigin(sprite->getGlobalBounds().width/2,sprite->getGlobalBounds().height/2);
 	sprite->setPosition(startPos);
 
-	LoadAnimations();
+	//the collider used
+	collisionRect = sf::Rect<float>(boundsRect);
+	collisionRect.left = startPos.x - collisionRect.width/2;
+	collisionRect.top = startPos.y - collisionRect.height/2;
 
 	//load the control vectors up
 	moveLeftKeys.push_back(sf::Keyboard::A);
@@ -56,10 +61,24 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	ToggleAbility(DoubleJump,true);
 
 	//Initialise the attack rect collider
-	attackCollider = sprite->getGlobalBounds();
+	attackCollider = GetCollider();
 	attackCollider.width += attackRange;
 	//start the timer just to make sure it's running
 	attackTimer.restart();
+
+	walkAnimName = "Walk";
+	idleAnimName = "Idle";
+	startJumpAnimName = "StartJump";
+	jumpAnimName = "Jump";
+	fallAnimName = "Fall";
+	landFromNormalJumpAnimName = "Land";
+	doubleJumpAnimName = "DoubleJump";
+	doubleJumpToFallAnimName = "LandFromDoubleJump";
+	kickAnimName = "Name";
+
+	LoadAnimations();
+
+	fallVelocityTillFallAnimation = 200.0f;
 
 	return true;
 }
@@ -207,8 +226,18 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 	}
 }
 
-void Player::HandleMovement(sf::Event events, bool eventFired, float deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects)
+void Player::HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects)
 {
+
+	//Deal wid jumping 
+	DoJumping(events, eventFired);
+	//Add gravity
+	AddGravity(deltaTime);
+	//Move vertical
+	Move(0, playerState.velocity.y * deltaTime);
+	//Check to see if the new position is valid vertically
+	HandleVerticalCollision(levelCollisionRects);
+
 
 	//update the player velocity to move left and right depending on player input
 	DoLeftAndRightMovement(deltaTime);
@@ -218,17 +247,15 @@ void Player::HandleMovement(sf::Event events, bool eventFired, float deltaTime, 
 	Move(playerState.velocity.x * deltaTime ,0);
 	//Check to see that the new position is valid horizontally
 	HandleHorizontalCollision(levelCollisionRects);
-	//Deal wid jumping 
-	DoJumping(events, eventFired);
-	//Add gravity
-	AddGravity(deltaTime);
-	//Move vertical
-	Move(0, playerState.velocity.y * deltaTime);
-	//Check to see if the new position is valid vertically
-	HandleVerticalCollision(levelCollisionRects);
+
+	//Make sure the right animation is playing
+	HandleAnimations();
+
+	lastState = playerState;
+
 }
 //All these functions are just used in HandleMovement, seperated because its cleaner and easier to make logic changes
-void Player::DoLeftAndRightMovement(float deltaTime)
+void Player::DoLeftAndRightMovement(double deltaTime)
 {
 	//reset the moving states, just so we can keep track
 	playerState.movingLeft = false;
@@ -256,6 +283,7 @@ void Player::DoLeftAndRightMovement(float deltaTime)
 				sprite->setScale(-loadedScaleX,loadedScaleY);
 				playerState.facingLeft = true;
 				playerState.facingRight = false;
+
 			}
 			if(playerState.INPUT_MoveRight)
 			{
@@ -351,7 +379,7 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 							//check to make sure that the player really can double jump, and the button hasnt just fired twice
 							if(doubleJumpKeyTimer.getElapsedTime().asMilliseconds() > doubleJumpKeyTime)
 							{
-								jumpSound.play();
+								fartSound.play();
 								playerState.velocity.y = 0;
 								playerState.velocity.y -= jumpStrength;
 
@@ -382,7 +410,7 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 	}
 
 }
-void Player::AddDrag(float deltaTime)
+void Player::AddDrag(double deltaTime)
 {
 	//Add drag
 	if(playerState.grounded)
@@ -454,7 +482,7 @@ void Player::AddDrag(float deltaTime)
 		}
 	}
 }
-void Player::AddGravity(float deltaTime)
+void Player::AddGravity(double deltaTime)
 {
 	if(playerState.velocity.y + (personalGravity * deltaTime) < terminalVelocity)
 	{
@@ -469,6 +497,142 @@ void Player::AddGravity(float deltaTime)
 	if(playerState.velocity.y > 0)
 	{
 		playerState.grounded = false;
+	}
+}
+
+void Player::HandleAnimations()
+{
+	std::cout << playerState.velocity.y << std::endl;
+	if((playerState.attacking) && (playerState.INPUT_Attack))
+	{
+		sprite->SetCurrentAnimation(kickAnimName);
+		sprite->SetRepeating(false);
+		sprite->Play();
+		playerState.animState = PlayerState::AnimationState::Attacking;
+	}
+	if(playerState.animState == PlayerState::AnimationState::Attacking)
+	{
+		if(sprite->IsPlaying())
+		{
+			return;
+		}
+		else
+		{
+			if(playerState.grounded == true)
+			{
+				playerState.animState = PlayerState::AnimationState::Idle;
+			}
+			else
+			{
+				sprite->SetCurrentAnimation(jumpAnimName);
+				sprite->SetRepeating(false);
+				sprite->Play();
+				playerState.animState = PlayerState::AnimationState::FirstJumping;
+			}
+		}
+	}
+
+	if((lastState.grounded == true) || (playerState.grounded == true))
+	{
+		if(playerState.INPUT_Jump)
+		{
+			sprite->SetCurrentAnimation(jumpAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::FirstJumping;
+		}
+	}
+	if((playerState.doubleJumping == true) && (lastState.doubleJumping == false))
+	{
+		if(playerState.INPUT_Jump)
+		{
+			sprite->SetCurrentAnimation(doubleJumpAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::DoubleJumping;
+		}
+	}
+
+
+	if(playerState.animState == PlayerState::AnimationState::FirstJumping)
+	{
+		if(playerState.velocity.y > fallVelocityTillFallAnimation)
+		{
+			sprite->SetCurrentAnimation(fallAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::Falling;
+		}
+	}
+	else if (playerState.animState == PlayerState::AnimationState::DoubleJumping)
+	{
+		if(playerState.velocity.y > fallVelocityTillFallAnimation)
+		{
+			sprite->SetCurrentAnimation(doubleJumpToFallAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::Falling;
+		}
+	}
+
+	if(playerState.animState == PlayerState::AnimationState::Falling)
+	{
+		if(playerState.grounded == true)
+		{
+			sprite->SetCurrentAnimation(landFromNormalJumpAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::Landing;
+		}
+	}
+	if(playerState.animState == PlayerState::AnimationState::Landing)
+	{
+		//If we've finished the land
+		if(sprite->IsPlaying() == false)
+		{
+			playerState.animState = PlayerState::AnimationState::Idle;
+			sprite->SetCurrentAnimation(idleAnimName);
+			sprite->SetRepeating(true);
+			sprite->Play();
+		}
+	}
+
+
+	if(playerState.INPUT_MoveLeft)
+	{
+		if(playerState.grounded == true)
+		{
+			if((!lastState.INPUT_MoveLeft) || (playerState.animState == PlayerState::AnimationState::Idle))
+			{
+				playerState.animState = PlayerState::AnimationState::Walk;
+				sprite->SetCurrentAnimation(walkAnimName);
+				sprite->SetRepeating(true);
+				sprite->Play();
+			}
+		}
+	}
+	else if(playerState.INPUT_MoveRight)
+	{
+		if(playerState.grounded == true)
+		{
+			if((!lastState.INPUT_MoveRight) || (playerState.animState == PlayerState::AnimationState::Idle))
+			{
+				playerState.animState = PlayerState::AnimationState::Walk;
+				sprite->SetCurrentAnimation(walkAnimName);
+				sprite->SetRepeating(true);
+				sprite->Play();
+			}
+		}
+	}
+	else
+	{
+		if(playerState.animState == PlayerState::AnimationState::Walk)
+		{
+			playerState.animState = PlayerState::AnimationState::Idle;
+			sprite->SetCurrentAnimation(idleAnimName);
+			sprite->SetRepeating(true);
+			sprite->Play();
+		}
 	}
 }
 
@@ -589,7 +753,8 @@ void Player::Move(float x, float y)
 {
 	sf::Vector2f movementChange(x,y);
 	sprite->move(movementChange);
-
+	collisionRect.left = collisionRect.left + x;
+	collisionRect.top = collisionRect.top + y;
 	HandleAttackColliderPositioning();
 }
 
@@ -612,28 +777,121 @@ void Player::HandleAttackColliderPositioning()
 
 void Player::LoadAnimations()
 {
-	std::vector<sf::IntRect> idleAnim;
-
-	int xOffset = 105;
+	//walk
+	std::vector<sf::IntRect> walkAnim;
+	int xOffset = 125;
 	int framesToAdd = 19;
 	sf::Rect<int> frameSize;
-	frameSize.width = 105;
-	frameSize.height = 155;
-
+	frameSize.width = 126;
+	frameSize.height = 156;
 	for(int i = 0; i < framesToAdd; i++)
 	{
-		idleAnim.push_back(sf::IntRect(i * xOffset,0,frameSize.width,frameSize.height));
+		walkAnim.push_back(sf::IntRect(i * xOffset,0,frameSize.width,frameSize.height));
 	}
+	sprite->AddAnimation(walkAnimName,walkAnim,0.03f);
 
+	//idle
+	std::vector<sf::IntRect> idleAnim;
+	sf::Vector2i startPos = sf::Vector2i(0,166);
+	xOffset = 125;
+	framesToAdd = 20;
+	frameSize.width = 126;
+	frameSize.height = 156;
+	for(int i = 0; i < framesToAdd; i++)
+	{
+		idleAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+	}
+	sprite->AddAnimation(idleAnimName,idleAnim,0.06f);
 
-	sprite->AddAnimation("Idle",idleAnim,0.035f);
+	
+	//Jump
+	std::vector<sf::IntRect> jumpAnim;
+	xOffset = 125;
+	framesToAdd = 4;
+	frameSize.width = 120;
+	frameSize.height = 156;
+	startPos = sf::Vector2i(xOffset,505);
+	for(int i = 0; i < framesToAdd; i++)
+	{
+		jumpAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+	}
+	sprite->AddAnimation(jumpAnimName,jumpAnim,0.03f);
+
+	//Fall
+	std::vector<sf::IntRect> fallAnim;
+	xOffset = 125;
+	framesToAdd = 7;
+	frameSize.width = 120;
+	frameSize.height = 156;
+	startPos = sf::Vector2i(xOffset * 4,505);
+	for(int i = 0; i < framesToAdd; i++)
+	{
+		fallAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+	}
+	sprite->AddAnimation(fallAnimName,fallAnim,0.03f);
+
+	//Land
+	std::vector<sf::IntRect> landAnim;
+	xOffset = 125;
+	framesToAdd = 6;
+	frameSize.width = 120;
+	frameSize.height = 156;
+	startPos = sf::Vector2i(xOffset * 10,505);
+	for(int i = 0; i < framesToAdd; i++)
+	{
+		landAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+	}
+	sprite->AddAnimation(landFromNormalJumpAnimName,landAnim,0.03f);
+
+	//DoubleJump
+	std::vector<sf::IntRect> doubleJumpAnim;
+	xOffset = 125;
+	framesToAdd = 10;
+	frameSize.width = 120;
+	frameSize.height = 156;
+	startPos = sf::Vector2i(0,686);
+	for(int i = 0; i < framesToAdd; i++)
+	{
+		doubleJumpAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+	}
+	sprite->AddAnimation(doubleJumpAnimName,doubleJumpAnim,0.03f);
+
+	//LandFromDoubleJump
+	std::vector<sf::IntRect> doubleJumpToFallAnim;
+	xOffset = 125;
+	framesToAdd = 8;
+	frameSize.width = 120;
+	frameSize.height = 156;
+	startPos = sf::Vector2i(xOffset * 10,686);
+	for(int i = 0; i < framesToAdd; i++)
+	{
+		doubleJumpToFallAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+	}
+	sprite->AddAnimation(doubleJumpToFallAnimName,doubleJumpToFallAnim,0.03f);
+
+	//Kick
+	std::vector<sf::IntRect> kickAnim;
+	xOffset = 125;
+	framesToAdd = 15;
+	frameSize.width = 120;
+	frameSize.height = 156;
+	startPos = sf::Vector2i(0,863);
+	for(int i = 0; i < framesToAdd; i++)
+	{
+		kickAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+	}
+	sprite->AddAnimation(kickAnimName,kickAnim,0.03f);
+
+	sprite->SetCurrentAnimation(idleAnimName);
 	sprite->SetRepeating(true);
-	sprite->Play("Idle");
+	sprite->Play();
 }
 
 void Player::SetPosition(float xPos, float yPos)
 {
 	sprite->setPosition(xPos,yPos);
+	collisionRect.left = xPos - collisionRect.width/2;
+	collisionRect.top = yPos - collisionRect.height/2;
 }
 
 sf::Vector2f Player::GetPosition()
@@ -644,11 +902,11 @@ sf::Vector2f Player::GetPosition()
 void Player::SetPosition(sf::Vector2f position)
 {
 	sprite->setPosition(position);
+	collisionRect.left = position.x - collisionRect.width/2;
+	collisionRect.top = position.y - collisionRect.height/2;
 }
 
 sf::FloatRect Player::GetCollider()
 {
-	sf::FloatRect collider;
-	collider = sprite->getGlobalBounds();
-	return collider;
+	return collisionRect;
 }

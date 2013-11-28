@@ -30,10 +30,10 @@
 	<PersonalGravity>2000</PersonalGravity>
 
 	<!--The strength of the jump impulse when the player jumps-->
-	<JumpStrength>800</JumpStrength>	
+	<JumpStrength>1000</JumpStrength>	
 	
 	<!--The strength of the double jump impulse when the player jumps in midair-->
-	<DoubleJumpStrength>800</DoubleJumpStrength>
+	<DoubleJumpStrength>1000</DoubleJumpStrength>
 	
 	<!--It feels better if when the player double jump, he gets a sort of impulse adjustment to his velocity, so this is how much this is done horizontally-->
 	<DoubleJumpVelocityChangeImpulse>380</DoubleJumpVelocityChangeImpulse>

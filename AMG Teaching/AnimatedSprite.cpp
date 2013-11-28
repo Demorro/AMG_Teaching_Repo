@@ -3,15 +3,22 @@
 
 AnimatedSprite::AnimatedSprite(sf::IntRect startRect)
 {
+	currentAnimation = NULL;
 	repeating = false;
 	currentFrame = 0;
 	shouldPlay = false;
 	setTextureRect(startRect);
+	this->startRect = startRect;
 }
 
 
 AnimatedSprite::~AnimatedSprite(void)
 {
+}
+
+bool AnimatedSprite::IsPlaying()
+{
+	return shouldPlay;
 }
 
 void AnimatedSprite::UpdateAnimations()
@@ -33,6 +40,7 @@ void AnimatedSprite::UpdateAnimations()
 					if(!repeating)
 					{
 						shouldPlay = false;
+						return;
 					}
 				}
 
@@ -77,6 +85,14 @@ void AnimatedSprite::Stop()
 {
 	shouldPlay = false;
 	currentFrame = 0;
+}
+
+void AnimatedSprite::StopAndReset()
+{
+	shouldPlay = false;
+	currentFrame = 0;
+	setTextureRect(startRect);
+
 }
 
 void AnimatedSprite::SetCurrentAnimation(std::string animationName)

@@ -3,12 +3,12 @@
 #include "StateManager.h"
 
 // Window properties
-#define WINDOW_TITLE_TEXT		"Martial Farts - Alpha 0.2"
+#define WINDOW_TITLE_TEXT		"Martial Farts - Alpha 0.No ones really keeping track anymore"
 #define WINDOW_PIXEL_WIDTH		1280
 #define WINDOW_PIXEL_HEIGHT		720
-#define WINDOW_MAX_FRAMERATE	120
+#define WINDOW_MAX_FRAMERATE	240
 //NEVER HAVE A FRAMELIMITER AND VSYNC AT THE SAME TIME
-#define WINDOW_FRAMELIMIT	true
+#define WINDOW_FRAMELIMIT	false
 #define WINDOW_V_SYNC		false
 #define WINDOW_FULLSCREEN false
 

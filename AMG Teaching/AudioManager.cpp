@@ -18,6 +18,7 @@ void AudioManager::LoadSoundFile(std::string filePath, AudioManager::GameSound s
 	std::cout << "Loading Sound : " << filePath << std::endl;
 	if(!newLoadedAudio.loadFromFile(filePath))
 	{
+
 		std::cout << "Cannot load sound" << filePath << std::endl;
 	}
 	loadedAudioFiles[sound] = std::move(newLoadedAudio);
@@ -32,6 +33,9 @@ sf::SoundBuffer &AudioManager::GetSoundFile(AudioManager::GameSound soundToGet)
 			break;
 		case AudioManager::GameSound::Kick :
 			return loadedAudioFiles[AudioManager::GameSound::Kick];
+			break;
+		case AudioManager::GameSound::Fart :
+			return loadedAudioFiles[AudioManager::GameSound::Fart];
 			break;
 		default:
 			return sf::SoundBuffer();

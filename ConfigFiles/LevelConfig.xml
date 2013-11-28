@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<LevelConfig Name="DefaultLevelConfig" Visible="true">
+
+	<!--Parralax values for the layers, 1 = 1:1 with the camera, where 0.1 will move 1 pixel for every 10 the camera moves-->
+	<FarBackgroundParralax>0.2</FarBackgroundParralax>
+	<MidBackgroundParralax>0.2</MidBackgroundParralax>
+	<CloseBackgroundParralax>0.2</CloseBackgroundParralax>
+
+	
+	
+</LevelConfig>
+
+
+<!--REMINDER : Remember to tell a programmer to set the code defaults to whats in this file before we ship, knowing me i'll forget because i'm drunk or hibernating or something. This is important because if someone deletes the config file you want the game to still run anyways.-->

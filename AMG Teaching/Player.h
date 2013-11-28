@@ -11,7 +11,7 @@
 #include <math.h>
 #include "AnimatedSprite.h"
 
-#define DEBUGPLAYER false
+#define DEBUGPLAYER true
 
 class Player
 {
@@ -22,7 +22,7 @@ public:
 		DoubleJump
 	};
 
-	Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, AudioManager &audioManager);
+	Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager);
 	~Player(void);
 
 	//Runs the update logic, the rect vector is because this also runs the collision code
@@ -47,15 +47,28 @@ private:
 	sf::Texture spriteSheet;
 	std::unique_ptr<AnimatedSprite> sprite;
 
+
+	std::string walkAnimName;
+	std::string idleAnimName;
+	std::string startJumpAnimName;
+	std::string jumpAnimName;
+	std::string fallAnimName;
+	std::string landFromNormalJumpAnimName;
+	std::string doubleJumpAnimName;
+	std::string doubleJumpToFallAnimName;
+	std::string kickAnimName;
+
 	//Loads the player specific animations
 	void LoadAnimations();
+	//Makes sure the correct animations are playing
+	void HandleAnimations();
 
 	//Store a reference to the audio manager
 	AudioManager *audioManager;
 
 	sf::Rect<float> collisionRect;
 
-	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, AudioManager &audioManager);
+	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager);
 	//Loads the config values from the default config file if it can be found, else just plugs in defaults
 	bool LoadConfigValues(std::string configFilePath);
 	//A generic function that loads in a numerical value from the XML in the structure of the provided config file and puts it into the float thats passed in.
@@ -70,20 +83,20 @@ private:
 	std::vector<sf::Keyboard::Key> attackKeys;
 
 	//Reads the current state of input from the playerstate and deals with moving
-	void HandleMovement(sf::Event events, bool eventFired, float deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects);
+	void HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects);
 
 	//Called in move, makes sure the attack collider is in the right place
 	void HandleAttackColliderPositioning();
 	
 	//These functions here are just called in HandleMovement, i've just seperated them because handleMovement was becoming massive, also you can change the order easily
 	//Does the left and right movement for the player, whether the player is on the ground or in the air
-	void DoLeftAndRightMovement(float deltaTime);
+	void DoLeftAndRightMovement(double deltaTime);
 	//Handles the jumping
 	void DoJumping(sf::Event events, bool eventFired);
 	//Deals with adding the drag, whether the player is on the ground or in the air, they both have different values
-	void AddDrag(float deltaTime);
+	void AddDrag(double deltaTime);
 	//Pull the player towards the floor
-	void AddGravity(float deltaTime);
+	void AddGravity(double deltaTime);
 
 	//Handle collision, done seperately because it's simpler than doing corner-exception cases
 	void HandleHorizontalCollision(std::vector<sf::Rect<float>> &levelCollisionRects);
@@ -117,6 +130,7 @@ private:
 
 	sf::Sound jumpSound;
 	sf::Sound attackSound;
+	sf::Sound fartSound;
 
 	//This struct should store the complete state of the player, both in what it is currently doing and what it has been commanded to do last frame
 	struct PlayerState
@@ -142,6 +156,20 @@ private:
 		bool INPUT_Jump;
 		bool INPUT_Attack;
 
+		enum AnimationState
+		{
+			Idle,
+			Walk,
+			StartJump,
+			FirstJumping,
+			DoubleJumping,
+			Falling,
+			Landing,
+			Attacking,
+		};
+
+		AnimationState animState;
+
 		PlayerState::PlayerState()
 		{
 			movingLeft = false;
@@ -159,6 +187,7 @@ private:
 			INPUT_Attack = false;
 			canDoubleJump = false;
 			velocity = sf::Vector2f(0,0);
+			animState = AnimationState::Idle;
 		}
 
 		void PlayerState::ResetInputs()
@@ -170,5 +199,10 @@ private:
 		}
 	};
 	PlayerState playerState;
+	//the state the player was in last frame
+	PlayerState lastState;
+
+	//The downwards speed at which the fall animation triggers
+	float fallVelocityTillFallAnimation;
 };
 

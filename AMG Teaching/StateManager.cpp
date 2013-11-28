@@ -8,6 +8,7 @@ StateManager::StateManager()
 
 	deltaTime = 0.0f;
 	newTime = 0.0f;
+	smoothBufferLength = 20;
 
 }
 
@@ -17,6 +18,7 @@ StateManager::~StateManager()
 
 void StateManager::Update(sf::Event events, bool eventFired)
 {
+	FindDeltaTime();
 	if(curState != NULL)
 	{
 		// Switch the state if a signal has been given from the current state
@@ -29,7 +31,6 @@ void StateManager::Update(sf::Event events, bool eventFired)
 		curState->Update(events, eventFired, deltaTime);
 	}
 
-	FindDeltaTime();
 }
 
 void StateManager::Draw(sf::RenderWindow& window)
@@ -76,15 +77,12 @@ void StateManager::SwitchState(State::StateID stateID)
 //Works out the deltatime, called each frame
 void StateManager::FindDeltaTime()
 {
-	// Using microseconds give us a high enough accuracy to get smooth movement.
-	sf::Int64 oldTime;
-	oldTime = newTime;
-	newTime = deltaTimeClock.getElapsedTime().asMicroseconds();
-
-	deltaTime = double(newTime - oldTime)/1000000;
+	sf::Time time = deltaTimeClock.restart();
+	deltaTime = time.asSeconds();
 	//Things get weird if deltaTime is huuuuuge, i.e less that 8fps or so, so cap it at that. The reason for this is because the colliders will be moving in huge jumps, they might just clip through a collider and bugger off.
 	if(deltaTime > 0.125f)
 	{
 		deltaTime = 0.125f;
 	}
+
 }

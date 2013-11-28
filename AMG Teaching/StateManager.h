@@ -6,6 +6,7 @@
 #include "Level1State.h"
 #include "ClockHud.h"
 #include "FrameClock.h"
+#include <queue>
 
 class StateManager
 {
@@ -35,6 +36,10 @@ private:
 
 	//The deltaTime variable and two storage variables for finding it in FindDeltaTime()
 	double deltaTime;
-	sf::Int64 newTime;
+	double newTime;
 	sf::Clock deltaTimeClock;
+
+	//Not entirely sure if this is crazy or not, but im storing the last 20 or so values and using them to smooth the current deltaTime
+	std::queue<double> deltaTimeSmoothBuffer;
+	int smoothBufferLength;
 };

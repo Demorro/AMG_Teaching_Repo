@@ -22,7 +22,7 @@ bool Level1State::Load()
 	}
 	
 	stageCam = std::unique_ptr<Camera>(new Camera(Application::GetWindow(),PLAYERSTART));
-	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,PLAYERSTART,sf::IntRect(0,0,105,155),audioManager));
+	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,PLAYERSTART,sf::IntRect(0,166,126,156),sf::IntRect(0,0,70,150),audioManager));
 
 
 	return true;

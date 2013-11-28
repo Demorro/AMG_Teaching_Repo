@@ -28,6 +28,8 @@ void Camera::InitialiseCamera(sf::Vector2f startPositionOffset)
 		locked = false;
 		Center_Point = cameraView.getCenter();
 		UpdateView();
+
+		simpleCam = true;
 	}
 	else
 	{
@@ -100,41 +102,43 @@ bool Camera::LoadConfigValues(std::string configFilePath)
 
 void Camera::Update( sf::Event event, bool eventFired,float deltaTime, sf::Vector2f *followTarget)
 {
-
-	if(followTarget != NULL)
+	if(simpleCam)
 	{
-		// Update Position
-		Center_Point = cameraView.getCenter();
-
-		//Target Y Coordinate is the Screen Center position
-		JumpToPoint(Center_Point.x, followTarget->y);
-
-		//if not locked move
-		if(!locked)
+		JumpToPoint(followTarget->x, followTarget->y);
+	}
+	else
+	{
+		if(followTarget != NULL)
 		{
-			//Smoothly move Camera to Center on the Target
-			MoveToPoint(*followTarget,Center_Point, deltaTime);
+			// Update Position
+			Center_Point = cameraView.getCenter();
+
+			//Target Y Coordinate is the Screen Center position
+			JumpToPoint(Center_Point.x, followTarget->y);
+
+			//if not locked move
+			if(!locked)
+			{
+				//Smoothly move Camera to Center on the Target
+				MoveToPoint(*followTarget,Center_Point, deltaTime);
+			}
+
 		}
 
-	}
-
-	//If the window is resized, we dont want the image to squash and stretch, so do this
-	if(eventFired)
-	{
-		if (event.type == sf::Event::Resized)
+		//If the window is resized, we dont want the image to squash and stretch, so do this
+		if(eventFired)
 		{
-			// update the view to the new size of the window
-			sf::Vector2f visibleArea(event.size.width, event.size.height);
-			cameraView.setSize(visibleArea);
-			UpdateView();
+			if (event.type == sf::Event::Resized)
+			{
+				// update the view to the new size of the window
+				sf::Vector2f visibleArea(event.size.width, event.size.height);
+				cameraView.setSize(visibleArea);
+				UpdateView();
+			}
 		}
 	}
 }
 
-void Camera::Draw(sf::RenderWindow &window)
-{
-
-}
 
 void Camera::Move(float xMove, float yMove)
 {
