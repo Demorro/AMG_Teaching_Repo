@@ -47,7 +47,9 @@ private:
 	enum LevelLayers
 	{
 		BACKGROUNDCOLOUR,
-		BACKGROUND,
+		FARBACKGROUND,
+		MIDBACKGROUND,
+		NEARBACKGROUND,
 		OBJECTS,
 		FOREGROUND,
 		COLLISION,
@@ -65,7 +67,9 @@ private:
 	//The sounds the level uses are stored here, yadayadayada
 	std::map<std::string, std::unique_ptr<sf::SoundBuffer>> loadedMapSounds;
 
-	std::vector<sf::Sprite> backgroundSprites;
+	std::vector<sf::Sprite> farBackGroundSprites;
+	std::vector<sf::Sprite> midBackGroundSprites;
+	std::vector<sf::Sprite> nearBackGroundSprites;
 	std::vector<sf::Sprite> objectSprites;
 	std::vector<sf::Sprite> foregroundSprites;
 

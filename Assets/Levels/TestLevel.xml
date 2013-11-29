@@ -25,7 +25,7 @@
                 <Y>1</Y>
             </ScrollSpeed>
         </Layer>
-        <Layer Name="Background" Visible="true">
+        <Layer Name="FarBackGround" Visible="true">
             <Items>
                 <Item xsi:type="TextureItem" Name="Texture_0064" Visible="true">
                     <Position>
@@ -1429,6 +1429,48 @@
                     <Origin>
                         <X>100</X>
                         <Y>50</Y>
+                    </Origin>
+                </Item>
+            </Items>
+            <ScrollSpeed>
+                <X>1</X>
+                <Y>1</Y>
+            </ScrollSpeed>
+        </Layer>
+        <Layer Name="MidBackGround" Visible="true">
+            <Items />
+            <ScrollSpeed>
+                <X>1</X>
+                <Y>1</Y>
+            </ScrollSpeed>
+        </Layer>
+        <Layer Name="NearBackGround" Visible="true">
+            <Items>
+                <Item xsi:type="TextureItem" Name="Texture_0424" Visible="true">
+                    <Position>
+                        <X>734</X>
+                        <Y>74</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\gurica_tree download.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\gurica_tree download</asset_name>
+                    <Origin>
+                        <X>665</X>
+                        <Y>556</Y>
                     </Origin>
                 </Item>
             </Items>
@@ -4951,11 +4993,11 @@
     </Layers>
     <CustomProperties />
     <EditorRelated>
-        <NextItemNumber>423</NextItemNumber>
+        <NextItemNumber>424</NextItemNumber>
         <ContentRootFolder>C:\Coding\C++\AMG Teaching\AMG_Teaching_Repo</ContentRootFolder>
         <CameraPosition>
-            <X>-3352.707</X>
-            <Y>200.332886</Y>
+            <X>305.292969</X>
+            <Y>198.332886</Y>
         </CameraPosition>
         <Version>1.3.0.0</Version>
     </EditorRelated>

@@ -11,7 +11,7 @@
 #include <math.h>
 #include "AnimatedSprite.h"
 
-#define DEBUGPLAYER true
+#define DEBUGPLAYER false
 
 class Player
 {

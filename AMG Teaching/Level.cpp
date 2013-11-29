@@ -43,7 +43,9 @@ bool Level::LoadLevel(std::string levelPath)
 	}
 
 	LoadLayer(BACKGROUNDCOLOUR);
-	LoadLayer(BACKGROUND);
+	LoadLayer(FARBACKGROUND);
+	LoadLayer(MIDBACKGROUND);
+	LoadLayer(NEARBACKGROUND);
 	LoadLayer(OBJECTS);
 	LoadLayer(FOREGROUND);
 	LoadLayer(COLLISION);
@@ -69,10 +71,26 @@ void Level::LoadLayer(LevelLayers layer)
 				startNode = beginNode;
 			}
 		}
-		else if(layer == BACKGROUND)
+		else if(layer == FARBACKGROUND)
 		{
 			nodeName = beginNode.attribute("Name").value();
-			if(nodeName == "Background")
+			if(nodeName == "FarBackGround")
+			{
+				startNode = beginNode;
+			}
+		}
+		else if(layer == MIDBACKGROUND)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "MidBackGround")
+			{
+				startNode = beginNode;
+			}
+		}
+		else if(layer == NEARBACKGROUND)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "NearBackGround")
 			{
 				startNode = beginNode;
 			}
@@ -203,9 +221,17 @@ void Level::LoadLayer(LevelLayers layer)
 			objectSprite.setScale(xScale,yScale);
 
 			//And now actually place the sprites into the correct storage for rendering
-			if(layer == BACKGROUND)
+			if(layer == FARBACKGROUND)
 			{
-				backgroundSprites.push_back(objectSprite);
+				farBackGroundSprites.push_back(objectSprite);
+			}
+			if(layer == MIDBACKGROUND)
+			{
+				midBackGroundSprites.push_back(objectSprite);
+			}
+			if(layer == NEARBACKGROUND)
+			{
+				nearBackGroundSprites.push_back(objectSprite);
 			}
 			else if(layer == OBJECTS)
 			{
@@ -360,9 +386,17 @@ void Level::Draw(sf::RenderWindow &window)
 	//Clear the screen to the sky colour
 	window.clear(backgroundColor);
 
-	for(size_t i = 0; i < backgroundSprites.size(); i++)
+	for(size_t i = 0; i < farBackGroundSprites.size(); i++)
 	{
-		window.draw(backgroundSprites[i]);
+		window.draw(farBackGroundSprites[i]);
+	}
+	for(size_t i = 0; i < midBackGroundSprites.size(); i++)
+	{
+		window.draw(midBackGroundSprites[i]);
+	}
+	for(size_t i = 0; i < nearBackGroundSprites.size(); i++)
+	{
+		window.draw(nearBackGroundSprites[i]);
 	}
 	for(size_t i = 0; i < destructibleObjects.size(); i++)
 	{
