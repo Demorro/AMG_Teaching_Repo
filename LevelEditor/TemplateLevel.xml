@@ -53,6 +53,13 @@
                 <Y>1</Y>
             </ScrollSpeed>
         </Layer>
+		<Layer Name="Collision" Visible="true">
+            <Items />
+            <ScrollSpeed>
+                <X>1</X>
+                <Y>1</Y>
+            </ScrollSpeed>
+        </Layer>
         <Layer Name="Destructibles" Visible="true">
             <Items />
             <ScrollSpeed>

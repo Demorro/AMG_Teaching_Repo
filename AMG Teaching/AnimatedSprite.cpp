@@ -56,13 +56,35 @@ void AnimatedSprite::Play()
 	shouldPlay = true;
 }
 
-void AnimatedSprite::Play(std::string animationName)
+void AnimatedSprite::Play(int startFrame)
+{
+	if(currentAnimation->animationFrames.size() >= startFrame)
+	{
+		currentFrame = startFrame;
+	}
+	else
+	{
+		std::cout << "Attempting to start animation from a frame that dosen't exist, starting from the start." << std::endl;
+		currentFrame = 0;
+	}
+	shouldPlay = true;
+}
+
+void AnimatedSprite::Play(std::string animationName, int startFrame = 0)
 {
 	//this is true if the key exists
 	if(animations.count(animationName))
 	{
 		currentAnimation = &animations[animationName];
-		currentFrame = 0;
+		if(currentAnimation->animationFrames.size() <= startFrame)
+		{
+			currentFrame = startFrame;
+		}
+		else
+		{
+			std::cout << "Attempting to start animation from a frame that dosen't exist, starting from the start." << std::endl;
+			currentFrame = 0;
+		}
 		shouldPlay = true;
 	}
 	else

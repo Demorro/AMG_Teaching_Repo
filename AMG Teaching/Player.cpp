@@ -23,6 +23,7 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	attackSound.setBuffer(audioManager.GetSoundFile(AudioManager::Kick));
 	fartSound.setBuffer(audioManager.GetSoundFile(AudioManager::Fart));
 
+	//Load the big ol' sprite texture, if this becomes too big we may need to split it up
 	if(!spriteSheet.loadFromFile(PLAYERTEXTURE))
 	{
 		std::cout << "Failed to load player texture" << std::endl;
@@ -66,6 +67,7 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	//start the timer just to make sure it's running
 	attackTimer.restart();
 
+	//Names of the animation, used for switching between them
 	walkAnimName = "Walk";
 	idleAnimName = "Idle";
 	startJumpAnimName = "StartJump";
@@ -76,8 +78,10 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	doubleJumpToFallAnimName = "LandFromDoubleJump";
 	kickAnimName = "Name";
 
+	//Load the animations in, done manually for now
 	LoadAnimations();
 
+	//If the player is going down at this speed, the fall animation is triggered
 	fallVelocityTillFallAnimation = 200.0f;
 
 	return true;
@@ -500,142 +504,6 @@ void Player::AddGravity(double deltaTime)
 	}
 }
 
-void Player::HandleAnimations()
-{
-	std::cout << playerState.velocity.y << std::endl;
-	if((playerState.attacking) && (playerState.INPUT_Attack))
-	{
-		sprite->SetCurrentAnimation(kickAnimName);
-		sprite->SetRepeating(false);
-		sprite->Play();
-		playerState.animState = PlayerState::AnimationState::Attacking;
-	}
-	if(playerState.animState == PlayerState::AnimationState::Attacking)
-	{
-		if(sprite->IsPlaying())
-		{
-			return;
-		}
-		else
-		{
-			if(playerState.grounded == true)
-			{
-				playerState.animState = PlayerState::AnimationState::Idle;
-			}
-			else
-			{
-				sprite->SetCurrentAnimation(jumpAnimName);
-				sprite->SetRepeating(false);
-				sprite->Play();
-				playerState.animState = PlayerState::AnimationState::FirstJumping;
-			}
-		}
-	}
-
-	if((lastState.grounded == true) || (playerState.grounded == true))
-	{
-		if(playerState.INPUT_Jump)
-		{
-			sprite->SetCurrentAnimation(jumpAnimName);
-			sprite->SetRepeating(false);
-			sprite->Play();
-			playerState.animState = PlayerState::AnimationState::FirstJumping;
-		}
-	}
-	if((playerState.doubleJumping == true) && (lastState.doubleJumping == false))
-	{
-		if(playerState.INPUT_Jump)
-		{
-			sprite->SetCurrentAnimation(doubleJumpAnimName);
-			sprite->SetRepeating(false);
-			sprite->Play();
-			playerState.animState = PlayerState::AnimationState::DoubleJumping;
-		}
-	}
-
-
-	if(playerState.animState == PlayerState::AnimationState::FirstJumping)
-	{
-		if(playerState.velocity.y > fallVelocityTillFallAnimation)
-		{
-			sprite->SetCurrentAnimation(fallAnimName);
-			sprite->SetRepeating(false);
-			sprite->Play();
-			playerState.animState = PlayerState::AnimationState::Falling;
-		}
-	}
-	else if (playerState.animState == PlayerState::AnimationState::DoubleJumping)
-	{
-		if(playerState.velocity.y > fallVelocityTillFallAnimation)
-		{
-			sprite->SetCurrentAnimation(doubleJumpToFallAnimName);
-			sprite->SetRepeating(false);
-			sprite->Play();
-			playerState.animState = PlayerState::AnimationState::Falling;
-		}
-	}
-
-	if(playerState.animState == PlayerState::AnimationState::Falling)
-	{
-		if(playerState.grounded == true)
-		{
-			sprite->SetCurrentAnimation(landFromNormalJumpAnimName);
-			sprite->SetRepeating(false);
-			sprite->Play();
-			playerState.animState = PlayerState::AnimationState::Landing;
-		}
-	}
-	if(playerState.animState == PlayerState::AnimationState::Landing)
-	{
-		//If we've finished the land
-		if(sprite->IsPlaying() == false)
-		{
-			playerState.animState = PlayerState::AnimationState::Idle;
-			sprite->SetCurrentAnimation(idleAnimName);
-			sprite->SetRepeating(true);
-			sprite->Play();
-		}
-	}
-
-
-	if(playerState.INPUT_MoveLeft)
-	{
-		if(playerState.grounded == true)
-		{
-			if((!lastState.INPUT_MoveLeft) || (playerState.animState == PlayerState::AnimationState::Idle))
-			{
-				playerState.animState = PlayerState::AnimationState::Walk;
-				sprite->SetCurrentAnimation(walkAnimName);
-				sprite->SetRepeating(true);
-				sprite->Play();
-			}
-		}
-	}
-	else if(playerState.INPUT_MoveRight)
-	{
-		if(playerState.grounded == true)
-		{
-			if((!lastState.INPUT_MoveRight) || (playerState.animState == PlayerState::AnimationState::Idle))
-			{
-				playerState.animState = PlayerState::AnimationState::Walk;
-				sprite->SetCurrentAnimation(walkAnimName);
-				sprite->SetRepeating(true);
-				sprite->Play();
-			}
-		}
-	}
-	else
-	{
-		if(playerState.animState == PlayerState::AnimationState::Walk)
-		{
-			playerState.animState = PlayerState::AnimationState::Idle;
-			sprite->SetCurrentAnimation(idleAnimName);
-			sprite->SetRepeating(true);
-			sprite->Play();
-		}
-	}
-}
-
 void Player::HandleHorizontalCollision(std::vector<sf::Rect<float>> &levelCollisionRects)
 {
 	for(int i = 0; i < levelCollisionRects.size(); i++)
@@ -775,116 +643,180 @@ void Player::HandleAttackColliderPositioning()
 	}
 }
 
-void Player::LoadAnimations()
+void Player::HandleAnimations()
 {
-	//walk
-	std::vector<sf::IntRect> walkAnim;
-	int xOffset = 125;
-	int framesToAdd = 19;
-	sf::Rect<int> frameSize;
-	frameSize.width = 126;
-	frameSize.height = 156;
-	for(int i = 0; i < framesToAdd; i++)
-	{
-		walkAnim.push_back(sf::IntRect(i * xOffset,0,frameSize.width,frameSize.height));
-	}
-	sprite->AddAnimation(walkAnimName,walkAnim,0.03f);
+	//This whole routine is a mess, not really sure how to do it better though. 
 
-	//idle
-	std::vector<sf::IntRect> idleAnim;
-	sf::Vector2i startPos = sf::Vector2i(0,166);
-	xOffset = 125;
-	framesToAdd = 20;
-	frameSize.width = 126;
-	frameSize.height = 156;
-	for(int i = 0; i < framesToAdd; i++)
+	//Attack
+	if((playerState.attacking) && (playerState.INPUT_Attack))
 	{
-		idleAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+		sprite->SetCurrentAnimation(kickAnimName);
+		sprite->SetRepeating(false);
+		sprite->Play();
+		playerState.animState = PlayerState::AnimationState::Attacking;
 	}
-	sprite->AddAnimation(idleAnimName,idleAnim,0.06f);
-
 	
-	//Jump
-	std::vector<sf::IntRect> jumpAnim;
-	xOffset = 125;
-	framesToAdd = 4;
-	frameSize.width = 120;
-	frameSize.height = 156;
-	startPos = sf::Vector2i(xOffset,505);
-	for(int i = 0; i < framesToAdd; i++)
+	//Transition out of attack
+	if(playerState.animState == PlayerState::AnimationState::Attacking)
 	{
-		jumpAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+		if(sprite->IsPlaying())
+		{
+			return;
+		}
+		else
+		{
+			if(playerState.grounded == true)
+			{
+				playerState.animState = PlayerState::AnimationState::Idle;
+			}
+			else
+			{
+				sprite->SetCurrentAnimation(jumpAnimName);
+				sprite->SetRepeating(false);
+				sprite->Play();
+				playerState.animState = PlayerState::AnimationState::FirstJumping;
+			}
+		}
 	}
-	sprite->AddAnimation(jumpAnimName,jumpAnim,0.03f);
 
-	//Fall
-	std::vector<sf::IntRect> fallAnim;
-	xOffset = 125;
-	framesToAdd = 7;
-	frameSize.width = 120;
-	frameSize.height = 156;
-	startPos = sf::Vector2i(xOffset * 4,505);
-	for(int i = 0; i < framesToAdd; i++)
+	//Jump
+	if((lastState.grounded == true) || (playerState.grounded == true))
 	{
-		fallAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+		if(playerState.INPUT_Jump)
+		{
+			sprite->SetCurrentAnimation(jumpAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::FirstJumping;
+		}
 	}
-	sprite->AddAnimation(fallAnimName,fallAnim,0.03f);
+
+	//doubleJump
+	if((playerState.doubleJumping == true) && (lastState.doubleJumping == false))
+	{
+		if(playerState.INPUT_Jump)
+		{
+			sprite->SetCurrentAnimation(doubleJumpAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::DoubleJumping;
+		}
+	}
+
+	//GointoFallAnim
+	if(playerState.animState == PlayerState::AnimationState::FirstJumping)
+	{
+		if(playerState.velocity.y > fallVelocityTillFallAnimation)
+		{
+			sprite->SetCurrentAnimation(fallAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::Falling;
+		}
+	}
+	else if (playerState.animState == PlayerState::AnimationState::DoubleJumping)
+	{
+		if(playerState.velocity.y > fallVelocityTillFallAnimation)
+		{
+			sprite->SetCurrentAnimation(doubleJumpToFallAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::Falling;
+		}
+	}
 
 	//Land
-	std::vector<sf::IntRect> landAnim;
-	xOffset = 125;
-	framesToAdd = 6;
-	frameSize.width = 120;
-	frameSize.height = 156;
-	startPos = sf::Vector2i(xOffset * 10,505);
-	for(int i = 0; i < framesToAdd; i++)
+	if(playerState.animState == PlayerState::AnimationState::Falling)
 	{
-		landAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+		if(playerState.grounded == true)
+		{
+			sprite->SetCurrentAnimation(landFromNormalJumpAnimName);
+			sprite->SetRepeating(false);
+			sprite->Play();
+			playerState.animState = PlayerState::AnimationState::Landing;
+		}
 	}
-	sprite->AddAnimation(landFromNormalJumpAnimName,landAnim,0.03f);
+	
+	//Go back to idle from land
+	if(playerState.animState == PlayerState::AnimationState::Landing)
+	{
+		//If we've finished the land
+		if(sprite->IsPlaying() == false)
+		{
+			playerState.animState = PlayerState::AnimationState::Idle;
+			sprite->SetCurrentAnimation(idleAnimName);
+			sprite->SetRepeating(true);
+			sprite->Play();
+		}
+	}
 
-	//DoubleJump
-	std::vector<sf::IntRect> doubleJumpAnim;
-	xOffset = 125;
-	framesToAdd = 10;
-	frameSize.width = 120;
-	frameSize.height = 156;
-	startPos = sf::Vector2i(0,686);
-	for(int i = 0; i < framesToAdd; i++)
+	//Walk
+	if((playerState.INPUT_MoveLeft) || (playerState.INPUT_MoveRight))
 	{
-		doubleJumpAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
-	}
-	sprite->AddAnimation(doubleJumpAnimName,doubleJumpAnim,0.03f);
+		if(playerState.grounded == true)
+		{
+			if(((!lastState.INPUT_MoveLeft) && (!lastState.INPUT_MoveRight)) || (playerState.animState == PlayerState::AnimationState::Idle))
+			{
+				playerState.animState = PlayerState::AnimationState::Walk;
+				sprite->SetCurrentAnimation(walkAnimName);
+				sprite->SetRepeating(true);
 
-	//LandFromDoubleJump
-	std::vector<sf::IntRect> doubleJumpToFallAnim;
-	xOffset = 125;
-	framesToAdd = 8;
-	frameSize.width = 120;
-	frameSize.height = 156;
-	startPos = sf::Vector2i(xOffset * 10,686);
-	for(int i = 0; i < framesToAdd; i++)
-	{
-		doubleJumpToFallAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+				sprite->Play();
+			}
+		}
 	}
-	sprite->AddAnimation(doubleJumpToFallAnimName,doubleJumpToFallAnim,0.03f);
 
-	//Kick
-	std::vector<sf::IntRect> kickAnim;
-	xOffset = 125;
-	framesToAdd = 15;
-	frameSize.width = 120;
-	frameSize.height = 156;
-	startPos = sf::Vector2i(0,863);
-	for(int i = 0; i < framesToAdd; i++)
+	//Back to idle from walk
+	else
 	{
-		kickAnim.push_back(sf::IntRect((i * xOffset) + startPos.x,0 + startPos.y,frameSize.width,frameSize.height));
+		if(playerState.animState == PlayerState::AnimationState::Walk)
+		{
+			playerState.animState = PlayerState::AnimationState::Idle;
+			sprite->SetCurrentAnimation(idleAnimName);
+			sprite->SetRepeating(true);
+			sprite->Play();
+		}
 	}
-	sprite->AddAnimation(kickAnimName,kickAnim,0.03f);
+}
+
+//Loads up all the co-ordingates for each player animation. Bit of a hodge-podge, but it works. Would almost certainly be better defined externally, but I'm in a rush here! Geez!
+void Player::LoadAnimations()
+{
+	//Load Walk
+	LoadSingleAnimation(sf::Vector2i(0,0),125,19,126,156,0.03f,walkAnimName);
+	//Load Idle
+	LoadSingleAnimation(sf::Vector2i(0,166),125,20,126,156,0.06f,idleAnimName);
+	//Load Jump
+	LoadSingleAnimation(sf::Vector2i(125,505),125,4,120,156,0.03f,jumpAnimName);
+	//Load Fall from Single Jump
+	LoadSingleAnimation(sf::Vector2i(625,505),125,6,120,156,0.03f,fallAnimName);
+	//Load Fall From Double Jump
+	LoadSingleAnimation(sf::Vector2i(1250,686),125,8,120,156,0.03f,doubleJumpToFallAnimName);
+	//Load Land From Normal Jump
+	LoadSingleAnimation(sf::Vector2i(1250,506),125,6,120,156,0.03f,landFromNormalJumpAnimName);
+	//Load Double Jump
+	LoadSingleAnimation(sf::Vector2i(0,686),125,10,120,156,0.03f,doubleJumpAnimName);
+	//Load Kick
+	LoadSingleAnimation(sf::Vector2i(0,863),125,15,120,156,0.03f,kickAnimName);
 
 	sprite->SetCurrentAnimation(idleAnimName);
 	sprite->SetRepeating(true);
 	sprite->Play();
+}
+
+void Player::LoadSingleAnimation(sf::Vector2i startFrame, int xFrameOffset, int noOfFrames, int frameWidth, int frameHeight, float frameTime, std::string animationName)
+{
+	std::vector<sf::IntRect> anim;
+
+	sf::Rect<int> frameSize;
+	frameSize.width = frameWidth;
+	frameSize.height = frameHeight;
+	for(int i = 0; i < noOfFrames; i++)
+	{
+		anim.push_back(sf::IntRect((i * xFrameOffset) + startFrame.x,0 + startFrame.y,frameSize.width,frameSize.height));
+	}
+
+	sprite->AddAnimation(animationName,anim,frameTime);
 }
 
 void Player::SetPosition(float xPos, float yPos)

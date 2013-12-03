@@ -10,7 +10,8 @@ public:
 
 	void UpdateAnimations();
 	void Play();
-	void Play(std::string animation);
+	void Play(int startFrame);
+	void Play(std::string animation, int startFrame);
 
 	void Pause();
 	void Stop();
