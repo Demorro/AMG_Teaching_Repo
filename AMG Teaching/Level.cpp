@@ -1,46 +1,110 @@
 #include "Level.h"
 
 
-Level::Level()
+Level::Level(AudioManager *audioManager)
 {
+	this->audioManager = audioManager;
 	backgroundColor = sf::Color::Black;
 }
 
-Level::Level(std::string levelDataPath)
+Level::Level(std::string levelDataPath, AudioManager *audioManager)
 {
+	this->audioManager = audioManager;
+
+	//This is probably as good as place as any to load the level specific audio
+	if(audioManager != NULL)
+	{
+		audioManager->LoadSoundFile(PLATFORMFALLSOUND,AudioManager::PlatformFall);
+	}
+
 	LoadLevel(levelDataPath);
-	backgroundColor = sf::Color::Black;
 }
 
 Level::~Level(void)
 {
 }
 
-void Level::Update(double deltaTime)
+void Level::LoadLevelConfigDoc(std::string configPath)
+{
+	farParralaxSpeed = 0.2f;
+	midParralaxSpeed = 0.6f;
+	closeParralaxSpeed = 0.9f;
+	
+	defaultPlatformFallDelay = 1.0f;
+	defaultPlatformFallGravity = 50.0f;
+	defaultPlatformTerminalVelocity = 1200.0f;
+
+	pugi::xml_document levelConfigDoc;
+
+	LoadXMLDoc(levelConfigDoc,configPath);
+	pugi::xml_node configRoot = levelConfigDoc.child("LevelConfig");
+
+	LoadNumericalValue(farParralaxSpeed,configRoot,"FarBackgroundParralax");
+	LoadNumericalValue(midParralaxSpeed,configRoot,"MidBackgroundParralax");
+	LoadNumericalValue(closeParralaxSpeed,configRoot,"CloseBackgroundParralax");
+
+	LoadNumericalValue(defaultPlatformFallDelay,configRoot,"DefaultPlatformFallDelay");
+	LoadNumericalValue(defaultPlatformFallGravity,configRoot,"DefaultPlatformFallGravity");
+	LoadNumericalValue(defaultPlatformTerminalVelocity,configRoot,"DefaultPlatformTerminalVelocity");
+
+	if(LEVEL_DEBUG)
+	{
+		std::cout << std::endl;
+		std::cout << "LEVEL CONFIG VALUES : " << std::endl;
+		std::cout << "FarBackgroundParralax : " << farParralaxSpeed << std::endl;
+		std::cout << "MidBackgroundParralax : " << midParralaxSpeed << std::endl;
+		std::cout << "CloseBackgroundParralax : " << closeParralaxSpeed << std::endl;
+		std::cout << "DefaultPlatformFallDelay : " << defaultPlatformFallDelay << std::endl;
+		std::cout << "DefaultPlatformFallGravity : " << defaultPlatformFallGravity << std::endl;
+		std::cout << "DefaultPlatformTerminalVelocity : " << defaultPlatformTerminalVelocity << std::endl;
+		std::cout << std::endl;
+	}
+}
+
+void Level::Update(double deltaTime, Player &player, sf::Vector2f &cameraVelocity)
 {
 	//run the updates for the destructibles, but only if neccesary (ie the destroy animations are playing,)
 	for(size_t i = 0; i < destructibleObjects.size(); i++)
 	{
 		destructibleObjects[i].Update(deltaTime);
 	}
+
+	for(size_t i = 0; i < fallingPlatforms.size(); i++)
+	{
+		fallingPlatforms[i].Update(deltaTime,player);
+
+		//Check to see if we need to destroy any of the platforms
+		if(fallingPlatforms[i].ShouldDestroy())
+		{
+			fallingPlatforms.erase(fallingPlatforms.begin() + i);
+		}
+	}
+
+	HandleParralax(deltaTime,cameraVelocity);
+}
+
+void Level::HandleParralax(float deltaTime, sf::Vector2f &cameraVelocity)
+{
+	for(int i = 0; i < farBackGroundSprites.size(); i++)
+	{
+		farBackGroundSprites[i].move(-cameraVelocity * farParralaxSpeed);
+	}
+	for(int i = 0; i < midBackGroundSprites.size(); i++)
+	{
+		midBackGroundSprites[i].move(-cameraVelocity * midParralaxSpeed);
+	}
+	for(int i = 0; i < nearBackGroundSprites.size(); i++)
+	{
+		nearBackGroundSprites[i].move(-cameraVelocity * closeParralaxSpeed);
+	}
 }
 
 bool Level::LoadLevel(std::string levelPath)
 {
 
-	//Load the xml file into memory
-	std::cout << "Loading Level : " << levelPath << std::endl;
-	pugi::xml_parse_result result = levelDoc.load_file(levelPath.c_str());
-	if (result)
-	{
-		std::cout << "XML File [" << levelPath << "] was loaded without errors." << std::endl;
-	}
-	else
-	{
-		std::cout << "XML File [" << levelPath << "] had some trouble loading and failed" << std::endl;
-		std::cout << "Error description: " << result.description() << "\n";
-		return false;
-	}
+	LoadLevelConfigDoc(LEVELCONFIG);
+
+	LoadXMLDoc(levelDoc,levelPath);
 
 	LoadLayer(BACKGROUNDCOLOUR);
 	LoadLayer(FARBACKGROUND);
@@ -50,6 +114,8 @@ bool Level::LoadLevel(std::string levelPath)
 	LoadLayer(FOREGROUND);
 	LoadLayer(COLLISION);
 	LoadLayer(DESTRUCTIBLES);
+	LoadLayer(FALLINGPLATFORMS);
+	LoadLayer(DEATHZONES);
 
 	return true;
 }
@@ -60,7 +126,7 @@ void Level::LoadLayer(LevelLayers layer)
 
 	//nodeName is required because .value() returns a const char*, whereas we want to compare it to an std::string. Putting into nodeName does an implicit cast, which is cool
 	std::string nodeName;
-	//Scan through the document and find the layer node that is the one we are trying to load
+	//Scan through the document and fisnd the layer node that is the one we are trying to load
 	for(pugi::xml_node beginNode = levelDoc.child("Level").child("Layers").first_child(); beginNode; beginNode = beginNode.next_sibling())
 	{
 		if(layer == BACKGROUNDCOLOUR)
@@ -127,6 +193,22 @@ void Level::LoadLayer(LevelLayers layer)
 				startNode = beginNode;
 			}
 		}
+		else if(layer == FALLINGPLATFORMS)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "FallingPlatforms")
+			{
+				startNode = beginNode;
+			}
+		}
+		else if(layer == DEATHZONES)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "THEDEATHZONE")
+			{
+				startNode = beginNode;
+			}
+		}
 		else
 		{
 			std::cout << "Error : Level::LoadLayer()" << std::endl;
@@ -163,8 +245,8 @@ void Level::LoadLayer(LevelLayers layer)
 			backgroundColor.a = alpha;
 		}
 	}
-	//The collision data and destructibles needs to be loaded in differently to the normal sprite based texture data.
-	else if((layer != COLLISION) && (layer != BACKGROUNDCOLOUR))
+	//The collision data, death zone data and background colour needs to be loaded in differently to the normal sprite based texture data.
+	else if((layer != COLLISION) && (layer != DEATHZONES) && (layer != BACKGROUNDCOLOUR))
 	{
 		//Now we have the root node of the layer, start loading in dat data! Yeah Baby Yeah!
 		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
@@ -246,10 +328,14 @@ void Level::LoadLayer(LevelLayers layer)
 				//Add a new destructible sprite to the destructibles container, at the moment it takes 3 sprites, so load em all up and pack em in!
 				destructibleObjects.push_back(DestructibleObject(objectSprite,LoadDestroyedDebrisImage(objectSprite,texName,relativeTexPath),LoadDestroyedAudioFile(texName,relativeTexPath)));
 			}
+			else if(layer == FALLINGPLATFORMS)
+			{
+				fallingPlatforms.push_back(FallingPlatform(objectSprite, defaultPlatformFallDelay, defaultPlatformFallGravity, defaultPlatformTerminalVelocity, &GetDeathZones(), audioManager));
+			}
 		}
 	}
 	//The collision layer needs to be loaded into rects
-	else if(layer == COLLISION)
+	else if((layer == COLLISION) || (layer == DEATHZONES))
 	{
 		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
 		{
@@ -270,9 +356,17 @@ void Level::LoadLayer(LevelLayers layer)
 			heightStream >> height;
 
 			//Create a rect with the parsed properties
-			sf::Rect<float> collisionRect(xPos,yPos,width,height);
+			sf::Rect<float> loadedRect(xPos,yPos,width,height);
 			//And finally push it onto the collision bounds storage vector
-			collisionBounds.push_back(collisionRect);
+
+			if(layer == COLLISION)
+			{
+				collisionBounds.push_back(loadedRect);
+			}
+			else if(layer == DEATHZONES)
+			{
+				deathZones.push_back(loadedRect);
+			}
 		}
 	}
 }
@@ -365,6 +459,13 @@ std::vector<sf::Rect<float>> Level::GetCollisionBounds()
 	std::vector<sf::Rect<float>> returnedBounds;
 	returnedBounds = collisionBounds;
 
+
+	//Add the collision bounds for any of the falling platforms
+	for(size_t i = 0; i < fallingPlatforms.size(); i++)
+	{
+		returnedBounds.push_back(fallingPlatforms[i].getGlobalBounds());
+	}
+
 	//Add the collision bounds to any destructable that isnt destroyed
 	for(size_t i = 0; i < destructibleObjects.size(); i++)
 	{
@@ -381,6 +482,17 @@ std::vector<DestructibleObject> &Level::GetDestructibleObjects()
 {
 	return destructibleObjects;
 }
+
+std::vector<FallingPlatform> &Level::GetFallingPlatforms()
+{
+	return fallingPlatforms;
+}
+
+std::vector<sf::Rect<float>> &Level::GetDeathZones()
+{
+	return deathZones;
+}
+
 void Level::Draw(sf::RenderWindow &window)
 {
 	//Clear the screen to the sky colour
@@ -406,6 +518,10 @@ void Level::Draw(sf::RenderWindow &window)
 	{
 		window.draw(objectSprites[i]);
 	}
+	for(size_t i = 0; i < fallingPlatforms.size(); i++)
+	{
+		window.draw(fallingPlatforms[i]);
+	}
 	for(size_t i = 0; i < foregroundSprites.size(); i++)
 	{
 		window.draw(foregroundSprites[i]);
@@ -414,11 +530,11 @@ void Level::Draw(sf::RenderWindow &window)
 	//Draw the collision bounds for debugging
 	if(LEVEL_DEBUG)
 	{
-		for(size_t i = 0; i < collisionBounds.size(); i++)
+		for(size_t i = 0; i < GetCollisionBounds().size(); i++)
 		{
 			sf::RectangleShape debugDrawRect;
-			debugDrawRect.setSize(sf::Vector2f(collisionBounds[i].width,collisionBounds[i].height));
-			debugDrawRect.setPosition(collisionBounds[i].left,collisionBounds[i].top);
+			debugDrawRect.setSize(sf::Vector2f(GetCollisionBounds()[i].width,GetCollisionBounds()[i].height));
+			debugDrawRect.setPosition(GetCollisionBounds()[i].left,GetCollisionBounds()[i].top);
 			debugDrawRect.setFillColor(sf::Color::Transparent);
 			debugDrawRect.setOutlineThickness(1.0f);
 			debugDrawRect.setOutlineColor(sf::Color::Red);

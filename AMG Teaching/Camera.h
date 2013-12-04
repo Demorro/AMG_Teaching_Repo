@@ -23,6 +23,9 @@ public:
 	void JumpToPoint(float xPos, float yPos);
 	void Zoom(float zoom);
 
+	sf::Vector2f GetPosition();
+	sf::Vector2f GetVelocity();
+
 	bool getlocked();
 
 	void setlocked(bool value);
@@ -41,10 +44,15 @@ public:
 	void UpdateView();
 
 	// Position of the Center of the Screen
+	sf::Vector2f Last_Center_Point;
 	sf::Vector2f Center_Point;
 
 private:
+
+	//read only, do not set
+	sf::Vector2f velocity;
 	//Elliot : Added this so I can test precise collision, this is just a 1 to 1 camera/player follow as it was before, set in initialise
 	bool simpleCam;
+
 };
 

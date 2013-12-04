@@ -1,18 +1,42 @@
-29/11/2013 16:13:44.580 - Log File created.
-29/11/2013 16:13:44.581 - Application started.
-29/11/2013 16:13:44.861 - Creating Game1 object.
-29/11/2013 16:13:44.923 - Game1 creation started.
-29/11/2013 16:13:44.926 - Creating Winform.
-29/11/2013 16:13:45.000 - Winform created.
-29/11/2013 16:13:45.000 - Game1 creation ended.
-29/11/2013 16:13:45.042 - Creating Editor object.
-29/11/2013 16:13:45.046 - Editor creation started.
-29/11/2013 16:13:45.047 - Loading Resources.
-29/11/2013 16:13:45.063 - Resources loaded.
-29/11/2013 16:13:45.063 - Loading Settings.
-29/11/2013 16:13:45.688 - Settings loaded.
-29/11/2013 16:13:45.689 - Creating new level.
-29/11/2013 16:13:45.737 - New level created.
-29/11/2013 16:13:45.737 - Editor creation ended.
-29/11/2013 16:13:46.762 - pictureBox1_Resize().
-29/11/2013 16:31:37.986 - Application ended.
+03/12/2013 19:58:20.963 - Log File created.
+03/12/2013 19:58:20.964 - Application started.
+03/12/2013 19:58:21.202 - Creating Game1 object.
+03/12/2013 19:58:21.265 - Game1 creation started.
+03/12/2013 19:58:21.267 - Creating Winform.
+03/12/2013 19:58:21.331 - Winform created.
+03/12/2013 19:58:21.331 - Game1 creation ended.
+03/12/2013 19:58:21.373 - Creating Editor object.
+03/12/2013 19:58:21.377 - Editor creation started.
+03/12/2013 19:58:21.378 - Loading Resources.
+03/12/2013 19:58:21.394 - Resources loaded.
+03/12/2013 19:58:21.394 - Loading Settings.
+03/12/2013 19:58:21.717 - Settings loaded.
+03/12/2013 19:58:21.717 - Creating new level.
+03/12/2013 19:58:21.765 - New level created.
+03/12/2013 19:58:21.765 - Editor creation ended.
+03/12/2013 19:58:25.303 - pictureBox1_Resize().
+03/12/2013 20:27:43.597 - pictureBox1_Resize().
+03/12/2013 20:27:43.647 - pictureBox1_Resize().
+03/12/2013 20:31:18.048 - pictureBox1_Resize().
+03/12/2013 20:31:18.090 - pictureBox1_Resize().
+03/12/2013 21:05:14.479 - pictureBox1_Resize().
+03/12/2013 21:05:14.520 - pictureBox1_Resize().
+03/12/2013 21:29:28.331 - pictureBox1_Resize().
+03/12/2013 21:29:28.390 - pictureBox1_Resize().
+03/12/2013 21:29:42.914 - pictureBox1_Resize().
+03/12/2013 21:29:42.954 - pictureBox1_Resize().
+03/12/2013 23:20:14.077 - pictureBox1_Resize().
+03/12/2013 23:20:14.122 - pictureBox1_Resize().
+03/12/2013 23:21:31.535 - pictureBox1_Resize().
+03/12/2013 23:21:31.575 - pictureBox1_Resize().
+03/12/2013 23:23:22.640 - pictureBox1_Resize().
+03/12/2013 23:23:22.681 - pictureBox1_Resize().
+04/12/2013 01:35:11.213 - pictureBox1_Resize().
+04/12/2013 01:35:11.260 - pictureBox1_Resize().
+04/12/2013 01:36:30.944 - pictureBox1_Resize().
+04/12/2013 01:36:30.993 - pictureBox1_Resize().
+04/12/2013 01:40:40.976 - pictureBox1_Resize().
+04/12/2013 01:40:41.025 - pictureBox1_Resize().
+04/12/2013 02:03:56.746 - pictureBox1_Resize().
+04/12/2013 02:03:56.798 - pictureBox1_Resize().
+04/12/2013 03:41:33.526 - Application ended.

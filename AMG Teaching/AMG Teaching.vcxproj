@@ -87,6 +87,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DestructibleObject.cpp" />
+    <ClCompile Include="FallingPlatform.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level1State.cpp" />
     <ClCompile Include="main.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DestructibleObject.h" />
+    <ClInclude Include="FallingPlatform.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level1State.h" />
     <ClInclude Include="MenuState.h" />
@@ -112,6 +114,7 @@
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="VectorMath.h" />
+    <ClInclude Include="XMLParseUtilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

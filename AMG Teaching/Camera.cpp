@@ -9,6 +9,8 @@ Camera::Camera(sf::RenderWindow &window,sf::Vector2f startPositionOffset)
 {
 	this->window = &window;
 	InitialiseCamera(startPositionOffset);
+
+	Last_Center_Point = sf::Vector2f(-999999,-999999);
 }
 
 
@@ -102,6 +104,7 @@ bool Camera::LoadConfigValues(std::string configFilePath)
 
 void Camera::Update( sf::Event event, bool eventFired,float deltaTime, sf::Vector2f *followTarget)
 {
+
 	if(simpleCam)
 	{
 		JumpToPoint(followTarget->x, followTarget->y);
@@ -137,6 +140,18 @@ void Camera::Update( sf::Event event, bool eventFired,float deltaTime, sf::Vecto
 			}
 		}
 	}
+	Center_Point = cameraView.getCenter();
+	velocity = (Center_Point - Last_Center_Point);
+
+	//HAAAAAAAAAAAAACK. Stops the parralax from fucking up positions on the first iteration
+	if(Last_Center_Point == sf::Vector2f(-999999,-999999))
+	{
+		velocity = sf::Vector2f(0,0);
+	}
+
+	Last_Center_Point = cameraView.getCenter();
+
+
 }
 
 
@@ -173,6 +188,16 @@ void Camera::MoveToPoint(sf::Vector2f Target, sf::Vector2f Start, float deltaTim
 	cameraView.move((xDist * deltaTime * ReturnToCenter) , (yDist * deltaTime * ReturnToCenter) );
 	UpdateView();
 
+}
+
+sf::Vector2f Camera::GetPosition()
+{
+	return cameraView.getCenter();
+}
+
+sf::Vector2f Camera::GetVelocity()
+{
+	return velocity;
 }
 
 void Camera::Zoom(float zoom)

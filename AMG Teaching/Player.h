@@ -10,6 +10,7 @@
 #include "SFML\Audio.hpp"
 #include <math.h>
 #include "AnimatedSprite.h"
+#include "XMLParseUtilities.h"
 
 #define DEBUGPLAYER false
 
@@ -35,6 +36,8 @@ public:
 	void SetPosition(float xPos, float yPos);
 	sf::FloatRect GetCollider();
 	void SetPosition(sf::Vector2f position);
+
+	sf::Vector2f GetVelocity();
 
 	//Give or take an ability from the player, this function needs to be maintained when a new ability is added, along with the Abilites enum
 	void ToggleAbility(Abilities ability, bool active);
@@ -72,8 +75,6 @@ private:
 	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager);
 	//Loads the config values from the default config file if it can be found, else just plugs in defaults
 	bool LoadConfigValues(std::string configFilePath);
-	//A generic function that loads in a numerical value from the XML in the structure of the provided config file and puts it into the float thats passed in.
-	void LoadNumericalValue(float &valueToLoadInto, pugi::xml_node &rootNode, std::string valueNodeName);
 
 	//This function polls the input devices and updates the player state accordingly.
 	void ReceiveControlInput(sf::Event events, bool eventFired);

@@ -2,11 +2,14 @@
 <LevelConfig Name="DefaultLevelConfig" Visible="true">
 
 	<!--Parralax values for the layers, 1 = 1:1 with the camera, where 0.1 will move 1 pixel for every 10 the camera moves-->
-	<FarBackgroundParralax>0.2</FarBackgroundParralax>
-	<MidBackgroundParralax>0.2</MidBackgroundParralax>
-	<CloseBackgroundParralax>0.2</CloseBackgroundParralax>
+	<FarBackgroundParralax>-0.75</FarBackgroundParralax>
+	<MidBackgroundParralax>-0.45</MidBackgroundParralax>
+	<CloseBackgroundParralax>-0.05</CloseBackgroundParralax>
 
-	
+	<!--Default values for the falling platforms, some of these can be altered on a platform by platform basis in the editor, some cant.-->
+	<DefaultPlatformFallDelay>1.0</DefaultPlatformFallDelay>
+	<DefaultPlatformFallGravity>2400.0</DefaultPlatformFallGravity>
+	<DefaultPlatformTerminalVelocity>3500.0</DefaultPlatformTerminalVelocity>
 	
 </LevelConfig>
 

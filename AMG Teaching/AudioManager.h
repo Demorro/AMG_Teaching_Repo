@@ -11,7 +11,8 @@ public:
 	{
 		Jump,
 		Kick,
-		Fart
+		Fart,
+		PlatformFall
 	};
 
 	AudioManager(void);

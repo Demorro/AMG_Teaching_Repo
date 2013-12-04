@@ -11,6 +11,10 @@
 #include "DestructibleObject.h"
 #include "SFML\Audio.hpp"
 #include "AudioManager.h"
+#include "XMLParseUtilities.h"
+#include "FallingPlatform.h"
+#include "Player.h"
+#include "AudioManager.h"
 
 //you should do a check against this if you're drawing any debug sprites so it can be toggled easily
 #define LEVEL_DEBUG false
@@ -19,16 +23,17 @@
 class Level
 {
 public:
-	Level();
+	Level(AudioManager *audioManager);
 	//Pass in the path to the desired levels XML file, should be in Assets/Levels
-	Level(std::string levelDataPath);
+	Level(std::string levelDataPath, AudioManager *audioManager);
 	~Level(void);
 
 	//Loads the level in from the xml file found at levelPath
 	bool LoadLevel(std::string levelPath);
 
 	//Runs any logic the level needs to do
-	void Update(double deltaTime);
+	//Takes in the player so level objects can work out stuff, the cameraPos is for parralax
+	void Update(double deltaTime, Player &player, sf::Vector2f &cameraVelocity);
 
 	//Renders the loaded level
 	void Draw(sf::RenderWindow &window);
@@ -39,7 +44,26 @@ public:
 	//Returns all the destructible objects in the level
 	std::vector<DestructibleObject> &GetDestructibleObjects();
 
+	//Returns all the falling platforms in the level
+	std::vector<FallingPlatform> &GetFallingPlatforms();
+
+	//Returns the rects of the death zones
+	std::vector<sf::Rect<float>> &GetDeathZones();
+
 private:
+	//Store a reference to the audio manager
+	AudioManager* audioManager;
+
+	void LoadLevelConfigDoc(std::string configPath);
+	
+	float farParralaxSpeed;
+	float midParralaxSpeed;
+	float closeParralaxSpeed;
+	
+	float defaultPlatformFallDelay;
+	float defaultPlatformFallGravity;
+	float defaultPlatformTerminalVelocity;
+
 
 	//The xml file that we load in to define the level
 	pugi::xml_document levelDoc;
@@ -53,7 +77,9 @@ private:
 		OBJECTS,
 		FOREGROUND,
 		COLLISION,
-		DESTRUCTIBLES
+		DESTRUCTIBLES,
+		FALLINGPLATFORMS,
+		DEATHZONES,
 	};
 
 	//The background colour of the level
@@ -72,15 +98,18 @@ private:
 	std::vector<sf::Sprite> nearBackGroundSprites;
 	std::vector<sf::Sprite> objectSprites;
 	std::vector<sf::Sprite> foregroundSprites;
-
+	std::vector<sf::Rect<float>> collisionBounds;
+	std::vector<sf::Rect<float>> deathZones;
+	std::vector<FallingPlatform> fallingPlatforms;
 	//The first sprite is the normal, non destructed object, while the second is the destroyed sprite. These MUST be the same size.
 	std::vector<DestructibleObject> destructibleObjects;
+
+
 	//loads in the ancillary assets for the destructibles and puts them into the relevent containers
 	//Give em the original loaded sprite from the destructibles layer, loaded in using the normal sprite loading code, then the texture name and relative texture name already parsed using the regular sprite loading code.
 	sf::Sprite LoadDestroyedDebrisImage(sf::Sprite &originalSprite, std::string originalTextureName, std::string originalRelativeTexPath);
 	sf::Sound LoadDestroyedAudioFile(std::string originalTextureName, std::string originalRelativeTexPath);
 
-	std::vector<sf::Rect<float>> collisionBounds;
-
+	void HandleParralax(float deltaTime, sf::Vector2f &cameraVelocity);
 };
 

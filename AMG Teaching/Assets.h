@@ -4,7 +4,9 @@
 
 #define CAMERACONFIG "../ConfigFiles/CameraConfig.xml"
 
-#define TESTLEVEL "../Assets/Levels/TestLevel.xml"
+#define LEVELCONFIG "../ConfigFiles/LevelConfig.xml"
+
+#define TESTLEVEL "../Assets/Levels/TemplateLevel.xml"
 
 //#define PLAYERTEXTURE "../Assets/Images/Characters/SmallGuy.png"
 #define PLAYERTEXTURE "../Assets/Images/Characters/PlayerSpriteSheetNewWalk.png"
@@ -17,6 +19,8 @@
 #define JUMPSOUND "../Assets/Sounds/Jump.wav"
 #define KICKSOUND "../Assets/Sounds/Kick.wav"
 #define FARTSOUND "../Assets/Sounds/Fart.wav"
+
+#define PLATFORMFALLSOUND "../Assets/Sounds/PlatformFall.wav"
 
 //fonts
 #define DEFAULTFONT "../Assets/Fonts/SourceSansPro-Black.otf"

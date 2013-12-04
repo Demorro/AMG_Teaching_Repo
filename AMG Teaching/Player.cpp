@@ -105,20 +105,8 @@ bool Player::LoadConfigValues(std::string configFilePath)
 
 	pugi::xml_document configDoc;
 
-	//Load the config file into memory
-	std::cout << "Loading Player Config File : " << configFilePath << std::endl;
-	pugi::xml_parse_result result = configDoc.load_file(configFilePath.c_str());
-	if (result)
-	{
-		std::cout << "XML Player Config File [" << configFilePath << "] was loaded without errors." << std::endl;
-	}
-	else
-	{
-		std::cout << "XML Player Config File [" << configFilePath << "] had some trouble loading and failed, using default player values" << std::endl;
-		std::cout << "Error description: " << result.description() << "\n";
+	LoadXMLDoc(configDoc,configFilePath);
 
-		return false;
-	}
 
 	//Work through all the variables we need to load and load em, checking for if they're there or not each time
 	//TODO : This whole things needs refactoring into a generic loader function, this violates DRY like mad.
@@ -149,6 +137,7 @@ bool Player::LoadConfigValues(std::string configFilePath)
 
 	if(DEBUGPLAYER)
 	{
+		std::cout << std::endl;
 		std::cout << "PLAYER MOVEMENT VALUES : " << std::endl;
 		std::cout << "MaxHorizontalSpeed : " << maximumHorizontalSpeed << std::endl;
 		std::cout << "GroundAcceleration : " << groundAcceleration << std::endl;
@@ -162,24 +151,10 @@ bool Player::LoadConfigValues(std::string configFilePath)
 		std::cout << "DoubleJumpVelocityChangeImpulse : " << doubleJumpVelocityChangeImpulse << std::endl;
 		std::cout << "AttackRange : " << attackRange << std::endl;
 		std::cout << "AttackDelay : " << attackDelay << std::endl;
+		std::cout << std::endl;
 	}
 
 	return true;
-}
-
-//For example, if you wanted to load a value "CheesesEaten" from the player config file into float cheeses, you would call LoadNumericalValue(cheeses,rootNode,"CheesesEaten");
-void Player::LoadNumericalValue(float &valueToLoadInto, pugi::xml_node &rootNode, std::string valueNodeName)
-{
-	pugi::xml_node workingNode = rootNode.child(valueNodeName.c_str());
-	if(workingNode)
-	{
-		std::stringstream valueStream(workingNode.child_value());
-		valueStream >> valueToLoadInto;
-	}
-	else
-	{
-		std::cout << "Couldn't find " << valueNodeName << " in config file, using default" << std::endl;
-	}
 }
 
 void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects, std::vector<DestructibleObject> &destructibleObjects)
@@ -836,6 +811,11 @@ void Player::SetPosition(sf::Vector2f position)
 	sprite->setPosition(position);
 	collisionRect.left = position.x - collisionRect.width/2;
 	collisionRect.top = position.y - collisionRect.height/2;
+}
+
+sf::Vector2f Player::GetVelocity()
+{
+	return playerState.velocity;
 }
 
 sf::FloatRect Player::GetCollider()

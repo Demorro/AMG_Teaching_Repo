@@ -28,7 +28,7 @@ public:
 
 private:
 	//Loads in and stored data representations of the level, as well as rendering it
-	Level loadedLevel;
+	std::unique_ptr<Level> loadedLevel;
 	
 	//Controls the camera for this stage
 	std::unique_ptr<Camera> stageCam;
