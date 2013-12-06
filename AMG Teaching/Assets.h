@@ -6,7 +6,7 @@
 
 #define LEVELCONFIG "../ConfigFiles/LevelConfig.xml"
 
-#define TESTLEVEL "../Assets/Levels/TemplateLevel.xml"
+#define TESTLEVEL "../Assets/Levels/TestLevel.xml"
 
 //#define PLAYERTEXTURE "../Assets/Images/Characters/SmallGuy.png"
 #define PLAYERTEXTURE "../Assets/Images/Characters/PlayerSpriteSheetNewWalk.png"

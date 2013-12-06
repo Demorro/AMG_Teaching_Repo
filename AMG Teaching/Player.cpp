@@ -84,6 +84,8 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	//If the player is going down at this speed, the fall animation is triggered
 	fallVelocityTillFallAnimation = 200.0f;
 
+	handleToStandingPlatform = NULL;
+
 	return true;
 }
 
@@ -157,13 +159,13 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	return true;
 }
 
-void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects, std::vector<DestructibleObject> &destructibleObjects)
+void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, std::vector<DestructibleObject> &destructibleObjects)
 {
 	sprite->UpdateAnimations();
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
 	ReceiveControlInput(events,eventFired);
 	DoAttacks(destructibleObjects);
-	HandleMovement(events, eventFired, deltaTime, levelCollisionRects);
+	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms);
 }
 
 void Player::ReceiveControlInput(sf::Event events, bool eventFired)
@@ -205,27 +207,27 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 	}
 }
 
-void Player::HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects)
+void Player::HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms)
 {
+
+	AdjustPositionForMovingPlatforms(deltaTime,movingPlatforms);
 
 	//Deal wid jumping 
 	DoJumping(events, eventFired);
-	//Add gravity
-	AddGravity(deltaTime);
-	//Move vertical
-	Move(0, playerState.velocity.y * deltaTime);
-	//Check to see if the new position is valid vertically
-	HandleVerticalCollision(levelCollisionRects);
-
-
-	//update the player velocity to move left and right depending on player input
+	//update the player velocity to move left and right depending on player inputs
 	DoLeftAndRightMovement(deltaTime);
+	//Add Gravity
+	AddGravity(deltaTime);
+	//Move according to velocity
+	Move(playerState.velocity.x * deltaTime, playerState.velocity.y * deltaTime);
+
+	//Check to see if the new position is valid vertically
+	HandleCollision(staticLevelCollisionBounds,movingPlatforms);
+	
+
 	//Add the drag horizontally, different whether you are grounded or not
 	AddDrag(deltaTime);
-	//Move horizontal
-	Move(playerState.velocity.x * deltaTime ,0);
-	//Check to see that the new position is valid horizontally
-	HandleHorizontalCollision(levelCollisionRects);
+	
 
 	//Make sure the right animation is playing
 	HandleAnimations();
@@ -391,37 +393,44 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 }
 void Player::AddDrag(double deltaTime)
 {
+
+	float restVelocity = 0.0f;
+	
+	if(playerState.isOnMovingPlatform)
+	{
+		restVelocity = platformMoveVector.x;
+	}
 	//Add drag
 	if(playerState.grounded)
 	{
 		//Add ground drag
-		if(playerState.velocity.x > 0)
+		if(playerState.velocity.x > restVelocity)
 		{
 			//only apply drag if we're not actively going in this direction
 			if(!playerState.INPUT_MoveRight)
 			{
-				if((playerState.velocity.x - (groundDrag * deltaTime)) > 0)
+				if((playerState.velocity.x - (groundDrag * deltaTime)) > restVelocity)
 				{
 					playerState.velocity.x = playerState.velocity.x - (groundDrag * deltaTime);
 				}
 				else
 				{
-					playerState.velocity.x = 0;
+					playerState.velocity.x = restVelocity;
 				}
 			}
 		}
-		else if(playerState.velocity.x < 0)
+		else if(playerState.velocity.x < restVelocity)
 		{
 			//only apply drag if we're not actively going in this direction
 			if(!playerState.INPUT_MoveLeft)
 			{
-				if((playerState.velocity.x + (groundDrag * deltaTime)) < 0)
+				if((playerState.velocity.x + (groundDrag * deltaTime)) < restVelocity)
 				{
 					playerState.velocity.x = playerState.velocity.x + (groundDrag * deltaTime);
 				}
 				else
 				{
-					playerState.velocity.x = 0;
+					playerState.velocity.x = restVelocity;
 				}
 			}
 		}
@@ -463,6 +472,7 @@ void Player::AddDrag(double deltaTime)
 }
 void Player::AddGravity(double deltaTime)
 {
+
 	if(playerState.velocity.y + (personalGravity * deltaTime) < terminalVelocity)
 	{
 		playerState.velocity.y = playerState.velocity.y + (personalGravity * deltaTime);
@@ -479,56 +489,86 @@ void Player::AddGravity(double deltaTime)
 	}
 }
 
-void Player::HandleHorizontalCollision(std::vector<sf::Rect<float>> &levelCollisionRects)
+bool Player::HandleCollision(std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms)
 {
-	for(int i = 0; i < levelCollisionRects.size(); i++)
+
+	bool hasCollided = false;
+
+	//Check collision against static platforms
+	for(int i = 0; i < staticLevelCollisionBounds.size(); i++)
 	{
-		if(GetCollider().intersects(levelCollisionRects[i]))
+		if(GetCollider().intersects(staticLevelCollisionBounds[i]))
 		{
-			//we're going right, snap to lefts of object
-			if(playerState.velocity.x > 0)
+			hasCollided = true;
+			//Get the vector of intersection between the player collider and the object
+			sf::Vector2f collisionDepth = GetIntersectionDepth(GetCollider(),staticLevelCollisionBounds[i]);
+
+			//Push the player out in the shortest direction
+			if(abs(collisionDepth.x) < abs(collisionDepth.y))
 			{
-				SetPosition(levelCollisionRects[i].left - (GetCollider().width/2),GetPosition().y);
+				Move(collisionDepth.x,0);
 				playerState.velocity.x = 0;
-			}
-			//we're going left, snap to right of object
-			else if(playerState.velocity.x < 0)
-			{
-				SetPosition((levelCollisionRects[i].left + levelCollisionRects[i].width) + (GetCollider().width/2),GetPosition().y);
-				playerState.velocity.x = 0;
-			}
-		}
-	}
-}
-void Player::HandleVerticalCollision(std::vector<sf::Rect<float>> &levelCollisionRects)
-{
-	for(int i = 0; i < levelCollisionRects.size(); i++)
-	{
-		if(GetCollider().intersects(levelCollisionRects[i]))
-		{
-			//we're going down, snap to top of object
-			if(playerState.velocity.y > 0)
-			{
-				SetPosition(GetPosition().x, levelCollisionRects[i].top - (GetCollider().height/2));
-				playerState.grounded = true;
-				playerState.firstJumping = false;
-				playerState.doubleJumping = false;
-				playerState.velocity.y = 0;
-			}
-			//we're going up, snap to bottom of object
-			else if(playerState.velocity.y < 0)
-			{
-				SetPosition(GetPosition().x, (levelCollisionRects[i].top + levelCollisionRects[i].height) + (GetCollider().height/2));
-				playerState.grounded = false;
-				playerState.velocity.y = 0;
-			}
-			//wtf mate? do nothing
-			else
-			{
 
 			}
+			else
+			{
+				Move(0,collisionDepth.y);
+
+				if(collisionDepth.y < 0)
+				{
+					playerState.grounded = true;
+					playerState.firstJumping = false;
+					playerState.doubleJumping = false;
+				}
+				else
+				{
+					playerState.grounded = false;
+				}
+				playerState.velocity.y = 0;
+			}
 		}
 	}
+
+
+	//Check collision against moving platforms
+	for(int i = 0; i < movingPlatforms.size(); i++)
+	{
+		if(GetCollider().intersects(movingPlatforms[i].getGlobalBounds()))
+		{
+			hasCollided = true;
+			//Get the vector of intersection between the player collider and the object
+			sf::Vector2f collisionDepth = GetIntersectionDepth(GetCollider(),movingPlatforms[i].getGlobalBounds());
+
+			//Push the player out in the shortest direction
+			if(abs(collisionDepth.x) < abs(collisionDepth.y))
+			{
+				Move(collisionDepth.x,0);
+				playerState.velocity.x = 0;
+			}
+			else
+			{
+				Move(0,collisionDepth.y);
+
+				//The different velocities here are due to when you're on top of the platform you get special logic to keep you there, but if you didnt throw the velocity back at the player from the bottom, you would stick there too sometimes. I know it feels wrong, but it works.
+				if(collisionDepth.y < 0)
+				{
+					//Top
+					playerState.grounded = true;
+					playerState.firstJumping = false;
+					playerState.doubleJumping = false;
+					playerState.velocity.y = 0;
+				}
+				else
+				{
+					//Bottom
+					playerState.grounded = false;
+					playerState.isOnMovingPlatform = false;
+					playerState.velocity.y = movingPlatforms[i].GetCurrentVelocity().y;
+				}
+			}
+		}
+	}
+	return hasCollided;
 }
 
 void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects)
@@ -615,6 +655,50 @@ void Player::HandleAttackColliderPositioning()
 	else if(playerState.facingLeft)
 	{
 		attackCollider.left = GetCollider().left - attackRange;
+	}
+}
+
+//Called before platform step
+void Player::DetermineIfPlayerIsOnMovingPlatform(std::vector<SpecialPlatform> &movingPlatforms)
+{
+	//reset this to false at the begging so we can check if we're still on a platform below.
+	playerState.isOnMovingPlatform = false;
+
+
+	for(int i = 0; i < movingPlatforms.size(); i++)
+	{
+		//Check to see if we're standing on a moving platform by getting a point 1 pixels below the bottom of the collider. Uses two so we can check both left and right
+		int pixelsDown = 5;
+		sf::Vector2f standPointLeft;
+		sf::Vector2f standPointRight;
+		standPointLeft.x = GetCollider().left;
+		standPointRight.x = GetCollider().left + GetCollider().width;
+		standPointLeft.y = GetCollider().top + GetCollider().height + pixelsDown;
+		standPointRight.y = GetCollider().top + GetCollider().height + pixelsDown;
+		//check to see if either of these points are in a platform
+		if((movingPlatforms[i].getGlobalBounds().contains(standPointLeft)) || (movingPlatforms[i].getGlobalBounds().contains(standPointRight)))
+		{
+
+			//then do the standing on platform stuff
+			handleToStandingPlatform = &movingPlatforms[i];		
+			playerState.isOnMovingPlatform = true;
+		}
+	}
+}
+
+//Makes it so the player moves with moving objects rather than sliding off them
+void Player::AdjustPositionForMovingPlatforms(float deltaTime, std::vector<SpecialPlatform> &movingLevelCollisionBounds)
+{
+	if(playerState.isOnMovingPlatform)
+	{
+		if(handleToStandingPlatform != NULL)
+		{
+			platformMoveVector = handleToStandingPlatform->getPosition() - handleToStandingPlatform->GetLastPosition();
+			if(VectorMagnitude(platformMoveVector)  < 1000)
+			{
+				Move(platformMoveVector.x, platformMoveVector.y);
+			}
+		}
 	}
 }
 
@@ -794,6 +878,7 @@ void Player::LoadSingleAnimation(sf::Vector2i startFrame, int xFrameOffset, int 
 	sprite->AddAnimation(animationName,anim,frameTime);
 }
 
+
 void Player::SetPosition(float xPos, float yPos)
 {
 	sprite->setPosition(xPos,yPos);
@@ -816,6 +901,11 @@ void Player::SetPosition(sf::Vector2f position)
 sf::Vector2f Player::GetVelocity()
 {
 	return playerState.velocity;
+}
+
+void Player::SetVelocity(sf::Vector2f velocity)
+{
+	playerState.velocity = velocity;
 }
 
 sf::FloatRect Player::GetCollider()

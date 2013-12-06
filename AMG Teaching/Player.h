@@ -11,6 +11,8 @@
 #include <math.h>
 #include "AnimatedSprite.h"
 #include "XMLParseUtilities.h"
+#include "SpecialPlatform.h"
+#include "VectorMath.h"
 
 #define DEBUGPLAYER false
 
@@ -27,7 +29,7 @@ public:
 	~Player(void);
 
 	//Runs the update logic, the rect vector is because this also runs the collision code
-	void Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects, std::vector<DestructibleObject> &destructibleObjects);
+	void Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, std::vector<DestructibleObject> &destructibleObjects);
 	void Render(sf::RenderWindow &window);
 
 	void Move(float x, float y);
@@ -38,9 +40,13 @@ public:
 	void SetPosition(sf::Vector2f position);
 
 	sf::Vector2f GetVelocity();
+	void SetVelocity(sf::Vector2f velocity);
 
 	//Give or take an ability from the player, this function needs to be maintained when a new ability is added, along with the Abilites enum
 	void ToggleAbility(Abilities ability, bool active);
+
+	//Sort of a special case. Needs to be called before anything (well just the player + platforms really) are stepped in the scene to determine if we're on one
+	void DetermineIfPlayerIsOnMovingPlatform(std::vector<SpecialPlatform> &movingPlatforms);
 
 private:
 	//these values are stored here so we can flip the sprite and keep the same scale
@@ -85,7 +91,7 @@ private:
 	std::vector<sf::Keyboard::Key> attackKeys;
 
 	//Reads the current state of input from the playerstate and deals with moving
-	void HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &levelCollisionRects);
+	void HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms);
 
 	//Called in move, makes sure the attack collider is in the right place
 	void HandleAttackColliderPositioning();
@@ -100,12 +106,12 @@ private:
 	//Pull the player towards the floor
 	void AddGravity(double deltaTime);
 
-	//Handle collision, done seperately because it's simpler than doing corner-exception cases
-	void HandleHorizontalCollision(std::vector<sf::Rect<float>> &levelCollisionRects);
-	void HandleVerticalCollision(std::vector<sf::Rect<float>> &levelCollisionRects);
-
+	//Handle collision, done using an Intersection Vector and adjusting to the shortest component. Returns true if something has collided, false if not
+	bool HandleCollision(std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms);
 	//Handles the attacking logic
 	void DoAttacks(std::vector<DestructibleObject> &destructibleObjects);
+
+	void AdjustPositionForMovingPlatforms(float deltaTime, std::vector<SpecialPlatform> &movingPlatforms);
 
 	//These variables define how the player moves, loaded in in LoadConfigValues, which itself should be called in initialise
 	float maximumHorizontalSpeed;
@@ -146,6 +152,7 @@ private:
 		bool doubleJumping;
 		bool grounded;
 		bool attacking;
+		bool isOnMovingPlatform;
 
 		sf::Vector2f velocity;
 
@@ -182,6 +189,7 @@ private:
 			firstJumping = false;
 			doubleJumping = false;
 			grounded = false;
+			isOnMovingPlatform = false;
 			attacking = false;
 			INPUT_MoveLeft = false;
 			INPUT_MoveRight = false;
@@ -204,7 +212,12 @@ private:
 	//the state the player was in last frame
 	PlayerState lastState;
 
+	//the vector the platform has moved since the last frame
+	sf::Vector2f platformMoveVector;
+	SpecialPlatform *handleToStandingPlatform;
+
 	//The downwards speed at which the fall animation triggers
 	float fallVelocityTillFallAnimation;
+
 };
 

@@ -28,11 +28,15 @@ void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 {
 	//Update things here, remember about deltatime for framerate independent movement
 
+	//Need to check if the player is on a moving platform before the level step to make it work right
+	player->DetermineIfPlayerIsOnMovingPlatform(loadedLevel->GetSpecialPlatforms());
+
 	//Update the level logic : Before the player so .Intersects() returns true
 	loadedLevel->Update(deltaTime, *player, stageCam->GetVelocity());
 
 	//Update the player, handles movement and collision and every other darn thing
-	player->Update(events,eventFired,deltaTime,loadedLevel->GetCollisionBounds(),loadedLevel->GetDestructibleObjects());
+	player->Update(events,eventFired,deltaTime,loadedLevel->GetStaticCollisionBounds(),loadedLevel->GetSpecialPlatforms(),loadedLevel->GetDestructibleObjects());
+
 	//Camera update, follow the player
 	stageCam->Update(events, eventFired,deltaTime, &player->GetPosition());
 }
@@ -41,7 +45,7 @@ void Level1State::Draw(sf::RenderWindow &renderWindow)
 {
 	//Draw things here
 	//Draw the level first
-	loadedLevel->Draw(renderWindow);
+	loadedLevel->DrawLayersBehindPlayer(renderWindow);
 	player->Render(renderWindow);
-
+	loadedLevel->DrawLayersInFrontOfPlayer(renderWindow);
 }

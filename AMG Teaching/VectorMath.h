@@ -48,3 +48,32 @@ inline float DegToRad(float degree)
 {
 	return degree * (float(PI) / float(180));
 }
+
+//This Code Segment taken from here : (www.github.com/kg/PlatformerStarterKit/blob/master/RectangleExtensions.cs)
+inline sf::Vector2f GetIntersectionDepth (sf::Rect<float> rectA, sf::Rect<float> rectB)
+{
+    // Calculate half sizes.
+	float halfWidthA = rectA.width / 2.0f;
+    float halfHeightA = rectA.height / 2.0f;
+    float halfWidthB = rectB.width / 2.0f;
+    float halfHeightB = rectB.height / 2.0f;
+
+    // Calculate centers.
+	sf::Vector2f centerA = sf::Vector2f(rectA.left + halfWidthA, rectA.top + halfHeightA);
+    sf::Vector2f centerB = sf::Vector2f(rectB.left + halfWidthB, rectB.top + halfHeightB);
+
+    // Calculate current and minimum-non-intersecting distances between centers.
+	float distanceX = centerA.x - centerB.x;
+    float distanceY = centerA.y - centerB.y;
+    float minDistanceX = halfWidthA + halfWidthB;
+    float minDistanceY = halfHeightA + halfHeightB;
+
+    // If we are not intersecting at all, return (0, 0).
+    if (abs(distanceX) >= minDistanceX || abs(distanceY) >= minDistanceY)
+		return sf::Vector2f(0,0);
+
+    // Calculate and return intersection depths.
+    float depthX = distanceX > 0 ? minDistanceX - distanceX : -minDistanceX - distanceX;
+    float depthY = distanceY > 0 ? minDistanceY - distanceY : -minDistanceY - distanceY;
+	return sf::Vector2f(depthX, depthY);
+}

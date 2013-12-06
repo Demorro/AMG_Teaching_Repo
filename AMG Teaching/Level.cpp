@@ -26,37 +26,51 @@ Level::~Level(void)
 
 void Level::LoadLevelConfigDoc(std::string configPath)
 {
-	farParralaxSpeed = 0.2f;
-	midParralaxSpeed = 0.6f;
-	closeParralaxSpeed = 0.9f;
+	farFarParralaxSpeed = -0.9f;
+	farParralaxSpeed = -0.6f;
+	midParralaxSpeed = -0.4f;
+	closeParralaxSpeed = 0.0f;
+	foregroundParralaxSpeed = 0.0f;
 	
 	defaultPlatformFallDelay = 1.0f;
 	defaultPlatformFallGravity = 50.0f;
 	defaultPlatformTerminalVelocity = 1200.0f;
+
+	defaultPlatformMoveSpeed = 50.0f;
+	defaultPlatformMoveDistanceTillNextPathNode = 5.0f;
 
 	pugi::xml_document levelConfigDoc;
 
 	LoadXMLDoc(levelConfigDoc,configPath);
 	pugi::xml_node configRoot = levelConfigDoc.child("LevelConfig");
 
+	LoadNumericalValue(farFarParralaxSpeed,configRoot,"FarFarBackgroundParralax");
 	LoadNumericalValue(farParralaxSpeed,configRoot,"FarBackgroundParralax");
 	LoadNumericalValue(midParralaxSpeed,configRoot,"MidBackgroundParralax");
 	LoadNumericalValue(closeParralaxSpeed,configRoot,"CloseBackgroundParralax");
+	LoadNumericalValue(foregroundParralaxSpeed,configRoot,"ForegroundParralax");
 
 	LoadNumericalValue(defaultPlatformFallDelay,configRoot,"DefaultPlatformFallDelay");
 	LoadNumericalValue(defaultPlatformFallGravity,configRoot,"DefaultPlatformFallGravity");
 	LoadNumericalValue(defaultPlatformTerminalVelocity,configRoot,"DefaultPlatformTerminalVelocity");
 
+	LoadNumericalValue(defaultPlatformMoveSpeed,configRoot,"DefaultPlatformMoveSpeed");
+	LoadNumericalValue(defaultPlatformMoveDistanceTillNextPathNode,configRoot,"DefaultDistanceUntillNextPathNode");
+	
 	if(LEVEL_DEBUG)
 	{
 		std::cout << std::endl;
 		std::cout << "LEVEL CONFIG VALUES : " << std::endl;
+		std::cout << "FarFarBackgroundParralax : " << farFarParralaxSpeed << std::endl;
 		std::cout << "FarBackgroundParralax : " << farParralaxSpeed << std::endl;
 		std::cout << "MidBackgroundParralax : " << midParralaxSpeed << std::endl;
 		std::cout << "CloseBackgroundParralax : " << closeParralaxSpeed << std::endl;
+		std::cout << "ForegroundParralax : " << foregroundParralaxSpeed << std::endl;
 		std::cout << "DefaultPlatformFallDelay : " << defaultPlatformFallDelay << std::endl;
 		std::cout << "DefaultPlatformFallGravity : " << defaultPlatformFallGravity << std::endl;
 		std::cout << "DefaultPlatformTerminalVelocity : " << defaultPlatformTerminalVelocity << std::endl;
+		std::cout << "DefaultPlatformMoveSpeed : " << defaultPlatformMoveSpeed << std::endl;
+		std::cout << "DefaultDistanceUntillNextPathNode : " << defaultPlatformMoveDistanceTillNextPathNode << std::endl;
 		std::cout << std::endl;
 	}
 }
@@ -69,14 +83,14 @@ void Level::Update(double deltaTime, Player &player, sf::Vector2f &cameraVelocit
 		destructibleObjects[i].Update(deltaTime);
 	}
 
-	for(size_t i = 0; i < fallingPlatforms.size(); i++)
+	for(size_t i = 0; i < specialPlatforms.size(); i++)
 	{
-		fallingPlatforms[i].Update(deltaTime,player);
+		specialPlatforms[i].Update(deltaTime,player.GetCollider(),player.GetVelocity());
 
 		//Check to see if we need to destroy any of the platforms
-		if(fallingPlatforms[i].ShouldDestroy())
+		if(specialPlatforms[i].ShouldDestroy())
 		{
-			fallingPlatforms.erase(fallingPlatforms.begin() + i);
+			specialPlatforms.erase(specialPlatforms.begin() + i);
 		}
 	}
 
@@ -85,6 +99,10 @@ void Level::Update(double deltaTime, Player &player, sf::Vector2f &cameraVelocit
 
 void Level::HandleParralax(float deltaTime, sf::Vector2f &cameraVelocity)
 {
+	for(int i = 0; i < farFarBackGroundSprites.size(); i++)
+	{
+		farFarBackGroundSprites[i].move(-cameraVelocity * farFarParralaxSpeed);
+	}
 	for(int i = 0; i < farBackGroundSprites.size(); i++)
 	{
 		farBackGroundSprites[i].move(-cameraVelocity * farParralaxSpeed);
@@ -97,6 +115,10 @@ void Level::HandleParralax(float deltaTime, sf::Vector2f &cameraVelocity)
 	{
 		nearBackGroundSprites[i].move(-cameraVelocity * closeParralaxSpeed);
 	}
+	for(int i = 0; i < foregroundSprites.size(); i++)
+	{
+		foregroundSprites[i].move(-cameraVelocity * foregroundParralaxSpeed);
+	}
 }
 
 bool Level::LoadLevel(std::string levelPath)
@@ -106,7 +128,11 @@ bool Level::LoadLevel(std::string levelPath)
 
 	LoadXMLDoc(levelDoc,levelPath);
 
+	//Movement Paths need to be loaded before the special platforms(or anything else that might make use of them)
+	LoadLayer(MOVEMENTPATHS);
+
 	LoadLayer(BACKGROUNDCOLOUR);
+	LoadLayer(FARFARBACKGROUND);
 	LoadLayer(FARBACKGROUND);
 	LoadLayer(MIDBACKGROUND);
 	LoadLayer(NEARBACKGROUND);
@@ -114,7 +140,7 @@ bool Level::LoadLevel(std::string levelPath)
 	LoadLayer(FOREGROUND);
 	LoadLayer(COLLISION);
 	LoadLayer(DESTRUCTIBLES);
-	LoadLayer(FALLINGPLATFORMS);
+	LoadLayer(SPECIALPLATFORMS);
 	LoadLayer(DEATHZONES);
 
 	return true;
@@ -133,6 +159,14 @@ void Level::LoadLayer(LevelLayers layer)
 		{
 			nodeName = beginNode.attribute("Name").value();
 			if(nodeName == "BackgroundColour")
+			{
+				startNode = beginNode;
+			}
+		}
+		else if(layer == FARFARBACKGROUND)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "FarFarBackGround")
 			{
 				startNode = beginNode;
 			}
@@ -193,10 +227,18 @@ void Level::LoadLayer(LevelLayers layer)
 				startNode = beginNode;
 			}
 		}
-		else if(layer == FALLINGPLATFORMS)
+		else if(layer == SPECIALPLATFORMS)
 		{
 			nodeName = beginNode.attribute("Name").value();
-			if(nodeName == "FallingPlatforms")
+			if(nodeName == "SpecialPlatforms")
+			{
+				startNode = beginNode;
+			}
+		}
+		else if(layer == MOVEMENTPATHS)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "MovementPaths")
 			{
 				startNode = beginNode;
 			}
@@ -245,8 +287,8 @@ void Level::LoadLayer(LevelLayers layer)
 			backgroundColor.a = alpha;
 		}
 	}
-	//The collision data, death zone data and background colour needs to be loaded in differently to the normal sprite based texture data.
-	else if((layer != COLLISION) && (layer != DEATHZONES) && (layer != BACKGROUNDCOLOUR))
+	//The collision data, death zone data, movement path data and background colour needs to be loaded in differently to the normal sprite based texture data.
+	else if((layer != COLLISION) && (layer != DEATHZONES) && (layer != BACKGROUNDCOLOUR) && (layer != MOVEMENTPATHS))
 	{
 		//Now we have the root node of the layer, start loading in dat data! Yeah Baby Yeah!
 		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
@@ -303,6 +345,10 @@ void Level::LoadLayer(LevelLayers layer)
 			objectSprite.setScale(xScale,yScale);
 
 			//And now actually place the sprites into the correct storage for rendering
+			if(layer == FARFARBACKGROUND)
+			{
+				farFarBackGroundSprites.push_back(objectSprite);
+			}
 			if(layer == FARBACKGROUND)
 			{
 				farBackGroundSprites.push_back(objectSprite);
@@ -328,9 +374,10 @@ void Level::LoadLayer(LevelLayers layer)
 				//Add a new destructible sprite to the destructibles container, at the moment it takes 3 sprites, so load em all up and pack em in!
 				destructibleObjects.push_back(DestructibleObject(objectSprite,LoadDestroyedDebrisImage(objectSprite,texName,relativeTexPath),LoadDestroyedAudioFile(texName,relativeTexPath)));
 			}
-			else if(layer == FALLINGPLATFORMS)
+			else if(layer == SPECIALPLATFORMS)
 			{
-				fallingPlatforms.push_back(FallingPlatform(objectSprite, defaultPlatformFallDelay, defaultPlatformFallGravity, defaultPlatformTerminalVelocity, &GetDeathZones(), audioManager));
+				LoadSpecialPlatform(traversalNode,objectSprite);
+				//specialPlatforms.push_back(SpecialPlatform(objectSprite, defaultPlatformFallDelay, defaultPlatformFallGravity, defaultPlatformTerminalVelocity, &GetDeathZones(), audioManager));
 			}
 		}
 	}
@@ -369,6 +416,75 @@ void Level::LoadLayer(LevelLayers layer)
 			}
 		}
 	}
+	//movement paths have their own special structure
+	else if(layer == MOVEMENTPATHS)
+	{
+		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
+		{
+			LoadMovementPath(traversalNode);
+		}
+	}
+}
+
+void Level::LoadSpecialPlatform(pugi::xml_node &rootNode, sf::Sprite &baseSprite)
+{
+	SpecialPlatform platform(baseSprite,defaultPlatformFallDelay, defaultPlatformFallGravity, defaultPlatformTerminalVelocity, defaultPlatformMoveSpeed, defaultPlatformMoveDistanceTillNextPathNode, &GetDeathZones(), audioManager);
+
+	bool isAFallingPlatform;
+	isAFallingPlatform = rootNode.child("CustomProperties").find_child_by_attribute("Property","Name","ShouldFall").child("boolean").text().as_bool();
+	platform.SetIsAFallingPlatform(isAFallingPlatform);
+
+	bool isAMovingPlatform;
+	isAMovingPlatform = rootNode.child("CustomProperties").find_child_by_attribute("Property","Name","ShouldFollowPath").child("boolean").text().as_bool();
+	platform.SetIsAMovingPlatform(isAMovingPlatform);
+
+	std::string movementPathName;
+	movementPathName = rootNode.child("CustomProperties").find_child_by_attribute("Property","Name","PathToFollow").text().as_string();
+
+	//Check to see if the path name we've just read in actually exists
+	if (movementPaths.find(movementPathName) == movementPaths.end() ) 
+	{
+		// not found
+		std::cout << "Error : FollowPath : " << movementPathName << "is assigned to a platform, but it dosent seem to exist. Solution : Reset the Matrix, Consult the Architect" << std::endl;
+		//since theres no path, this can't be a moving platform
+		platform.SetIsAMovingPlatform(false);
+	} 
+	else
+	{
+		// found
+		platform.SetFollowingPath(&movementPaths[movementPathName]);
+	}
+
+	float platformMoveSpeed;
+	platformMoveSpeed = rootNode.child("CustomProperties").find_child_by_attribute("Property","Name","Speed").child("string").text().as_float();
+	//If its zero we're happy using the default
+	if(platformMoveSpeed != 0)
+	{
+		platform.SetMoveSpeed(platformMoveSpeed);
+	}
+
+	specialPlatforms.push_back(platform);
+}
+
+void Level::LoadMovementPath(pugi::xml_node &rootNode)
+{
+	std::vector<sf::Vector2f>  movementPathPoints;
+
+	std::string pathName = rootNode.attribute("Name").as_string();
+
+	//Each movement path is just a collection of points, here we load in the absolute world points and pack it into a MovementPath object
+	for(pugi::xml_node worldPointNode = rootNode.child("WorldPoints").first_child(); worldPointNode; worldPointNode = worldPointNode.next_sibling())
+	{
+		float pathPointXPos =  worldPointNode.child("X").text().as_float();
+		float pathPointYPos =  worldPointNode.child("Y").text().as_float();
+
+		movementPathPoints.push_back(sf::Vector2f(pathPointXPos,pathPointYPos));
+	}
+
+	bool pathLoops = rootNode.child("IsPolygon").text().as_bool();
+	std::cout << "PATHLELLOPS : " << pathLoops << std::endl;
+	movementPaths[pathName] = (MovementPath(movementPathPoints,pathLoops));
+	
 }
 
 sf::Sprite Level::LoadDestroyedDebrisImage(sf::Sprite &originalSprite, std::string originalTextureName, std::string originalRelativeTexPath)
@@ -453,18 +569,11 @@ sf::Sound Level::LoadDestroyedAudioFile(std::string originalTextureName, std::st
 	return objectDestructionSound;
 }
 
-std::vector<sf::Rect<float>> Level::GetCollisionBounds()
+std::vector<sf::Rect<float>> Level::GetStaticCollisionBounds()
 {
 	//Done this way so we can add any non-static bounds to the end of it and deal with it in one go
 	std::vector<sf::Rect<float>> returnedBounds;
 	returnedBounds = collisionBounds;
-
-
-	//Add the collision bounds for any of the falling platforms
-	for(size_t i = 0; i < fallingPlatforms.size(); i++)
-	{
-		returnedBounds.push_back(fallingPlatforms[i].getGlobalBounds());
-	}
 
 	//Add the collision bounds to any destructable that isnt destroyed
 	for(size_t i = 0; i < destructibleObjects.size(); i++)
@@ -478,14 +587,30 @@ std::vector<sf::Rect<float>> Level::GetCollisionBounds()
 	return returnedBounds;
 }
 
+std::vector<MovingCollider> Level::GetMovingCollisionBounds()
+{
+	std::vector<MovingCollider> returnedBounds;
+	//Add the collision bounds for any of the falling platforms
+	for(size_t i = 0; i < specialPlatforms.size(); i++)
+	{
+		MovingCollider specialPlatformCollider;
+		specialPlatformCollider.collisionBound = specialPlatforms[i].getGlobalBounds();
+		specialPlatformCollider.velocity = specialPlatforms[i].GetCurrentVelocity();
+		specialPlatformCollider.centerPos = specialPlatforms[i].getPosition();
+		specialPlatformCollider.lastCenterPos = specialPlatforms[i].GetLastPosition();
+		returnedBounds.push_back(specialPlatformCollider);
+	}
+
+	return returnedBounds;
+}
 std::vector<DestructibleObject> &Level::GetDestructibleObjects()
 {
 	return destructibleObjects;
 }
 
-std::vector<FallingPlatform> &Level::GetFallingPlatforms()
+std::vector<SpecialPlatform> &Level::GetSpecialPlatforms()
 {
-	return fallingPlatforms;
+	return specialPlatforms;
 }
 
 std::vector<sf::Rect<float>> &Level::GetDeathZones()
@@ -493,11 +618,21 @@ std::vector<sf::Rect<float>> &Level::GetDeathZones()
 	return deathZones;
 }
 
-void Level::Draw(sf::RenderWindow &window)
+std::map<std::string,MovementPath> &Level::GetMovementPaths()
+{
+	return movementPaths;
+}
+
+void Level::DrawLayersBehindPlayer(sf::RenderWindow &window)
 {
 	//Clear the screen to the sky colour
 	window.clear(backgroundColor);
 
+
+	for(size_t i = 0; i < farFarBackGroundSprites.size(); i++)
+	{
+		window.draw(farFarBackGroundSprites[i]);
+	}
 	for(size_t i = 0; i < farBackGroundSprites.size(); i++)
 	{
 		window.draw(farBackGroundSprites[i]);
@@ -518,29 +653,44 @@ void Level::Draw(sf::RenderWindow &window)
 	{
 		window.draw(objectSprites[i]);
 	}
-	for(size_t i = 0; i < fallingPlatforms.size(); i++)
+	for(size_t i = 0; i < specialPlatforms.size(); i++)
 	{
-		window.draw(fallingPlatforms[i]);
-	}
-	for(size_t i = 0; i < foregroundSprites.size(); i++)
-	{
-		window.draw(foregroundSprites[i]);
+		window.draw(specialPlatforms[i]);
 	}
 
 	//Draw the collision bounds for debugging
 	if(LEVEL_DEBUG)
 	{
-		for(size_t i = 0; i < GetCollisionBounds().size(); i++)
+		for(size_t i = 0; i < GetStaticCollisionBounds().size(); i++)
 		{
 			sf::RectangleShape debugDrawRect;
-			debugDrawRect.setSize(sf::Vector2f(GetCollisionBounds()[i].width,GetCollisionBounds()[i].height));
-			debugDrawRect.setPosition(GetCollisionBounds()[i].left,GetCollisionBounds()[i].top);
+			debugDrawRect.setSize(sf::Vector2f(GetStaticCollisionBounds()[i].width,GetStaticCollisionBounds()[i].height));
+			debugDrawRect.setPosition(GetStaticCollisionBounds()[i].left,GetStaticCollisionBounds()[i].top);
 			debugDrawRect.setFillColor(sf::Color::Transparent);
 			debugDrawRect.setOutlineThickness(1.0f);
 			debugDrawRect.setOutlineColor(sf::Color::Red);
 			window.draw(debugDrawRect);
+		}
+
+		for(size_t i = 0; i < GetMovingCollisionBounds().size(); i++)
+		{
+			sf::RectangleShape debugDrawRect;
+			debugDrawRect.setSize(sf::Vector2f(GetMovingCollisionBounds()[i].collisionBound.width,GetMovingCollisionBounds()[i].collisionBound.height));
+			debugDrawRect.setPosition(GetMovingCollisionBounds()[i].collisionBound.left,GetMovingCollisionBounds()[i].collisionBound.top);
+			debugDrawRect.setFillColor(sf::Color::Transparent);
+			debugDrawRect.setOutlineThickness(1.0f);
+			debugDrawRect.setOutlineColor(sf::Color::Blue);
+			window.draw(debugDrawRect);
 			
 		}
+	}
+}
+
+void Level::DrawLayersInFrontOfPlayer(sf::RenderWindow &window)
+{
+	for(size_t i = 0; i < foregroundSprites.size(); i++)
+	{
+		window.draw(foregroundSprites[i]);
 	}
 }
 
