@@ -84,6 +84,7 @@ private:
 
 	//This function polls the input devices and updates the player state accordingly.
 	void ReceiveControlInput(sf::Event events, bool eventFired);
+	void ReceiveControllerInput(sf::Event events, bool eventfired);
 	//All these vectors are set in Initialise, may seem a bit unnescesary, but doing it this way means we can easily change what keys control what, have as many keys as we like do one thing without loads of ifs, + allows easy support for in-game control remapping if neccesary
 	std::vector<sf::Keyboard::Key> moveLeftKeys;
 	std::vector<sf::Keyboard::Key> moveRightKeys;
@@ -92,7 +93,7 @@ private:
 
 	//Reads the current state of input from the playerstate and deals with moving
 	void HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms);
-
+	
 	//Called in move, makes sure the attack collider is in the right place
 	void HandleAttackColliderPositioning();
 	
@@ -218,6 +219,21 @@ private:
 
 	//The downwards speed at which the fall animation triggers
 	float fallVelocityTillFallAnimation;
+
+	enum XBOXCONTROLLERBUTTONS
+	{
+	 A,
+	 B,
+	 X,
+	 Y,
+	 LB,
+	 RB,
+	 BACK,
+	 START,
+	 LEFT_THUMB,
+	 RIGHT_THUMB
+	 };
+
 
 };
 

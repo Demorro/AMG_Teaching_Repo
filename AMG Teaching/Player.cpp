@@ -164,9 +164,11 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 	sprite->UpdateAnimations();
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
 	ReceiveControlInput(events,eventFired);
+	ReceiveControllerInput(events,eventFired);
 	DoAttacks(destructibleObjects);
 	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms);
 }
+
 
 void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 {
@@ -181,6 +183,8 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 			playerState.INPUT_MoveLeft = true;
 		}
 	}
+
+	
 	//Right
 	for(int i = 0; i < moveRightKeys.size(); i++)
 	{
@@ -189,6 +193,8 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 			playerState.INPUT_MoveRight = true;
 		}
 	}
+	
+	
 	//Jump
 	for(int i = 0; i < jumpKeys.size(); i++)
 	{
@@ -197,6 +203,8 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 			playerState.INPUT_Jump = true;
 		}
 	}
+	
+
 	//Attack
 	for(int i = 0; i < attackKeys.size(); i++)
 	{
@@ -205,8 +213,41 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 			playerState.INPUT_Attack = true;
 		}
 	}
+	
 }
 
+void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
+{
+	playerState.ResetInputs();
+	
+	if(sf::Joystick::isConnected(0))
+	{
+		//Left
+		if(sf::Joystick::getAxisPosition(0, sf::Joystick::X) == (0,-100))
+		{
+			playerState.INPUT_MoveLeft = true;
+		}
+	
+		//Right
+		if(sf::Joystick::getAxisPosition(0, sf::Joystick::X) == (0,100))
+		{
+			playerState.INPUT_MoveRight = true;
+		}
+	
+		//Jump
+		if(sf::Joystick::isButtonPressed(0,A))
+		{
+			playerState.INPUT_Jump = true;
+		}
+
+		//Attack
+		if(sf::Joystick::isButtonPressed(0,X))
+		{
+			playerState.INPUT_Attack = true;
+		}
+
+	}
+}
 void Player::HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms)
 {
 
