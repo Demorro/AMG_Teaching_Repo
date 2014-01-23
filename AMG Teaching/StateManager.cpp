@@ -4,7 +4,7 @@ StateManager::StateManager()
 {
 	curState = NULL;
 	//Define what state we start with.
-	SwitchState(State::LEVEL1_STATE);
+	SwitchState(State::MENU_STATE);
 
 	deltaTime = 0.0f;
 	newTime = 0.0f;

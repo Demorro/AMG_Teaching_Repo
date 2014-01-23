@@ -2,7 +2,9 @@
 
 //Main menu
 #define MENUBACKGROUND "../Assets/Images/Menu/MenuBackgroundPlaceholder.png"
-
+#define GAMELOGO "../Assets/Images/Menu/loch_ness_green.png"
+#define STARTBUTTON "../Assets/Images/Menu/StartButtonPlaceholder.png"
+#define STARTBUTTONSELECTED "../Assets/Images/Menu/StartButtonPlaceholderSelected.png"
 
 #define PLAYERCONFIG "../ConfigFiles/PlayerConfig.xml"
 

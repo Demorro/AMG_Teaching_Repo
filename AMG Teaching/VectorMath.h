@@ -77,3 +77,14 @@ inline sf::Vector2f GetIntersectionDepth (sf::Rect<float> rectA, sf::Rect<float>
     float depthY = distanceY > 0 ? minDistanceY - distanceY : -minDistanceY - distanceY;
 	return sf::Vector2f(depthX, depthY);
 }
+
+inline float ToPowerOf(float input, float toPowerOf)
+{
+	float accumulator = input;
+	for(int i = 0; i < (toPowerOf - 1); i++)
+	{
+		accumulator =  accumulator * input;
+	}
+
+	return accumulator;
+}

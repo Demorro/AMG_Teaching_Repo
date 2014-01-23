@@ -1,6 +1,9 @@
 #pragma once
 #include "state.h"
 #include "Assets.h"
+#include "MotionSpline.h"
+#include <memory>
+
 
 class MenuState : public State
 {
@@ -21,7 +24,28 @@ public:
 	void Draw(sf::RenderWindow &renderWindow);
 
 private:
+	sf::RectangleShape fadeRectangle;
+	bool shouldFadeIn;
+	bool shouldFadeOut;
+
 	sf::Texture backgroundImage;
 	sf::Sprite backGroundSprite;
+
+	bool shouldTweenInMenuElements;
+
+	sf::Texture gameLogoTexture;
+	sf::Sprite gameLogoSprite;
+	std::unique_ptr<MotionSpline> initialLogoTween;
+	float logoTweenProgressIterator;
+	float logoTweenSpeed;
+
+	sf::Texture startButtonTexture;
+	sf::Texture startButtonSelectedTexture;
+	bool startButtonIsSelected;
+	sf::Sprite startButtonSprite;
+	std::unique_ptr<MotionSpline> initialStartButtonTween;
+	float startButtonTweenProgressIterator;
+	float startButtonTweenSpeed;
+
 };
 
