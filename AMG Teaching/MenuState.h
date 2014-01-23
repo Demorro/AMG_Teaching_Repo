@@ -1,5 +1,7 @@
 #pragma once
 #include "state.h"
+#include "Assets.h"
+
 class MenuState : public State
 {
 public:
@@ -17,5 +19,9 @@ public:
 
 	/** Renders all of the applicable state content. */
 	void Draw(sf::RenderWindow &renderWindow);
+
+private:
+	sf::Texture backgroundImage;
+	sf::Sprite backGroundSprite;
 };
 

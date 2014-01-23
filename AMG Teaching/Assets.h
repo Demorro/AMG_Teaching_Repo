@@ -1,5 +1,9 @@
 //A place to centralise all the paths for asset loading
 
+//Main menu
+#define MENUBACKGROUND "../Assets/Images/Menu/MenuBackgroundPlaceholder.png"
+
+
 #define PLAYERCONFIG "../ConfigFiles/PlayerConfig.xml"
 
 #define CAMERACONFIG "../ConfigFiles/CameraConfig.xml"

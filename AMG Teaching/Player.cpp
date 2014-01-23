@@ -163,6 +163,7 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 {
 	sprite->UpdateAnimations();
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
+	playerState.ResetInputs();
 	ReceiveControlInput(events,eventFired);
 	ReceiveControllerInput(events,eventFired);
 	DoAttacks(destructibleObjects);
@@ -172,7 +173,6 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 
 void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 {
-	playerState.ResetInputs();
 
 	//loop through all the keyboard inputs, check, and update the state accordingly
 	//Left
@@ -218,7 +218,6 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 
 void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
 {
-	playerState.ResetInputs();
 	
 	if(sf::Joystick::isConnected(0))
 	{

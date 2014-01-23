@@ -441,28 +441,31 @@ void Level::LoadSpecialPlatform(pugi::xml_node &rootNode, sf::Sprite &baseSprite
 	std::string movementPathName;
 	movementPathName = rootNode.child("CustomProperties").find_child_by_attribute("Property","Name","PathToFollow").text().as_string();
 
+
 	//Check to see if the path name we've just read in actually exists
-	if (movementPaths.find(movementPathName) == movementPaths.end() ) 
+	if(isAMovingPlatform)
 	{
-		// not found
-		std::cout << "Error : FollowPath : " << movementPathName << "is assigned to a platform, but it dosent seem to exist. Solution : Reset the Matrix, Consult the Architect" << std::endl;
-		//since theres no path, this can't be a moving platform
-		platform.SetIsAMovingPlatform(false);
-	} 
-	else
-	{
-		// found
-		platform.SetFollowingPath(&movementPaths[movementPathName]);
-	}
+		if (movementPaths.find(movementPathName) == movementPaths.end() ) 
+		{
+			// not found
+			std::cout << "Error : FollowPath : " << movementPathName << "is assigned to a platform, but it dosent seem to exist. Solution : Reset the Matrix, Consult the Architect" << std::endl;
+			//since theres no path, this can't be a moving platform
+			platform.SetIsAMovingPlatform(false);
+		} 
+		else
+		{
+			// found
+			platform.SetFollowingPath(&movementPaths[movementPathName]);
+		}
 
-	float platformMoveSpeed;
-	platformMoveSpeed = rootNode.child("CustomProperties").find_child_by_attribute("Property","Name","Speed").child("string").text().as_float();
-	//If its zero we're happy using the default
-	if(platformMoveSpeed != 0)
-	{
-		platform.SetMoveSpeed(platformMoveSpeed);
+		float platformMoveSpeed;
+		platformMoveSpeed = rootNode.child("CustomProperties").find_child_by_attribute("Property","Name","Speed").child("string").text().as_float();
+		//If its zero we're happy using the default
+		if(platformMoveSpeed != 0)
+		{
+			platform.SetMoveSpeed(platformMoveSpeed);
+		}
 	}
-
 	specialPlatforms.push_back(platform);
 }
 
