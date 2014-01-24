@@ -86,7 +86,10 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ControlState.cpp" />
     <ClCompile Include="DestructibleObject.cpp" />
+    <ClCompile Include="InterStateSingleTon.cpp" />
+    <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MotionSpline.cpp" />
     <ClCompile Include="MovementPath.cpp" />
     <ClCompile Include="SpecialPlatform.cpp" />
@@ -105,7 +108,10 @@
     <ClInclude Include="Assets.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ControlState.h" />
     <ClInclude Include="DestructibleObject.h" />
+    <ClInclude Include="InterStateSingleTon.h" />
+    <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MotionSpline.h" />
     <ClInclude Include="MovementPath.h" />
     <ClInclude Include="MovingCollider.h" />

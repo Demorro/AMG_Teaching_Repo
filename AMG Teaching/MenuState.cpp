@@ -3,6 +3,7 @@
 
 MenuState::MenuState(void) : State(State::MENU_STATE)
 {
+	selectedButton = nullptr;
 }
 
 
@@ -12,133 +13,112 @@ MenuState::~MenuState(void)
 
 bool MenuState::Load()
 {
-	//load things here, remember to do load checks if possible
-	fadeRectangle.setFillColor(sf::Color::Black);
-	sf::Color startColor = fadeRectangle.getFillColor();
-	startColor.a = 0.0f;
-	fadeRectangle.setFillColor(startColor);
-	fadeRectangle.setSize(sf::Vector2f(Application::GetWindow().getSize()));
-	fadeRectangle.setPosition(0,0);
+	selectionButtons.push_back(sf::Keyboard::Return);
 
 
-
-	if(!backgroundImage.loadFromFile(MENUBACKGROUND))
-	{
-		//error
-	}
+	if(!backgroundImage.loadFromFile(MENUBACKGROUND)){};
 	backGroundSprite.setTexture(backgroundImage);
 
-	if(!gameLogoTexture.loadFromFile(GAMELOGO))
-	{
-		//error
-	}
-	gameLogoSprite.setTexture(gameLogoTexture);
+	float menuElementsBobAmount = 200.0f;
+	float menuElementsTweenSpeed = 0.9f;
 
-	if(!startButtonTexture.loadFromFile(STARTBUTTON))
-	{
-		//error
-	}
-	if(!startButtonSelectedTexture.loadFromFile(STARTBUTTONSELECTED))
-	{
-		//error
-	}
-	startButtonSprite.setTexture(startButtonTexture);
+	float titleDistanceFromTop = 125;
+	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(Application::GetWindow().getSize().x/2, titleDistanceFromTop, GAMELOGO, GAMELOGO, true, MenuButton::TweenInDirection::Top, menuElementsBobAmount, menuElementsTweenSpeed)));
 
-	//Logo
-	float logoYOffsetFromTop = 100;
-	gameLogoSprite.setOrigin((gameLogoSprite.getGlobalBounds().left + (gameLogoSprite.getGlobalBounds().width/2)),(gameLogoSprite.getGlobalBounds().top + (gameLogoSprite.getGlobalBounds().height/2)));
-	gameLogoSprite.setPosition(Application::GetWindow().getSize().x/2, logoYOffsetFromTop);
-	float logoTweenLength = 250;
-	float logoBobDistance = 250;
-	sf::Vector2f logoStartPos = gameLogoSprite.getPosition();
-	logoStartPos.y -= logoTweenLength;
-	sf::Vector2f logoBobPos = gameLogoSprite.getPosition();
-	logoBobPos.y += logoBobDistance;
-	initialLogoTween = std::unique_ptr<MotionSpline>(new MotionSpline(logoStartPos,logoBobPos,gameLogoSprite.getPosition(),gameLogoSprite.getPosition()));
-	logoTweenProgressIterator = 0.0f;
-	logoTweenSpeed = 0.95f;
-	gameLogoSprite.setPosition(logoStartPos);
-	
-	//Start Button
-	float startButtonYOffsetFromBottom = 100;
-	startButtonSprite.setOrigin((startButtonSprite.getGlobalBounds().left + (startButtonSprite.getGlobalBounds().width/2)),(startButtonSprite.getGlobalBounds().top + (startButtonSprite.getGlobalBounds().height/2)));
-	startButtonSprite.setPosition(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y - startButtonYOffsetFromBottom);
-	float startButtonTweenLength = 250;
-	float startButtonBobDistance = 200;
-	sf::Vector2f startButtonStartPos = startButtonSprite.getPosition();
-	startButtonStartPos.y += startButtonTweenLength;
-	sf::Vector2f startButtonBobPos = startButtonSprite.getPosition();
-	startButtonBobPos.y -= startButtonBobDistance;
-	initialStartButtonTween = std::unique_ptr<MotionSpline>(new MotionSpline(startButtonStartPos,startButtonBobPos,startButtonSprite.getPosition(),startButtonSprite.getPosition()));
-	startButtonTweenProgressIterator = 0.0f;
-	startButtonTweenSpeed = 0.95f;
-	startButtonIsSelected = false;
-	startButtonSprite.setPosition(startButtonStartPos);
+	float startButtonDistanceFromBottom = 110;
+	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y - startButtonDistanceFromBottom, STARTBUTTON, STARTBUTTONSELECTED, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToFirstLevelState,this)))));
 
-	shouldTweenInMenuElements = true;
+	float controlButtonDistanceFromBottom = 110;
+	float controlButtonDistanceFromCenterX = -500;
+	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(Application::GetWindow().getSize().x/2 + controlButtonDistanceFromCenterX, Application::GetWindow().getSize().y - controlButtonDistanceFromBottom, CONTROLBUTTONNORMAL, CONTROLBUTTONSELECTED, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToControlsState,this)))));
+
+	float volumeButtonDistanceFromBottom = 110;
+	float volumeButtonDistanceFromCenterX = 500;
+	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(Application::GetWindow().getSize().x/2 + volumeButtonDistanceFromCenterX, Application::GetWindow().getSize().y - volumeButtonDistanceFromBottom, VOLUMEBUTTONONNORMAL, VOLUMEBUTTONONSELECTED, VOLUMEBUTTONOFFNORMAL, VOLUMEBUTTONOFFSELECTED, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::ToggleVolume,this)))));
+
 	return true;
 }
 
 void MenuState::Update(sf::Event events, bool eventFired, double deltaTime)
 {
-
-	//Update things here, remember about deltatime for framerate independent movement	
-	if(shouldTweenInMenuElements)
+	for(int i = 0; i < menuElements.size(); i++)
 	{
-		if(logoTweenProgressIterator < 1.0f)
-		{
-			gameLogoSprite.setPosition(initialLogoTween->GetPointOnSpline(logoTweenProgressIterator));
-			logoTweenProgressIterator += deltaTime * logoTweenSpeed;
-		}
+		menuElements[i]->Update(events,eventFired,deltaTime);
 
-		if(startButtonTweenProgressIterator < 1.0f)
+		//Mouse selection
+		//Reset all selections
+		for(int j = 0; j < menuElements.size(); j++)
 		{
-			startButtonSprite.setPosition(initialStartButtonTween->GetPointOnSpline(startButtonTweenProgressIterator));
-			startButtonTweenProgressIterator += deltaTime * startButtonTweenSpeed;
+			menuElements[j]->SetSelected(false);
 		}
+		//get a selected button
+		if(menuElements[i]->GetButtonBounds().contains(sf::Vector2f(sf::Mouse::getPosition(Application::GetWindow()))))
+		{
+			selectedButton = menuElements[i].get();
+		}
+		//highlight selected button
+		if(selectedButton != nullptr)
+		{
+			selectedButton->SetSelected(true);
+		}		
 	}
 
-	if(startButtonIsSelected == false)
+	//Check for activation of selected button
+	if(selectedButton != nullptr)
 	{
-		if(startButtonSprite.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(Application::GetWindow()))))
+		if(eventFired)
 		{
-			startButtonSprite.setTexture(startButtonSelectedTexture);
-			startButtonIsSelected = true;
-		}
-	}
-	else if (startButtonIsSelected)
-	{
-		if(!startButtonSprite.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(Application::GetWindow()))))
-		{
-			startButtonSprite.setTexture(startButtonTexture);
-			startButtonIsSelected = false;
-		}
-		else
-		{
-			//Start Game
-			if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			if((events.type == sf::Event::MouseButtonPressed) || (events.type == sf::Event::KeyReleased))
 			{
-				SwitchState(StateID::LEVEL1_STATE);
+				for(int i = 0; i < selectionButtons.size(); i++)
+				{
+					if((events.mouseButton.button == sf::Mouse::Left) || (events.key.code == selectionButtons[i]))
+					{
+						//Activate the button, it will toggle if it is a toggle button
+						selectedButton->Activate();
+					}
+				}
 			}
 		}
 	}
-
 }
 
 void MenuState::Draw(sf::RenderWindow &renderWindow)
 {
-	
-
 	//Draw things here
 	renderWindow.draw(backGroundSprite);
-	renderWindow.draw(gameLogoSprite);
-	renderWindow.draw(startButtonSprite);
 
-	//initialLogoTween->Render(renderWindow);
-
-	//The rectangle for fading in/out
-	renderWindow.draw(fadeRectangle);
+	for(int i = 0; i < menuElements.size(); i++)
+	{
+		menuElements[i]->Render(renderWindow);
+	}
 }
+
+
+//These functions are passed to the buttons and executed upon clickety clackity click
+void MenuState::ToggleVolume()
+{
+	if(interStateSingleton.GetIsVolumeOn())
+	{
+		interStateSingleton.SetIsVolumeOn(false);
+	}
+	else
+	{
+		interStateSingleton.SetIsVolumeOn(true);
+	}
+}
+
+void MenuState::GoToFirstLevelState()
+{
+	std::cout << "ATADETG" << std::endl;
+	SwitchState(State::LEVEL1_STATE);
+}
+
+void MenuState::GoToControlsState()
+{
+	SwitchState(State::CONTROL_STATE);
+}
+
 
 
 

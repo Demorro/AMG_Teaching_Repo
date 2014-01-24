@@ -11,7 +11,8 @@ public:
 	enum StateID
 	{
 		MENU_STATE,
-		LEVEL1_STATE
+		LEVEL1_STATE,
+		CONTROL_STATE
 	};
 
 	// Constructor intended to set the inital ID. 
