@@ -104,6 +104,8 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	doubleJumpVelocityChangeImpulse = 500;
 	attackRange = 30;
 	attackDelay = 1;
+	sprintMultiplier = 2;
+	jumpSprintMultiplier = 1.1;
 
 	pugi::xml_document configDoc;
 
@@ -135,7 +137,9 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	LoadNumericalValue(doubleJumpVelocityChangeImpulse,rootNode,"DoubleJumpVelocityChangeImpulse");
 	LoadNumericalValue(attackRange,rootNode,"AttackRange");
 	LoadNumericalValue(attackDelay,rootNode,"AttackDelay");
-
+	LoadNumericalValue(sprintMultiplier,rootNode,"SprintMultiplier");
+	LoadNumericalValue(jumpSprintMultiplier,rootNode,"JumpSprintMultiplier");
+	
 
 	if(DEBUGPLAYER)
 	{
@@ -153,6 +157,7 @@ bool Player::LoadConfigValues(std::string configFilePath)
 		std::cout << "DoubleJumpVelocityChangeImpulse : " << doubleJumpVelocityChangeImpulse << std::endl;
 		std::cout << "AttackRange : " << attackRange << std::endl;
 		std::cout << "AttackDelay : " << attackDelay << std::endl;
+		std::cout << "SprintMultiplier : " << sprintMultiplier << std::endl;
 		std::cout << std::endl;
 	}
 
@@ -164,15 +169,16 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 	sprite->UpdateAnimations();
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
 	playerState.ResetInputs();
-	ReceiveControlInput(events,eventFired);
+	ReceiveKeyboardInput(events,eventFired);
 	ReceiveControllerInput(events,eventFired);
 	DoAttacks(destructibleObjects);
 	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms);
 }
 
 
-void Player::ReceiveControlInput(sf::Event events, bool eventFired)
+void Player::ReceiveKeyboardInput(sf::Event events, bool eventFired)
 {
+//	playerState.ResetInputs();
 
 	//loop through all the keyboard inputs, check, and update the state accordingly
 	//Left
@@ -213,11 +219,17 @@ void Player::ReceiveControlInput(sf::Event events, bool eventFired)
 			playerState.INPUT_Attack = true;
 		}
 	}
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	{
+		playerState.INPUT_IsRunning = true;
+	}
 	
 }
 
 void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
 {
+//	playerState.ResetInputs();
 	
 	if(sf::Joystick::isConnected(0))
 	{
@@ -243,6 +255,11 @@ void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
 		if(sf::Joystick::isButtonPressed(0,X))
 		{
 			playerState.INPUT_Attack = true;
+		}
+
+		if(sf::Joystick::isButtonPressed(0,RB))
+		{
+			playerState.INPUT_IsRunning = true;
 		}
 
 	}
@@ -289,78 +306,137 @@ void Player::DoLeftAndRightMovement(double deltaTime)
 		//Use ground acceleration value if we're on the floor
 		if(playerState.grounded)
 		{
-			if(playerState.INPUT_MoveLeft)
-			{
-				//We dont want to accelerate over our max speed, so check
-				if((playerState.velocity.x - (groundAcceleration * deltaTime)) > -maximumHorizontalSpeed)
+				if(playerState.INPUT_MoveLeft)
 				{
-					playerState.velocity.x = playerState.velocity.x - (groundAcceleration * deltaTime);
-				}
-				else
-				{
-					playerState.velocity.x = -maximumHorizontalSpeed;
-				}
-				//flip the sprite to face left
-				sprite->setScale(-loadedScaleX,loadedScaleY);
-				playerState.facingLeft = true;
-				playerState.facingRight = false;
+					if(!playerState.INPUT_IsRunning)
+					{
+						//We dont want to accelerate over our max speed, so check
+						if((playerState.velocity.x - (groundAcceleration * deltaTime)) > -maximumHorizontalSpeed)
+						{
+							playerState.velocity.x = playerState.velocity.x - (groundAcceleration * deltaTime);
+						}
+						else
+						{
+							playerState.velocity.x = -maximumHorizontalSpeed;
+						}
+					}
+					else if(playerState.INPUT_IsRunning)
+					{
+						if((playerState.velocity.x - (groundAcceleration * deltaTime)) > -(maximumHorizontalSpeed * sprintMultiplier) )
+						{
+							playerState.velocity.x = playerState.velocity.x - (groundAcceleration * deltaTime);
+						}
+						else
+						{
+							playerState.velocity.x = -(maximumHorizontalSpeed * sprintMultiplier);
+						}
+					}
+					//flip the sprite to face left
+					sprite->setScale(-loadedScaleX,loadedScaleY);
+					playerState.facingLeft = true;
+					playerState.facingRight = false;
 
-			}
-			if(playerState.INPUT_MoveRight)
-			{
-				//We dont want to accelerate over our max speed, so check
-				if((playerState.velocity.x + (groundAcceleration * deltaTime)) < maximumHorizontalSpeed)
-				{
-					//you multiply in deltatime here so acceleration is also constant
-					playerState.velocity.x = playerState.velocity.x + (groundAcceleration * deltaTime);
 				}
-				else
+				if(playerState.INPUT_MoveRight)
 				{
-					playerState.velocity.x = maximumHorizontalSpeed;
+					if(!playerState.INPUT_IsRunning)
+					{
+						//We dont want to accelerate over our max speed, so check
+						if((playerState.velocity.x - (groundAcceleration * deltaTime)) < maximumHorizontalSpeed)
+						{
+							playerState.velocity.x = playerState.velocity.x + (groundAcceleration * deltaTime);
+						}
+						else
+						{
+							playerState.velocity.x = maximumHorizontalSpeed;
+						}
+					}
+					else if(playerState.INPUT_IsRunning)
+					{
+						if((playerState.velocity.x - (groundAcceleration * deltaTime)) < (maximumHorizontalSpeed * sprintMultiplier) )
+						{
+							playerState.velocity.x = playerState.velocity.x + (groundAcceleration * deltaTime);
+						}
+						else
+						{
+							playerState.velocity.x = (maximumHorizontalSpeed * sprintMultiplier);
+						}
+					}
+					//flip the sprite to face right
+					sprite->setScale(loadedScaleX,loadedScaleY);
+					playerState.facingLeft = false;
+					playerState.facingRight = true;
 				}
-				//flip the sprite to face right
-				sprite->setScale(loadedScaleX,loadedScaleY);
-				playerState.facingLeft = false;
-				playerState.facingRight = true;
 			}
 		}
 		else if(playerState.grounded == false)
 		{
-			if(playerState.INPUT_MoveLeft)
-			{
-				//We dont want to accelerate over our max speed, so check
-				if((playerState.velocity.x - (airAcceleration * deltaTime)) > -maximumHorizontalSpeed)
+			
+				if(playerState.INPUT_MoveLeft)
 				{
-					playerState.velocity.x = playerState.velocity.x - (airAcceleration * deltaTime);
+					if(!playerState.INPUT_IsRunning)
+					{
+						//We dont want to accelerate over our max speed, so check
+						if((playerState.velocity.x - (airAcceleration * deltaTime)) > -maximumHorizontalSpeed)
+						{
+							playerState.velocity.x = playerState.velocity.x - (airAcceleration * deltaTime);
+						}
+						else
+						{
+							playerState.velocity.x = -maximumHorizontalSpeed;
+						}
+					}
+					else if(playerState.INPUT_IsRunning)
+					{
+						if((playerState.velocity.x - (airAcceleration * deltaTime)) > -(maximumHorizontalSpeed * jumpSprintMultiplier))
+						{
+							playerState.velocity.x = playerState.velocity.x - (airAcceleration * deltaTime);
+						}
+						else
+						{
+							playerState.velocity.x = -(maximumHorizontalSpeed * jumpSprintMultiplier);
+						}
+					}
+					//flip the sprite to face left
+					sprite->setScale(-loadedScaleX,loadedScaleY);
+					playerState.facingLeft = true;
+					playerState.facingRight = false;
 				}
-				else
+				if(playerState.INPUT_MoveRight)
 				{
-					playerState.velocity.x = -maximumHorizontalSpeed;
+					if(!playerState.INPUT_IsRunning)
+					{
+						//We dont want to accelerate over our max speed, so check
+						if((playerState.velocity.x + (airAcceleration * deltaTime)) < maximumHorizontalSpeed)
+						{
+							//you multiply in deltatime here so acceleration is also constant
+							playerState.velocity.x = playerState.velocity.x + (airAcceleration * deltaTime);
+						}
+						else
+						{
+							playerState.velocity.x = (maximumHorizontalSpeed);
+						}
+					}
+					else if(playerState.INPUT_IsRunning)
+					{
+						if((playerState.velocity.x + (airAcceleration * deltaTime)) < (maximumHorizontalSpeed * jumpSprintMultiplier))
+						{
+							//you multiply in deltatime here so acceleration is also constant
+							playerState.velocity.x = playerState.velocity.x + (airAcceleration * deltaTime);
+						}
+						else
+						{
+							playerState.velocity.x = (maximumHorizontalSpeed * jumpSprintMultiplier);
+						}
+					}
+					//flip the sprite to face right
+					sprite->setScale(loadedScaleX,loadedScaleY);
+					playerState.facingLeft = false;
+					playerState.facingRight = true;
 				}
-				//flip the sprite to face left
-				sprite->setScale(-loadedScaleX,loadedScaleY);
-				playerState.facingLeft = true;
-				playerState.facingRight = false;
-			}
-			if(playerState.INPUT_MoveRight)
-			{
-				//We dont want to accelerate over our max speed, so check
-				if((playerState.velocity.x + (airAcceleration * deltaTime)) < maximumHorizontalSpeed)
-				{
-					//you multiply in deltatime here so acceleration is also constant
-					playerState.velocity.x = playerState.velocity.x + (airAcceleration * deltaTime);
-				}
-				else
-				{
-					playerState.velocity.x = maximumHorizontalSpeed;
-				}
-				//flip the sprite to face right
-				sprite->setScale(loadedScaleX,loadedScaleY);
-				playerState.facingLeft = false;
-				playerState.facingRight = true;
-			}
-		}
 	}
+	
+
 
 	//update the state, just to keep track
 	if(playerState.velocity.x > 0)
@@ -377,6 +453,7 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 	//Jump
 	if(playerState.INPUT_Jump)
 	{
+		
 		//you can only jump if you're grounded, or if you're in the grace period after falling off a ledge
 		if(playerState.grounded == true) 
 		{
@@ -384,6 +461,7 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 			playerState.velocity.y -= jumpStrength;
 			playerState.grounded = false;
 			playerState.firstJumping = true;
+
 		}
 		else
 		{
@@ -849,22 +927,37 @@ void Player::HandleAnimations()
 		}
 	}
 
-	//Walk
-	if((playerState.INPUT_MoveLeft) || (playerState.INPUT_MoveRight))
-	{
-		if(playerState.grounded == true)
+	
+		
+		if((playerState.INPUT_MoveLeft) || (playerState.INPUT_MoveRight))
 		{
-			if(((!lastState.INPUT_MoveLeft) && (!lastState.INPUT_MoveRight)) || (playerState.animState == PlayerState::AnimationState::Idle))
+			if(playerState.grounded == true)
 			{
-				playerState.animState = PlayerState::AnimationState::Walk;
-				sprite->SetCurrentAnimation(walkAnimName);
-				sprite->SetRepeating(true);
+				//Walk
+					if(((!lastState.INPUT_MoveLeft) && (!lastState.INPUT_MoveRight)) || (playerState.animState == PlayerState::AnimationState::Idle))
+					{
+						playerState.animState = PlayerState::AnimationState::Walk;
+						sprite->SetCurrentAnimation(walkAnimName);
+						sprite->changeAnimSpeed(walkAnimName,0.03f);
+						sprite->SetRepeating(true);
+						sprite->Play();
+					}
+					
+				
 
-				sprite->Play();
+					//Sprint
+					if(playerState.INPUT_IsRunning)
+					{	
+						sprite->changeAnimSpeed(walkAnimName,(0.03f/1.3));
+					}
+					else if(!playerState.INPUT_IsRunning)
+					{
+						sprite->changeAnimSpeed(walkAnimName,0.03f);
+					}
 			}
 		}
-	}
 
+				
 	//Back to idle from walk
 	else
 	{

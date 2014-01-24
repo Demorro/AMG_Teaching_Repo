@@ -83,7 +83,7 @@ private:
 	bool LoadConfigValues(std::string configFilePath);
 
 	//This function polls the input devices and updates the player state accordingly.
-	void ReceiveControlInput(sf::Event events, bool eventFired);
+	void ReceiveKeyboardInput(sf::Event events, bool eventFired);
 	void ReceiveControllerInput(sf::Event events, bool eventfired);
 	//All these vectors are set in Initialise, may seem a bit unnescesary, but doing it this way means we can easily change what keys control what, have as many keys as we like do one thing without loads of ifs, + allows easy support for in-game control remapping if neccesary
 	std::vector<sf::Keyboard::Key> moveLeftKeys;
@@ -127,6 +127,8 @@ private:
 	float doubleJumpVelocityChangeImpulse;
 	float attackRange;
 	float attackDelay;
+	float sprintMultiplier;
+	float jumpSprintMultiplier;
 	
 	//The rect used to check for collision when the player is attacking
 	sf::Rect<float> attackCollider;
@@ -165,6 +167,7 @@ private:
 		bool INPUT_MoveRight;
 		bool INPUT_Jump;
 		bool INPUT_Attack;
+		bool INPUT_IsRunning;
 
 		enum AnimationState
 		{
@@ -175,7 +178,7 @@ private:
 			DoubleJumping,
 			Falling,
 			Landing,
-			Attacking,
+			Attacking
 		};
 
 		AnimationState animState;
@@ -192,6 +195,7 @@ private:
 			grounded = false;
 			isOnMovingPlatform = false;
 			attacking = false;
+			INPUT_IsRunning = false;
 			INPUT_MoveLeft = false;
 			INPUT_MoveRight = false;
 			INPUT_Jump = false;
@@ -203,6 +207,7 @@ private:
 
 		void PlayerState::ResetInputs()
 		{
+			INPUT_IsRunning = false;
 			INPUT_MoveLeft = false;
 			INPUT_MoveRight = false;
 			INPUT_Jump = false;

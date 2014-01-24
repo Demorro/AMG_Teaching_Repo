@@ -43,6 +43,14 @@
 	
 	<!--The delay time between attacks in seconds-->
 	<AttackDelay>0.2</AttackDelay>
+
+	<!--SprintMultiplier-->
+	<SprintMultiplier>2.0</SprintMultiplier>
+	
+	<!--SprintMultiplier-->
+	<JumpSprintMultiplier>1.5</JumpSprintMultiplier>
+
+
 	
 </PlayerConfig>
 

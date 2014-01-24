@@ -25,6 +25,8 @@ public:
 
 	void AddAnimation(std::string animationName, std::vector<sf::IntRect> frames, float frameTime);
 
+		void changeAnimSpeed(std::string,float);
+
 private:
 
 	sf::Clock animationTimer;
@@ -53,6 +55,8 @@ private:
 
 	Animation* currentAnimation;
 	std::map<std::string, Animation> animations;
+
+
 
 };
 

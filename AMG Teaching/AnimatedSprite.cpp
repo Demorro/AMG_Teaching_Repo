@@ -16,6 +16,7 @@ AnimatedSprite::~AnimatedSprite(void)
 {
 }
 
+
 bool AnimatedSprite::IsPlaying()
 {
 	return shouldPlay;
@@ -144,5 +145,17 @@ void AnimatedSprite::AddAnimation(std::string animationName, std::vector<sf::Int
 	{
 		currentAnimation = &animations[animationName];
 		currentFrame = 0;
+	}
+}
+
+void AnimatedSprite::changeAnimSpeed(std::string animationName, float frameTime)
+{
+	if(animations.count(animationName))
+	{
+		animations[animationName].frameTime = frameTime;
+	}
+	else
+	{
+		std::cout << "Attempting to set animation that dosent exist" << std::endl;
 	}
 }
