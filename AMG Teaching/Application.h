@@ -12,6 +12,8 @@
 #define WINDOW_V_SYNC		false
 #define WINDOW_FULLSCREEN false
 
+#define TRANSITION_FADE_SPEED 0.005f
+
 class Application
 {
 public:

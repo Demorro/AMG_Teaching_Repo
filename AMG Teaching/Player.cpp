@@ -1,6 +1,5 @@
 #include "Player.h"
 
-
 Player::Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager)
 {
 	Initialise(playerTexturePath, startPos, startTextureRect, boundsRect, audioManager);
@@ -238,7 +237,7 @@ void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
 		{
 			playerState.INPUT_MoveLeft = true;
 		}
-	
+		
 		//Right
 		if(sf::Joystick::getAxisPosition(0, sf::Joystick::X) == (0,100))
 		{
@@ -246,13 +245,13 @@ void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
 		}
 	
 		//Jump
-		if(sf::Joystick::isButtonPressed(0,A))
+		if(sf::Joystick::isButtonPressed(0,XBOXCONTROLLERBUTTONS::A))
 		{
 			playerState.INPUT_Jump = true;
 		}
 
 		//Attack
-		if(sf::Joystick::isButtonPressed(0,X))
+		if(sf::Joystick::isButtonPressed(0,XBOXCONTROLLERBUTTONS::X))
 		{
 			playerState.INPUT_Attack = true;
 		}

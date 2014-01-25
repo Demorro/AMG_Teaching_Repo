@@ -2,7 +2,22 @@
 
 //Main menu
 #define MENUBACKGROUND "../Assets/Images/Menu/MenuBackgroundPlaceholder.png"
+#define GAMELOGO "../Assets/Images/Menu/loch_ness_green.png"
+#define STARTBUTTON "../Assets/Images/Menu/StartButtonPlaceholder.png"
+#define STARTBUTTONSELECTED "../Assets/Images/Menu/StartButtonPlaceholderSelected.png"
+#define QUITBUTTON "../Assets/Images/Menu/QuitNormal.png"
+#define QUITBUTTONSELECTED "../Assets/Images/Menu/QuitSelected.png"
+#define VOLUMEBUTTONONNORMAL "../Assets/Images/Menu/VolumeNormalPlaceholder.png"
+#define VOLUMEBUTTONOFFNORMAL "../Assets/Images/Menu/VolumeTurnedOffNormal.png"
+#define VOLUMEBUTTONONSELECTED "../Assets/Images/Menu/VolumeSelectedPlaceholder.png"
+#define VOLUMEBUTTONOFFSELECTED "../Assets/Images/Menu/VolumeSelectedTurnedOffPlaceholder.png"
+#define CONTROLBUTTONNORMAL "../Assets/Images/Menu/ControlButtonNormal.png"
+#define CONTROLBUTTONSELECTED "../Assets/Images/Menu/ControlButtonSelected.png"
+#define BACKTOMENUNORMAL "../Assets/Images/Menu/BackToMenuPlaceholder.png"
+#define BACKTOMENUSELECTED "../Assets/Images/Menu/BackToMenuSelectedPlaceHolder.png"
 
+//Control state
+#define CONTROLSIMAGE "../Assets/Images/Menu/ControllerDiagram.png"
 
 #define PLAYERCONFIG "../ConfigFiles/PlayerConfig.xml"
 
@@ -28,3 +43,6 @@
 
 //fonts
 #define DEFAULTFONT "../Assets/Fonts/SourceSansPro-Black.otf"
+
+
+

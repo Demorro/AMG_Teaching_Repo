@@ -4,7 +4,7 @@ StateManager::StateManager()
 {
 	curState = NULL;
 	//Define what state we start with.
-	SwitchState(State::LEVEL1_STATE);
+	SwitchState(State::MENU_STATE);
 
 	deltaTime = 0.0f;
 	newTime = 0.0f;
@@ -64,6 +64,11 @@ void StateManager::SwitchState(State::StateID stateID)
 		case State::LEVEL1_STATE:
 			std::cout << "LEVEL1." << std::endl;
 			curState = new Level1State();
+		break;
+
+		case State::CONTROL_STATE:
+			std::cout << "CONTROL." << std::endl;
+			curState = new ControlState();
 		break;
 	}
 
