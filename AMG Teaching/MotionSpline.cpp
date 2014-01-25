@@ -3,6 +3,7 @@
 
 MotionSpline::MotionSpline()
 {
+	ReInitialiseSpline(sf::Vector2f(0,0),sf::Vector2f(0,0),sf::Vector2f(0,0),sf::Vector2f(0,0));
 }
 
 MotionSpline::MotionSpline(sf::Vector2f point1, sf::Vector2f point2, sf::Vector2f point3, sf::Vector2f point4)

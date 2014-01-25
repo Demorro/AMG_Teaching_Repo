@@ -4,6 +4,7 @@
 #include <memory>
 #include <functional>
 #include "MenuButton.h"
+#include "MenuSystem.h"
 
 class ControlState : public State
 {
@@ -27,11 +28,7 @@ private:
 	sf::Texture controllerTexture;
 	sf::Sprite controllerSprite;
 
-	std::vector<std::unique_ptr<MenuButton>> menuElements;
-	MenuButton* selectedButton;
-
-	//buttons that can be used to hit a menu button
-	std::vector<sf::Keyboard::Key> selectionButtons;
+	MenuSystem controlScreenMenuSystem;
 
 	void GoBackToMenuState();
 };
