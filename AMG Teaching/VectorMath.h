@@ -88,3 +88,8 @@ inline float ToPowerOf(float input, float toPowerOf)
 
 	return accumulator;
 }
+
+//Clip n between lower and upper, for example, (n = 3,4,6) will come out as 4, while (n = 7,4,6) will be 6, while (n = 5,4,6) will remain 5
+inline float clip(float &n, float lower, float upper) {
+  return std::max(lower, std::min(n, upper));
+}

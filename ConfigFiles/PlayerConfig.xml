@@ -44,12 +44,14 @@
 	<!--The delay time between attacks in seconds-->
 	<AttackDelay>0.2</AttackDelay>
 
-	<!--SprintMultiplier-->
-	<SprintMultiplier>2.0</SprintMultiplier>
+	<!--The walk speed is multiplied by this to get the sprint speed-->
+	<SprintMultiplier>1.6</SprintMultiplier>
 	
-	<!--SprintMultiplier-->
-	<JumpSprintMultiplier>1.5</JumpSprintMultiplier>
-
+	<!--The delay between frames in the walk animation, lower means a quicker animation cycle-->
+	<WalkFrameDelay>0.03</WalkFrameDelay>
+	
+	<!--The delay between frames in the sprint animation, lower means a quicker animation cycle-->
+	<SprintFrameDelay>0.02</SprintFrameDelay>
 
 	
 </PlayerConfig>

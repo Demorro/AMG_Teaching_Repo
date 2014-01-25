@@ -49,6 +49,8 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	jumpKeys.push_back(sf::Keyboard::Up);
 	jumpKeys.push_back(sf::Keyboard::W);
 	attackKeys.push_back(sf::Keyboard::X);
+	sprintKeys.push_back(sf::Keyboard::LShift);
+	sprintKeys.push_back(sf::Keyboard::RShift);
 
 	//Read the player movement variables from the config files, or if it cant be found load defaults
 	LoadConfigValues(PLAYERCONFIG);
@@ -104,7 +106,8 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	attackRange = 30;
 	attackDelay = 1;
 	sprintMultiplier = 2;
-	jumpSprintMultiplier = 1.1;
+	walkFrameTime = 0.03f;
+	sprintFrameTime = 0.015f;
 
 	pugi::xml_document configDoc;
 
@@ -137,8 +140,8 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	LoadNumericalValue(attackRange,rootNode,"AttackRange");
 	LoadNumericalValue(attackDelay,rootNode,"AttackDelay");
 	LoadNumericalValue(sprintMultiplier,rootNode,"SprintMultiplier");
-	LoadNumericalValue(jumpSprintMultiplier,rootNode,"JumpSprintMultiplier");
-	
+	LoadNumericalValue(walkFrameTime,rootNode,"WalkFrameDelay");
+	LoadNumericalValue(sprintFrameTime,rootNode,"SprintFrameDelay");
 
 	if(DEBUGPLAYER)
 	{
@@ -157,6 +160,8 @@ bool Player::LoadConfigValues(std::string configFilePath)
 		std::cout << "AttackRange : " << attackRange << std::endl;
 		std::cout << "AttackDelay : " << attackDelay << std::endl;
 		std::cout << "SprintMultiplier : " << sprintMultiplier << std::endl;
+		std::cout << "Walk Frame Delay : " << walkFrameTime << std::endl;
+		std::cout << "Sprint Frame Delay : " << sprintFrameTime << std::endl;
 		std::cout << std::endl;
 	}
 
@@ -188,8 +193,6 @@ void Player::ReceiveKeyboardInput(sf::Event events, bool eventFired)
 			playerState.INPUT_MoveLeft = true;
 		}
 	}
-
-	
 	//Right
 	for(int i = 0; i < moveRightKeys.size(); i++)
 	{
@@ -198,8 +201,6 @@ void Player::ReceiveKeyboardInput(sf::Event events, bool eventFired)
 			playerState.INPUT_MoveRight = true;
 		}
 	}
-	
-	
 	//Jump
 	for(int i = 0; i < jumpKeys.size(); i++)
 	{
@@ -208,8 +209,6 @@ void Player::ReceiveKeyboardInput(sf::Event events, bool eventFired)
 			playerState.INPUT_Jump = true;
 		}
 	}
-	
-
 	//Attack
 	for(int i = 0; i < attackKeys.size(); i++)
 	{
@@ -218,10 +217,12 @@ void Player::ReceiveKeyboardInput(sf::Event events, bool eventFired)
 			playerState.INPUT_Attack = true;
 		}
 	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	for(int i = 0; i < sprintKeys.size(); i++)
 	{
-		playerState.INPUT_IsRunning = true;
+		if(sf::Keyboard::isKeyPressed(sprintKeys[i]))
+		{
+			playerState.INPUT_IsSprinting = true;
+		}
 	}
 	
 }
@@ -233,13 +234,13 @@ void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
 	if(sf::Joystick::isConnected(0))
 	{
 		//Left
-		if(sf::Joystick::getAxisPosition(0, sf::Joystick::X) == (0,-100))
+		if(sf::Joystick::getAxisPosition(0, sf::Joystick::X) < - ANALOGUESTICKMOVEBOUNDRY)
 		{
 			playerState.INPUT_MoveLeft = true;
 		}
 		
 		//Right
-		if(sf::Joystick::getAxisPosition(0, sf::Joystick::X) == (0,100))
+		if(sf::Joystick::getAxisPosition(0, sf::Joystick::X) > ANALOGUESTICKMOVEBOUNDRY)
 		{
 			playerState.INPUT_MoveRight = true;
 		}
@@ -258,7 +259,7 @@ void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
 
 		if(sf::Joystick::isButtonPressed(0,RB))
 		{
-			playerState.INPUT_IsRunning = true;
+			playerState.INPUT_IsSprinting = true;
 		}
 
 	}
@@ -280,7 +281,6 @@ void Player::HandleMovement(sf::Event events, bool eventFired, double deltaTime,
 	//Check to see if the new position is valid vertically
 	HandleCollision(staticLevelCollisionBounds,movingPlatforms);
 	
-
 	//Add the drag horizontally, different whether you are grounded or not
 	AddDrag(deltaTime);
 	
@@ -305,138 +305,140 @@ void Player::DoLeftAndRightMovement(double deltaTime)
 		//Use ground acceleration value if we're on the floor
 		if(playerState.grounded)
 		{
-				if(playerState.INPUT_MoveLeft)
+			if(playerState.INPUT_MoveLeft)
+			{
+				if(playerState.INPUT_IsSprinting == false) //If we're not sprinting we dont need to multiply speed value caps
 				{
-					if(!playerState.INPUT_IsRunning)
+					//We dont want to accelerate over our max speed, so check
+					if((playerState.velocity.x - (groundAcceleration * deltaTime)) > -maximumHorizontalSpeed)
 					{
-						//We dont want to accelerate over our max speed, so check
-						if((playerState.velocity.x - (groundAcceleration * deltaTime)) > -maximumHorizontalSpeed)
-						{
-							playerState.velocity.x = playerState.velocity.x - (groundAcceleration * deltaTime);
-						}
-						else
-						{
-							playerState.velocity.x = -maximumHorizontalSpeed;
-						}
+						playerState.velocity.x = playerState.velocity.x - (groundAcceleration * deltaTime);
 					}
-					else if(playerState.INPUT_IsRunning)
+					else
 					{
-						if((playerState.velocity.x - (groundAcceleration * deltaTime)) > -(maximumHorizontalSpeed * sprintMultiplier) )
-						{
-							playerState.velocity.x = playerState.velocity.x - (groundAcceleration * deltaTime);
-						}
-						else
-						{
-							playerState.velocity.x = -(maximumHorizontalSpeed * sprintMultiplier);
-						}
+						//this small segment means that when we go from sprinting on the ground to not sprinting, we slow down as according to drag, rather than just snapping
+						playerState.velocity.x += groundDrag * deltaTime;
+						playerState.velocity.x = clip(playerState.velocity.x,-maximumHorizontalSpeed * sprintMultiplier, -maximumHorizontalSpeed);
 					}
-					//flip the sprite to face left
-					sprite->setScale(-loadedScaleX,loadedScaleY);
-					playerState.facingLeft = true;
-					playerState.facingRight = false;
+				}
+				else if(playerState.INPUT_IsSprinting) //We need to multiply speed value caps if we're sprinting.
+				{
+					if((playerState.velocity.x - (groundAcceleration * deltaTime)) > -(maximumHorizontalSpeed * sprintMultiplier) )
+					{
+						playerState.velocity.x = playerState.velocity.x - (groundAcceleration * deltaTime);
+					}
+					else
+					{
+						playerState.velocity.x = -(maximumHorizontalSpeed * sprintMultiplier);
+					}
+				}
+				//flip the sprite to face left
+				sprite->setScale(-loadedScaleX,loadedScaleY);
+				playerState.facingLeft = true;
+				playerState.facingRight = false;
 
-				}
-				if(playerState.INPUT_MoveRight)
+			}
+			if(playerState.INPUT_MoveRight)
+			{
+				if(playerState.INPUT_IsSprinting == false) //If we're not sprinting we dont nee to multiply speed value caps
 				{
-					if(!playerState.INPUT_IsRunning)
+					//We dont want to accelerate over our max speed, so check
+					if((playerState.velocity.x - (groundAcceleration * deltaTime)) < maximumHorizontalSpeed)
 					{
-						//We dont want to accelerate over our max speed, so check
-						if((playerState.velocity.x - (groundAcceleration * deltaTime)) < maximumHorizontalSpeed)
-						{
-							playerState.velocity.x = playerState.velocity.x + (groundAcceleration * deltaTime);
-						}
-						else
-						{
-							playerState.velocity.x = maximumHorizontalSpeed;
-						}
+						playerState.velocity.x = playerState.velocity.x + (groundAcceleration * deltaTime);
 					}
-					else if(playerState.INPUT_IsRunning)
+					else
 					{
-						if((playerState.velocity.x - (groundAcceleration * deltaTime)) < (maximumHorizontalSpeed * sprintMultiplier) )
-						{
-							playerState.velocity.x = playerState.velocity.x + (groundAcceleration * deltaTime);
-						}
-						else
-						{
-							playerState.velocity.x = (maximumHorizontalSpeed * sprintMultiplier);
-						}
+						//this small segment means that when we go from sprinting on the ground to not sprinting, we slow down as according to drag, rather than just snapping
+						playerState.velocity.x -= groundDrag * deltaTime;
+						playerState.velocity.x = clip(playerState.velocity.x,maximumHorizontalSpeed, maximumHorizontalSpeed * sprintMultiplier);
 					}
-					//flip the sprite to face right
-					sprite->setScale(loadedScaleX,loadedScaleY);
-					playerState.facingLeft = false;
-					playerState.facingRight = true;
 				}
+				else if(playerState.INPUT_IsSprinting) //We need to multiply speed value caps if we're sprinting.
+				{
+					if((playerState.velocity.x - (groundAcceleration * deltaTime)) < (maximumHorizontalSpeed * sprintMultiplier) )
+					{
+						playerState.velocity.x = playerState.velocity.x + (groundAcceleration * deltaTime);
+					}
+					else
+					{
+						playerState.velocity.x = (maximumHorizontalSpeed * sprintMultiplier);
+					}
+				}
+				//flip the sprite to face right
+				sprite->setScale(loadedScaleX,loadedScaleY);
+				playerState.facingLeft = false;
+				playerState.facingRight = true;
 			}
 		}
 		else if(playerState.grounded == false)
 		{
-			
-				if(playerState.INPUT_MoveLeft)
+			if(playerState.INPUT_MoveLeft)
+			{
+				//The wasSprintingUponJump checks make it so that if the player released the sprint button in midair after doing a sprint jump, the player dosent just abruptly slow in midair, but the arc continues on as usual.
+				if((playerState.INPUT_IsSprinting == false) && (playerState.wasSprintingUponJump == false))
 				{
-					if(!playerState.INPUT_IsRunning)
+					//We dont want to accelerate over our max speed, so check
+					if((playerState.velocity.x - (airAcceleration * deltaTime)) > -maximumHorizontalSpeed)
 					{
-						//We dont want to accelerate over our max speed, so check
-						if((playerState.velocity.x - (airAcceleration * deltaTime)) > -maximumHorizontalSpeed)
-						{
-							playerState.velocity.x = playerState.velocity.x - (airAcceleration * deltaTime);
-						}
-						else
-						{
-							playerState.velocity.x = -maximumHorizontalSpeed;
-						}
+						playerState.velocity.x = playerState.velocity.x - (airAcceleration * deltaTime);
 					}
-					else if(playerState.INPUT_IsRunning)
+					else
 					{
-						if((playerState.velocity.x - (airAcceleration * deltaTime)) > -(maximumHorizontalSpeed * jumpSprintMultiplier))
-						{
-							playerState.velocity.x = playerState.velocity.x - (airAcceleration * deltaTime);
-						}
-						else
-						{
-							playerState.velocity.x = -(maximumHorizontalSpeed * jumpSprintMultiplier);
-						}
+						playerState.velocity.x = -maximumHorizontalSpeed;
 					}
-					//flip the sprite to face left
-					sprite->setScale(-loadedScaleX,loadedScaleY);
-					playerState.facingLeft = true;
-					playerState.facingRight = false;
 				}
-				if(playerState.INPUT_MoveRight)
+				else if((playerState.INPUT_IsSprinting) || (playerState.wasSprintingUponJump == false))
 				{
-					if(!playerState.INPUT_IsRunning)
+					if((playerState.velocity.x - (airAcceleration * deltaTime)) > -(maximumHorizontalSpeed * sprintMultiplier))
 					{
-						//We dont want to accelerate over our max speed, so check
-						if((playerState.velocity.x + (airAcceleration * deltaTime)) < maximumHorizontalSpeed)
-						{
-							//you multiply in deltatime here so acceleration is also constant
-							playerState.velocity.x = playerState.velocity.x + (airAcceleration * deltaTime);
-						}
-						else
-						{
-							playerState.velocity.x = (maximumHorizontalSpeed);
-						}
+						playerState.velocity.x = playerState.velocity.x - (airAcceleration * deltaTime);
 					}
-					else if(playerState.INPUT_IsRunning)
+					else
 					{
-						if((playerState.velocity.x + (airAcceleration * deltaTime)) < (maximumHorizontalSpeed * jumpSprintMultiplier))
-						{
-							//you multiply in deltatime here so acceleration is also constant
-							playerState.velocity.x = playerState.velocity.x + (airAcceleration * deltaTime);
-						}
-						else
-						{
-							playerState.velocity.x = (maximumHorizontalSpeed * jumpSprintMultiplier);
-						}
+						playerState.velocity.x = -(maximumHorizontalSpeed * sprintMultiplier);
 					}
-					//flip the sprite to face right
-					sprite->setScale(loadedScaleX,loadedScaleY);
-					playerState.facingLeft = false;
-					playerState.facingRight = true;
 				}
+				//flip the sprite to face left
+				sprite->setScale(-loadedScaleX,loadedScaleY);
+				playerState.facingLeft = true;
+				playerState.facingRight = false;
+			}
+			if(playerState.INPUT_MoveRight)
+			{
+				if((playerState.INPUT_IsSprinting == false) && (playerState.wasSprintingUponJump == false))
+				{
+					//We dont want to accelerate over our max speed, so check
+					if((playerState.velocity.x + (airAcceleration * deltaTime)) < maximumHorizontalSpeed)
+					{
+						//you multiply in deltatime here so acceleration is also constant
+						playerState.velocity.x = playerState.velocity.x + (airAcceleration * deltaTime);
+					}
+					else
+					{
+						playerState.velocity.x = (maximumHorizontalSpeed);
+					}
+				}
+				else if((playerState.INPUT_IsSprinting) || (playerState.wasSprintingUponJump == false))
+				{
+					if((playerState.velocity.x + (airAcceleration * deltaTime)) < (maximumHorizontalSpeed * sprintMultiplier))
+					{
+						//you multiply in deltatime here so acceleration is also constant
+						playerState.velocity.x = playerState.velocity.x + (airAcceleration * deltaTime);
+					}
+					else
+					{
+						playerState.velocity.x = (maximumHorizontalSpeed * sprintMultiplier);
+					}
+				}
+				//flip the sprite to face right
+				sprite->setScale(loadedScaleX,loadedScaleY);
+				playerState.facingLeft = false;
+				playerState.facingRight = true;
+			}
+		}
 	}
 	
-
-
 	//update the state, just to keep track
 	if(playerState.velocity.x > 0)
 	{
@@ -446,6 +448,7 @@ void Player::DoLeftAndRightMovement(double deltaTime)
 	{
 		playerState.movingLeft = true;
 	}
+
 }
 void Player::DoJumping(sf::Event events, bool eventFired)
 {
@@ -460,6 +463,16 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 			playerState.velocity.y -= jumpStrength;
 			playerState.grounded = false;
 			playerState.firstJumping = true;
+
+			//store whether the player was sprinting when he jumped, to deal with max velocity in the air.
+			if(playerState.INPUT_IsSprinting)
+			{
+				playerState.wasSprintingUponJump = true;
+			}
+			else
+			{
+				playerState.wasSprintingUponJump = false;
+			}
 
 		}
 		else
@@ -489,6 +502,16 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 								else if(playerState.INPUT_MoveRight)
 								{
 									playerState.velocity.x += doubleJumpVelocityChangeImpulse;
+								}
+
+								//store whether the player was sprinting when he jumped, to deal with max velocity in the air.
+								if(playerState.INPUT_IsSprinting)
+								{
+									playerState.wasSprintingUponJump = true;
+								}
+								else
+								{
+									playerState.wasSprintingUponJump = false;
 								}
 
 								playerState.firstJumping = false;
@@ -926,36 +949,31 @@ void Player::HandleAnimations()
 		}
 	}
 
-	
-		
-		if((playerState.INPUT_MoveLeft) || (playerState.INPUT_MoveRight))
+	if((playerState.INPUT_MoveLeft) || (playerState.INPUT_MoveRight))
+	{
+		if(playerState.grounded == true)
 		{
-			if(playerState.grounded == true)
+			//Walk
+			if(((!lastState.INPUT_MoveLeft) && (!lastState.INPUT_MoveRight)) || (playerState.animState == PlayerState::AnimationState::Idle))
 			{
-				//Walk
-					if(((!lastState.INPUT_MoveLeft) && (!lastState.INPUT_MoveRight)) || (playerState.animState == PlayerState::AnimationState::Idle))
-					{
-						playerState.animState = PlayerState::AnimationState::Walk;
-						sprite->SetCurrentAnimation(walkAnimName);
-						sprite->changeAnimSpeed(walkAnimName,0.03f);
-						sprite->SetRepeating(true);
-						sprite->Play();
-					}
-					
-				
+				playerState.animState = PlayerState::AnimationState::Walk;
+				sprite->SetCurrentAnimation(walkAnimName);
+				sprite->ChangeAnimSpeed(walkAnimName,0.03f);
+				sprite->SetRepeating(true);
+				sprite->Play();
+			}
 
-					//Sprint
-					if(playerState.INPUT_IsRunning)
-					{	
-						sprite->changeAnimSpeed(walkAnimName,(0.03f/1.3));
-					}
-					else if(!playerState.INPUT_IsRunning)
-					{
-						sprite->changeAnimSpeed(walkAnimName,0.03f);
-					}
+			//Sprint
+			if(playerState.INPUT_IsSprinting)
+			{	
+				sprite->ChangeAnimSpeed(walkAnimName,sprintFrameTime);
+			}
+			else if(!playerState.INPUT_IsSprinting)
+			{
+				sprite->ChangeAnimSpeed(walkAnimName,walkFrameTime);
 			}
 		}
-
+	}
 				
 	//Back to idle from walk
 	else
@@ -966,6 +984,15 @@ void Player::HandleAnimations()
 			sprite->SetCurrentAnimation(idleAnimName);
 			sprite->SetRepeating(true);
 			sprite->Play();
+		}
+	}
+
+	//A bug with landing where if you jump and land without going into fall, you dont transition out BAD BAD BAD BAD MAKES HIS ARMS FLAPS SAD
+	if((lastState.grounded == false) && (playerState.grounded == true))
+	{
+		if((playerState.animState != PlayerState::AnimationState::Landing) || (playerState.animState != PlayerState::AnimationState::Idle))
+		{
+			playerState.animState = PlayerState::AnimationState::Landing;
 		}
 	}
 }

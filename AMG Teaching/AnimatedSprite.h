@@ -25,7 +25,7 @@ public:
 
 	void AddAnimation(std::string animationName, std::vector<sf::IntRect> frames, float frameTime);
 
-		void changeAnimSpeed(std::string,float);
+	void ChangeAnimSpeed(std::string, float);
 
 private:
 

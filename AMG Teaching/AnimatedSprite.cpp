@@ -148,7 +148,7 @@ void AnimatedSprite::AddAnimation(std::string animationName, std::vector<sf::Int
 	}
 }
 
-void AnimatedSprite::changeAnimSpeed(std::string animationName, float frameTime)
+void AnimatedSprite::ChangeAnimSpeed(std::string animationName, float frameTime)
 {
 	if(animations.count(animationName))
 	{

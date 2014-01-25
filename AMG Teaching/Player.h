@@ -14,6 +14,7 @@
 #include "SpecialPlatform.h"
 #include "VectorMath.h"
 #include "XBoxButtons.h"
+#include <math.h>
 
 #define DEBUGPLAYER false
 
@@ -57,6 +58,9 @@ private:
 	sf::Texture spriteSheet;
 	std::unique_ptr<AnimatedSprite> sprite;
 
+	//The frametimes for variable animations speeds;
+	float walkFrameTime;
+	float sprintFrameTime;
 
 	std::string walkAnimName;
 	std::string idleAnimName;
@@ -91,6 +95,7 @@ private:
 	std::vector<sf::Keyboard::Key> moveRightKeys;
 	std::vector<sf::Keyboard::Key> jumpKeys;
 	std::vector<sf::Keyboard::Key> attackKeys;
+	std::vector<sf::Keyboard::Key> sprintKeys;
 
 	//Reads the current state of input from the playerstate and deals with moving
 	void HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms);
@@ -129,7 +134,6 @@ private:
 	float attackRange;
 	float attackDelay;
 	float sprintMultiplier;
-	float jumpSprintMultiplier;
 	
 	//The rect used to check for collision when the player is attacking
 	sf::Rect<float> attackCollider;
@@ -157,6 +161,7 @@ private:
 		bool grounded;
 		bool attacking;
 		bool isOnMovingPlatform;
+		bool wasSprintingUponJump;
 
 		sf::Vector2f velocity;
 
@@ -168,7 +173,7 @@ private:
 		bool INPUT_MoveRight;
 		bool INPUT_Jump;
 		bool INPUT_Attack;
-		bool INPUT_IsRunning;
+		bool INPUT_IsSprinting;
 
 		enum AnimationState
 		{
@@ -196,19 +201,20 @@ private:
 			grounded = false;
 			isOnMovingPlatform = false;
 			attacking = false;
-			INPUT_IsRunning = false;
+			INPUT_IsSprinting = false;
 			INPUT_MoveLeft = false;
 			INPUT_MoveRight = false;
 			INPUT_Jump = false;
 			INPUT_Attack = false;
 			canDoubleJump = false;
+			wasSprintingUponJump = false;
 			velocity = sf::Vector2f(0,0);
 			animState = AnimationState::Idle;
 		}
 
 		void PlayerState::ResetInputs()
 		{
-			INPUT_IsRunning = false;
+			INPUT_IsSprinting = false;
 			INPUT_MoveLeft = false;
 			INPUT_MoveRight = false;
 			INPUT_Jump = false;
