@@ -13,6 +13,7 @@
 #include "XMLParseUtilities.h"
 #include "SpecialPlatform.h"
 #include "VectorMath.h"
+#include "XBoxButtons.h"
 
 #define DEBUGPLAYER false
 
@@ -219,21 +220,6 @@ private:
 
 	//The downwards speed at which the fall animation triggers
 	float fallVelocityTillFallAnimation;
-
-	enum XBOXCONTROLLERBUTTONS
-	{
-	 A,
-	 B,
-	 X,
-	 Y,
-	 LB,
-	 RB,
-	 BACK,
-	 START,
-	 LEFT_THUMB,
-	 RIGHT_THUMB
-	 };
-
 
 };
 

@@ -5,6 +5,8 @@
 #define GAMELOGO "../Assets/Images/Menu/loch_ness_green.png"
 #define STARTBUTTON "../Assets/Images/Menu/StartButtonPlaceholder.png"
 #define STARTBUTTONSELECTED "../Assets/Images/Menu/StartButtonPlaceholderSelected.png"
+#define QUITBUTTON "../Assets/Images/Menu/QuitNormal.png"
+#define QUITBUTTONSELECTED "../Assets/Images/Menu/QuitSelected.png"
 #define VOLUMEBUTTONONNORMAL "../Assets/Images/Menu/VolumeNormalPlaceholder.png"
 #define VOLUMEBUTTONOFFNORMAL "../Assets/Images/Menu/VolumeTurnedOffNormal.png"
 #define VOLUMEBUTTONONSELECTED "../Assets/Images/Menu/VolumeSelectedPlaceholder.png"
@@ -41,3 +43,6 @@
 
 //fonts
 #define DEFAULTFONT "../Assets/Fonts/SourceSansPro-Black.otf"
+
+
+

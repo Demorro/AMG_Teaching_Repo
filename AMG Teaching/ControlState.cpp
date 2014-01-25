@@ -23,12 +23,12 @@ bool ControlState::Load()
 	controllerSprite.setOrigin((controllerSprite.getGlobalBounds().left + (controllerSprite.getGlobalBounds().width/2)),(controllerSprite.getGlobalBounds().top + (controllerSprite.getGlobalBounds().height/2)));
 	controllerSprite.setPosition(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y/2);
 
-	float menuElementsBobAmount = 200.0f;
-	float menuElementsTweenSpeed = 0.9f;
+	float menuElementsBobAmount = 0.0f;
+	float menuElementsTweenSpeed = 2.5f;
 
 	float backToMenuButtonDistanceFromBottom = 110;
 	float backToMenuButtonDistanceFromCenter = -500;
-	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(Application::GetWindow().getSize().x/2 + backToMenuButtonDistanceFromCenter, Application::GetWindow().getSize().y - backToMenuButtonDistanceFromBottom, BACKTOMENUNORMAL, BACKTOMENUSELECTED, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&ControlState::GoBackToMenuState,this)))));
+	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(Application::GetWindow().getSize().x/2 + backToMenuButtonDistanceFromCenter, Application::GetWindow().getSize().y - backToMenuButtonDistanceFromBottom, BACKTOMENUNORMAL, BACKTOMENUSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&ControlState::GoBackToMenuState,this)))));
 	return true;
 }
 

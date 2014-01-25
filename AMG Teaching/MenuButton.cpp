@@ -3,17 +3,17 @@
 
 
 //A non toggleable button
-MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
+MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
 {
 	onButtonActivationFunction = onClickLogic;
-	LoadNonToggleableValues(xPos,yPos,buttonImageRestingPath,buttonImageSelectingPath,shouldTweenIn,tweenDirection, tweenBobAmount, tweenSpeed);
+	LoadNonToggleableValues(xPos,yPos,buttonImageRestingPath,buttonImageSelectingPath, isSelectable, shouldTweenIn,tweenDirection, tweenBobAmount, tweenSpeed);
 }
 
 //A toggleable button
-MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
+MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
 {
 	onButtonActivationFunction = onClickLogic;
-	LoadNonToggleableValues(xPos,yPos,buttonImageRestingPath,buttonImageSelectingPath,shouldTweenIn,tweenDirection, tweenBobAmount, tweenSpeed);
+	LoadNonToggleableValues(xPos,yPos,buttonImageRestingPath,buttonImageSelectingPath,isSelectable,shouldTweenIn,tweenDirection, tweenBobAmount, tweenSpeed);
 
 	//Do the extra toggleable bits
 	isToggleButton = true; //this must come after LoadNonToggleables because isToggleButton is set to false by default there.
@@ -24,8 +24,10 @@ MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPat
 	buttonIsToggled = false;
 }
 
-void MenuButton::LoadNonToggleableValues(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed)
+void MenuButton::LoadNonToggleableValues(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed)
 {
+	this->isSelectable = isSelectable;
+
 	//Load textures
 	if(!buttonImageResting.loadFromFile(buttonImageRestingPath)){};
 	if(!buttonImageSelected.loadFromFile(buttonImageSelectingPath)){};
@@ -167,4 +169,14 @@ void MenuButton::Activate()
 sf::Rect<float> MenuButton::GetButtonBounds()
 {
 	return buttonSprite.getGlobalBounds();
+}
+
+bool MenuButton::IsSelectable()
+{
+	return isSelectable;
+}
+
+sf::Vector2f MenuButton::GetPosition()
+{
+	return buttonSprite.getPosition();
 }

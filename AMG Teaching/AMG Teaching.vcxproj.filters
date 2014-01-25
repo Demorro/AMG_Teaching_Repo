@@ -161,5 +161,8 @@
     <ClInclude Include="MenuButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="XBoxButtons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

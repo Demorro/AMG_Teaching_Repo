@@ -16,8 +16,8 @@ public:
 		Right
 	};
 
-	MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool shouldTweenIn = false, TweenInDirection tweenDirection = TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
-	MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool shouldTweenIn = false, TweenInDirection tweenDirection = TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
+	MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable = true, bool shouldTweenIn = false, TweenInDirection tweenDirection = TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
+	MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable = true, bool shouldTweenIn = false, TweenInDirection tweenDirection = TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
 	~MenuButton(void);
 
 	void Update(sf::Event events, bool eventFired, double deltaTime);
@@ -29,9 +29,15 @@ public:
 	bool IsAToggleButton();
 	sf::Rect<float> GetButtonBounds();
 
+	bool IsSelectable();
+
+	sf::Vector2f GetPosition();
+
 private:
 	sf::Sprite buttonSprite;
 	std::function<void()> onButtonActivationFunction;
+
+	bool isSelectable;
 
 	sf::Texture buttonImageResting;
 	sf::Texture buttonImageSelected;
@@ -50,6 +56,6 @@ private:
 	float tweenProgressIterator; //Iterate from 0 to 1 for the tween
 
 	void DoTweenLogic(double deltaTime);
-	void LoadNonToggleableValues(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed);
+	void LoadNonToggleableValues(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed);
 };
 
