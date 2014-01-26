@@ -29,4 +29,10 @@ bool State::Switch()
 void State::SwitchState(State::StateID state)
 {
 	targetID = state;
+
+	//This sets this ID to the restart state if you try and switch to this state, meaning that if you try and switch to this state, the state will reload.
+	if(targetID == state)
+	{
+		this->ID = RESTART_STATE;
+	}
 }

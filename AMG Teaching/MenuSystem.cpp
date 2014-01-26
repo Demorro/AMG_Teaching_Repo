@@ -38,6 +38,27 @@ void MenuSystem::Render(sf::RenderWindow &renderWindow)
 	}
 }
 
+void MenuSystem::Render(sf::RenderWindow &renderWindow, Camera &camera)
+{
+	for(int i = 0; i < menuElements.size(); i++)
+	{
+		sf::Vector2f screenCorrectionMoveVector = camera.GetPosition();
+		screenCorrectionMoveVector.x -= Application::GetWindow().getSize().x/2;
+		screenCorrectionMoveVector.y -= Application::GetWindow().getSize().y/2;
+		menuElements[i]->Move(screenCorrectionMoveVector);
+		menuElements[i]->Render(renderWindow);
+		menuElements[i]->Move(-screenCorrectionMoveVector);
+	}
+}
+
+void MenuSystem::ResetSystemTweens()
+{
+	for(int i = 0; i < menuElements.size(); i++)
+	{
+		menuElements[i]->ResetTween();
+	}
+}
+
 void MenuSystem::AddKeyboardSelectionButton(sf::Keyboard::Key selectionKey)
 {
 	keyboardSelectionButtons.push_back(selectionKey);

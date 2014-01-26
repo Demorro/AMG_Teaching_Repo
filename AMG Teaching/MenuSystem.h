@@ -3,6 +3,7 @@
 #include <SFML\Graphics.hpp>
 #include "MenuButton.h"
 #include "XBoxButtons.h"
+#include "Camera.h"
 
 class MenuSystem
 {
@@ -13,11 +14,14 @@ public:
 	void Update(sf::Event events, bool eventFired, double deltaTime);
 
 	void Render(sf::RenderWindow &renderWindow);
+	void Render(sf::RenderWindow &renderWindow, Camera &camera); //The camera overload centers the sprites in the center of the screen
 
 	void AddKeyboardSelectionButton(sf::Keyboard::Key selectionKey);
 	void AddJoyStickSelectionButton(int gamePad, int buttonCode);
 	void ClearKeyboardSelectionButtons();
 	void ClearJoyStickSelectionButtons();
+
+	void ResetSystemTweens();
 
 	//An AddMenuElement for each type of element
 	//Nontoggleablebutton

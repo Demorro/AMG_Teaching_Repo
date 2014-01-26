@@ -16,6 +16,16 @@
 #define BACKTOMENUNORMAL "../Assets/Images/Menu/BackToMenuPlaceholder.png"
 #define BACKTOMENUSELECTED "../Assets/Images/Menu/BackToMenuSelectedPlaceHolder.png"
 
+//Pause Menu
+#define PAUSEMENUFRAME "../Assets/Images/PauseMenu/PauseMenuFrame.png"
+#define PAUSERESUMEBUTTON "../Assets/Images/PauseMenu/ResumeButtonNormal.png"
+#define PAUSERESUMEBUTTONSELECTED "../Assets/Images/PauseMenu/ResumeButtonSelected.png"
+#define PAUSERESTARTBUTTON "../Assets/Images/PauseMenu/RestartButtonNormal.png"
+#define PAUSERESTARTBUTTONSELECTED "../Assets/Images/PauseMenu/RestartButtonSelected.png"
+#define PAUSEQUITBUTTON "../Assets/Images/PauseMenu/QuitButtonNormal.png"
+#define PAUSEQUITBUTTONSELECTED "../Assets/Images/PauseMenu/QuitButtonSelected.png"
+
+
 //Control state
 #define CONTROLSIMAGE "../Assets/Images/Menu/ControllerDiagram.png"
 

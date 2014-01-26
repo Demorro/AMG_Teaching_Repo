@@ -93,6 +93,7 @@
     <ClCompile Include="MenuSystem.cpp" />
     <ClCompile Include="MotionSpline.cpp" />
     <ClCompile Include="MovementPath.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="SpecialPlatform.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level1State.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="MotionSpline.h" />
     <ClInclude Include="MovementPath.h" />
     <ClInclude Include="MovingCollider.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="SpecialPlatform.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level1State.h" />

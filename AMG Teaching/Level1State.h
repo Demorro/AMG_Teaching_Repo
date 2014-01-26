@@ -5,6 +5,8 @@
 #include "Camera.h"
 #include "Player.h"
 #include "AudioManager.h"
+#include "PauseMenu.h"
+#include "XBoxButtons.h"
 
 #define PLAYERSTART sf::Vector2f(300,545)
 
@@ -27,6 +29,14 @@ public:
 	void Draw(sf::RenderWindow &renderWindow);
 
 private:
+
+	//runs logic to make the pause menu work
+	void PauseMenuLogic(sf::Event events, bool eventFired, double deltaTime);
+
+	//resets the pause tweens and clock and whatnot
+	void ResetPause(bool isGamePaused);
+
+
 	//Loads in and stored data representations of the level, as well as rendering it
 	std::unique_ptr<Level> loadedLevel;
 	
@@ -36,6 +46,20 @@ private:
 	//The main player character
 	std::unique_ptr<Player> player;
 
+	//The pause menu, plus bool for determining whether the game is paused, (used for stopping all the level update logic)
+	std::unique_ptr<PauseMenu> pauseMenu;
+	bool gameIsPaused;
+	std::vector<sf::Keyboard::Key> pauseKeys;
+	std::vector<std::pair<int,int>> pauseControllerButtons;
+	//dont want to be able to spam the pause menu too much, so use a timer;
+	sf::Clock pauseMenuTimer;
+	float timeBetweenPauses;
+
 	AudioManager audioManager;
+
+	void ResumeGameFromPaused();
+	void RestartLevel();
+	void QuitGame();
+
 
 };

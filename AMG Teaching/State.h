@@ -10,6 +10,7 @@ public:
 	//This enum defines the names of all the states, and acts as a control to switch between them via the SwitchState() function
 	enum StateID
 	{
+		RESTART_STATE,
 		MENU_STATE,
 		LEVEL1_STATE,
 		CONTROL_STATE

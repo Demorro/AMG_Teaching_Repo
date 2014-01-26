@@ -23,6 +23,8 @@ public:
 	void Update(sf::Event events, bool eventFired, double deltaTime);
 	void Render(sf::RenderWindow &window);
 
+	void Move(sf::Vector2f movement);
+
 	void ResetTween();
 	void SetSelected(bool isSelected);
 	void Activate();

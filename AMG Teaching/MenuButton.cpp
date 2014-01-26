@@ -180,3 +180,8 @@ sf::Vector2f MenuButton::GetPosition()
 {
 	return buttonSprite.getPosition();
 }
+
+void MenuButton::Move(sf::Vector2f movement)
+{
+	buttonSprite.move(movement);
+}
