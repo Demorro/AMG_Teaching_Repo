@@ -29,6 +29,19 @@ bool Level1State::Load()
 	pauseMenuTimer.restart();
 	timeBetweenPauses = 0.15f;
 
+	isSoundOn = interStateSingleton.GetIsVolumeOn();
+
+	//initialise the timer and its graphical display
+	int timerCharacterSize = 40;
+	int timerXFromLeft = 35;
+	int timerYFromTop = 20;
+	gameTimer.reset();
+	timerFont.loadFromFile(DEFAULTFONT);
+	gameTimerText.setFont(timerFont);
+	gameTimerText.setCharacterSize(timerCharacterSize);
+	gameTimerText.setPosition(timerXFromLeft,timerYFromTop);
+	gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime()));
+	
 	return true;
 }
 
@@ -46,10 +59,25 @@ void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 		loadedLevel->Update(deltaTime, *player, stageCam->GetVelocity());
 
 		//Update the player, handles movement and collision and every other darn thing
-		player->Update(events,eventFired,deltaTime,loadedLevel->GetStaticCollisionBounds(),loadedLevel->GetSpecialPlatforms(),loadedLevel->GetDestructibleObjects());
+		player->Update(events,eventFired,deltaTime,loadedLevel->GetStaticCollisionBounds(),loadedLevel->GetSpecialPlatforms(),loadedLevel->GetDestructibleObjects(),isSoundOn);
 
 		//Camera update, follow the player
 		stageCam->Update(events, eventFired,deltaTime, &player->GetPosition());
+
+		//Update the level timer text
+		if(!gameTimer.isRunning())
+		{
+			gameTimer.resume();
+		}
+		gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime()));
+	}
+	else
+	{
+		//Dont want the timer running if the game is paused
+		if(gameTimer.isRunning())
+		{
+			gameTimer.pause();
+		}
 	}
 
 	//you always need to be doing pause menu logic
@@ -63,6 +91,14 @@ void Level1State::Draw(sf::RenderWindow &renderWindow)
 	loadedLevel->DrawLayersBehindPlayer(renderWindow);
 	player->Render(renderWindow);
 	loadedLevel->DrawLayersInFrontOfPlayer(renderWindow);
+
+	//add in this vector(then remove it) to make the object appear in screen space
+	sf::Vector2f screenCorrectionMoveVector = stageCam->GetPosition();
+	screenCorrectionMoveVector.x -= Application::GetWindow().getSize().x/2;
+	screenCorrectionMoveVector.y -= Application::GetWindow().getSize().y/2;
+	gameTimerText.move(screenCorrectionMoveVector);
+	renderWindow.draw(gameTimerText);
+	gameTimerText.move(-screenCorrectionMoveVector);
 
 	if(gameIsPaused)
 	{
@@ -128,7 +164,6 @@ void Level1State::ResetPause(bool isGamePaused)
 	pauseMenu->ResetTweens();
 	gameIsPaused = isGamePaused;
 	pauseMenuTimer.restart();
-	pauseMenu->MoveToFirstButton();
 }
 
 void Level1State::ResumeGameFromPaused()
@@ -136,7 +171,6 @@ void Level1State::ResumeGameFromPaused()
 	pauseMenu->ResetTweens();
 	gameIsPaused = false;
 	pauseMenuTimer.restart();
-	pauseMenu->MoveToFirstButton();
 }
 
 
@@ -149,4 +183,37 @@ void Level1State::QuitGame()
 {
 	stageCam->JumpToPoint(Application::GetWindow().getSize().x/2,Application::GetWindow().getSize().y/2); //if we dont do this the menustate has a fucked up viewport
 	SwitchState(State::MENU_STATE);
+}
+
+//take in a time object, and return a formatted H:M:S string
+std::string Level1State::GetTimerTextFromTime(sf::Time time)
+{
+	int milliSeconds = time.asMilliseconds();
+	int seconds;
+	int minutes;
+	int hours;
+
+	hours = milliSeconds / (1000*60*60);
+	minutes = (milliSeconds % (1000*60*60)) / (1000*60);
+	seconds = ((milliSeconds % (1000*60*60)) % (1000*60)) / 1000;
+
+
+	std::string returnableTimeString;
+	returnableTimeString = "Time : ";
+
+	std::stringstream timeStream1(std::stringstream::in | std::stringstream::out);
+	timeStream1 << hours;
+	returnableTimeString += timeStream1.str();
+	returnableTimeString += " : ";
+
+	std::stringstream timeStream2(std::stringstream::in | std::stringstream::out);
+	timeStream2 << minutes;
+	returnableTimeString += timeStream2.str();
+	returnableTimeString += " : ";
+
+	std::stringstream timeStream3(std::stringstream::in | std::stringstream::out);
+	timeStream3 << seconds;
+	returnableTimeString += timeStream3.str();
+
+	return returnableTimeString;
 }

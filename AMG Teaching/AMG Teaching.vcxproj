@@ -110,6 +110,7 @@
     <ClInclude Include="Assets.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Chronometer.h" />
     <ClInclude Include="ControlState.h" />
     <ClInclude Include="DestructibleObject.h" />
     <ClInclude Include="InterStateSingleTon.h" />

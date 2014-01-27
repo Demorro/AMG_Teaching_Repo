@@ -7,6 +7,7 @@
 #include "AudioManager.h"
 #include "PauseMenu.h"
 #include "XBoxButtons.h"
+#include "Chronometer.h"
 
 #define PLAYERSTART sf::Vector2f(300,545)
 
@@ -36,7 +37,6 @@ private:
 	//resets the pause tweens and clock and whatnot
 	void ResetPause(bool isGamePaused);
 
-
 	//Loads in and stored data representations of the level, as well as rendering it
 	std::unique_ptr<Level> loadedLevel;
 	
@@ -61,5 +61,13 @@ private:
 	void RestartLevel();
 	void QuitGame();
 
+	bool isSoundOn;
+
+	//Level timer
+	sftools::Chronometer gameTimer;
+	sf::Font timerFont;
+	sf::Text gameTimerText;
+
+	std::string GetTimerTextFromTime(sf::Time time);
 
 };

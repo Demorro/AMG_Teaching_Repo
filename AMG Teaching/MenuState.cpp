@@ -13,6 +13,13 @@ MenuState::~MenuState(void)
 
 bool MenuState::Load()
 {
+	//Start the music, it's loaded in the singleton
+	if(interStateSingleton.MenuMusicIsPlaying() == false)
+	{
+		interStateSingleton.PlayMenuMusic();
+	}
+	
+
 
 	if(!backgroundImage.loadFromFile(MENUBACKGROUND)){};
 	backGroundSprite.setTexture(backgroundImage);
@@ -35,9 +42,21 @@ bool MenuState::Load()
 
 	float volumeButtonDistanceFromBottom = 110;
 	float volumeButtonDistanceFromCenterX = 500;
-	mainMenuSystem.AddMenuElement(Application::GetWindow().getSize().x/2 + volumeButtonDistanceFromCenterX, Application::GetWindow().getSize().y - volumeButtonDistanceFromBottom, VOLUMEBUTTONONNORMAL, VOLUMEBUTTONONSELECTED, VOLUMEBUTTONOFFNORMAL, VOLUMEBUTTONOFFSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::ToggleVolume,this)));
+	if(interStateSingleton.GetIsVolumeOn() == false) //Not sure if supremely clever or dumb as fuck. If you come back into the main state and the volume is off, then switch around the on/off images so the icon appears correct. Seems to work
+	{
+		mainMenuSystem.AddMenuElement(Application::GetWindow().getSize().x/2 + volumeButtonDistanceFromCenterX, Application::GetWindow().getSize().y - volumeButtonDistanceFromBottom, VOLUMEBUTTONOFFNORMAL, VOLUMEBUTTONOFFSELECTED, VOLUMEBUTTONONNORMAL, VOLUMEBUTTONONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::ToggleVolume,this)));
+	}
+	else
+	{
+		mainMenuSystem.AddMenuElement(Application::GetWindow().getSize().x/2 + volumeButtonDistanceFromCenterX, Application::GetWindow().getSize().y - volumeButtonDistanceFromBottom, VOLUMEBUTTONONNORMAL, VOLUMEBUTTONONSELECTED, VOLUMEBUTTONOFFNORMAL, VOLUMEBUTTONOFFSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::ToggleVolume,this)));
+	}
 
 	mainMenuSystem.MoveToFirstButton();
+
+	
+
+	
+	
 
 	return true;
 }
@@ -63,15 +82,20 @@ void MenuState::ToggleVolume()
 	if(interStateSingleton.GetIsVolumeOn())
 	{
 		interStateSingleton.SetIsVolumeOn(false);
+		interStateSingleton.AdjustMenuMusicVolume(0);
 	}
 	else
 	{
 		interStateSingleton.SetIsVolumeOn(true);
+		interStateSingleton.AdjustMenuMusicVolume(100);
 	}
+
+	mainMenuSystem.RecheckIfVolumeIsOn();
 }
 
 void MenuState::GoToFirstLevelState()
 {
+	interStateSingleton.StopMenuMusic();
 	SwitchState(State::LEVEL1_STATE);
 }
 

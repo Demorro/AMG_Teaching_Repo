@@ -168,15 +168,15 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	return true;
 }
 
-void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, std::vector<DestructibleObject> &destructibleObjects)
+void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, std::vector<DestructibleObject> &destructibleObjects, bool shouldPlaySounds)
 {
 	sprite->UpdateAnimations();
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
 	playerState.ResetInputs();
 	ReceiveKeyboardInput(events,eventFired);
 	ReceiveControllerInput(events,eventFired);
-	DoAttacks(destructibleObjects);
-	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms);
+	DoAttacks(destructibleObjects,shouldPlaySounds);
+	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms, shouldPlaySounds);
 }
 
 
@@ -264,13 +264,13 @@ void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
 
 	}
 }
-void Player::HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms)
+void Player::HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, bool shouldPlaySounds)
 {
 
 	AdjustPositionForMovingPlatforms(deltaTime,movingPlatforms);
 
 	//Deal wid jumping 
-	DoJumping(events, eventFired);
+	DoJumping(events, eventFired, shouldPlaySounds);
 	//update the player velocity to move left and right depending on player inputs
 	DoLeftAndRightMovement(deltaTime);
 	//Add Gravity
@@ -450,7 +450,7 @@ void Player::DoLeftAndRightMovement(double deltaTime)
 	}
 
 }
-void Player::DoJumping(sf::Event events, bool eventFired)
+void Player::DoJumping(sf::Event events, bool eventFired, bool shouldPlaySounds)
 {
 	//Jump
 	if(playerState.INPUT_Jump)
@@ -459,7 +459,10 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 		//you can only jump if you're grounded, or if you're in the grace period after falling off a ledge
 		if(playerState.grounded == true) 
 		{
-			jumpSound.play();
+			if(shouldPlaySounds)
+			{
+				jumpSound.play();
+			}
 			playerState.velocity.y -= jumpStrength;
 			playerState.grounded = false;
 			playerState.firstJumping = true;
@@ -490,7 +493,10 @@ void Player::DoJumping(sf::Event events, bool eventFired)
 							//check to make sure that the player really can double jump, and the button hasnt just fired twice
 							if(doubleJumpKeyTimer.getElapsedTime().asMilliseconds() > doubleJumpKeyTime)
 							{
-								fartSound.play();
+								if(shouldPlaySounds)
+								{
+									fartSound.play();
+								}
 								playerState.velocity.y = 0;
 								playerState.velocity.y -= jumpStrength;
 
@@ -711,7 +717,7 @@ bool Player::HandleCollision(std::vector<sf::Rect<float>> &staticLevelCollisionB
 	return hasCollided;
 }
 
-void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects)
+void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects, bool shouldPlaySounds)
 {
 	playerState.attacking = false;
 	if(playerState.INPUT_Attack)
@@ -722,7 +728,10 @@ void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects)
 			//We can attack, so do it!
 			playerState.attacking = true;
 			//Play the attack sound
-			attackSound.play();
+			if(shouldPlaySounds)
+			{
+				attackSound.play();
+			}
 			//check against all the objects to see if the attack collider colliders
 			for(int i = 0; i < destructibleObjects.size(); i++)
 			{

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "SFML\Graphics.hpp"
-#include "SFML\Network.hpp"
+#include "SFML\Audio.hpp"
+#include "Assets.h"
 
 //This is probably a really bad idea, but i honestly can't think of another way to communicate between states (other than scrapping this state system altogether, which might be a good idea to be honest, it's starting to show its age)
-//This is for the client side only, quite important to remember ... i think. I forgot why.
 
 // Macro for quickly grabbing the singleton instance
 #define interStateSingleton InterStateSingleton::GetInstance()
@@ -16,8 +16,16 @@ public:
 	/** Grabs the singleton instance of the class. */
 	static InterStateSingleton& GetInstance();
 
-	void SetIsVolumeOn(bool isVolumeOn);
+	void SetIsVolumeOn(bool volume);
 	bool GetIsVolumeOn();
+
+	//For the menu music
+	bool LoadMenuMusicFile(std::string menuMusicFilePath);
+	void PlayMenuMusic();
+	void AdjustMenuMusicVolume(float volume);
+	void StopMenuMusic();
+	bool MenuMusicIsPlaying();
+	void SetMenuMusicLooping(bool looping);
 
 private:
 	InterStateSingleton();
@@ -26,6 +34,9 @@ private:
 
 	//Stuff that needs to be shared between states
 	bool isVolumeOn;
+
+	//Since the menu jumps between multiple states, put the menu music stuff here, so it's consistent
+	sf::Music menuMusic;
 
 };
 

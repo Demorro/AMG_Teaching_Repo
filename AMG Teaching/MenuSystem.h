@@ -4,6 +4,7 @@
 #include "MenuButton.h"
 #include "XBoxButtons.h"
 #include "Camera.h"
+#include "InterStateSingleTon.h"
 
 class MenuSystem
 {
@@ -33,6 +34,12 @@ public:
 	//Sets the selection to be the first button we got, so we can start selected.
 	void MoveToFirstButton();
 
+	void LoadMoveBetweenButtonSound(std::string soundPath);
+	void LoadSelectButtonSound(std::string soundPath);
+
+	//because we cache whether the volume is on or not, you need to sometimes recheck it when you turn it on/off so the menusounds start playing in that state
+	void RecheckIfVolumeIsOn();
+
 private:
 	//buttons that can be used to hit a menu button
 	std::vector<sf::Keyboard::Key> keyboardSelectionButtons;
@@ -51,5 +58,12 @@ private:
 	void HandleButtonActivation(sf::Event events, bool eventFired);
 	void MoveToButton(MenuButton* button);
 
+	//Sounds
+	sf::SoundBuffer moveBetweenButtonSoundBuffer;
+	sf::SoundBuffer selectButtonSoundBuffer;
+	sf::Sound moveBetweenButtonsSound;
+	sf::Sound selectButtonSound;
+
+	bool isSoundOn;
 };
 

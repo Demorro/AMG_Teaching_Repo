@@ -15,6 +15,10 @@
 #define CONTROLBUTTONSELECTED "../Assets/Images/Menu/ControlButtonSelected.png"
 #define BACKTOMENUNORMAL "../Assets/Images/Menu/BackToMenuPlaceholder.png"
 #define BACKTOMENUSELECTED "../Assets/Images/Menu/BackToMenuSelectedPlaceHolder.png"
+//main menu sounds
+#define MENUBACKINGMUSIC "../Assets/Sounds/Music/MenuMusic.wav"
+#define MOVEBETWEENBUTTONSOUND "../Assets/Sounds/MenuSounds/MenuButtonChange.wav"
+#define SELECTBUTTONSOUND "../Assets/Sounds/MenuSounds/MenuButtonSelect.wav"
 
 //Pause Menu
 #define PAUSEMENUFRAME "../Assets/Images/PauseMenu/PauseMenuFrame.png"

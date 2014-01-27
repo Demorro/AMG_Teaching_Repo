@@ -31,7 +31,7 @@ public:
 	~Player(void);
 
 	//Runs the update logic, the rect vector is because this also runs the collision code
-	void Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, std::vector<DestructibleObject> &destructibleObjects);
+	void Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, std::vector<DestructibleObject> &destructibleObjects, bool shouldPlaySounds);
 	void Render(sf::RenderWindow &window);
 
 	void Move(float x, float y);
@@ -98,7 +98,7 @@ private:
 	std::vector<sf::Keyboard::Key> sprintKeys;
 
 	//Reads the current state of input from the playerstate and deals with moving
-	void HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms);
+	void HandleMovement(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, bool shouldPlaySounds);
 	
 	//Called in move, makes sure the attack collider is in the right place
 	void HandleAttackColliderPositioning();
@@ -107,7 +107,7 @@ private:
 	//Does the left and right movement for the player, whether the player is on the ground or in the air
 	void DoLeftAndRightMovement(double deltaTime);
 	//Handles the jumping
-	void DoJumping(sf::Event events, bool eventFired);
+	void DoJumping(sf::Event events, bool eventFired, bool shouldPlaySounds);
 	//Deals with adding the drag, whether the player is on the ground or in the air, they both have different values
 	void AddDrag(double deltaTime);
 	//Pull the player towards the floor
@@ -116,7 +116,7 @@ private:
 	//Handle collision, done using an Intersection Vector and adjusting to the shortest component. Returns true if something has collided, false if not
 	bool HandleCollision(std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms);
 	//Handles the attacking logic
-	void DoAttacks(std::vector<DestructibleObject> &destructibleObjects);
+	void DoAttacks(std::vector<DestructibleObject> &destructibleObjects, bool shouldPlaySounds);
 
 	void AdjustPositionForMovingPlatforms(float deltaTime, std::vector<SpecialPlatform> &movingPlatforms);
 

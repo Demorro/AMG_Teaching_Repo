@@ -31,6 +31,9 @@
     <Filter Include="Source Files\PugiXML">
       <UniqueIdentifier>{473c7615-e66f-4183-a81a-fced5ae3272d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Other Tools">
+      <UniqueIdentifier>{b5edd8d9-b276-4285-aa71-53e09742738b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="State.cpp">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="PauseMenu.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Chronometer.h">
+      <Filter>Header Files\Other Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

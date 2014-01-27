@@ -11,6 +11,12 @@ MenuSystem::MenuSystem(void)
 	//default selection buttons
 	keyboardSelectionButtons.push_back(sf::Keyboard::Return);
 	joystickSelectionButtons.push_back(std::pair<int,int>(0,XBOXCONTROLLERBUTTONS::A));
+
+	RecheckIfVolumeIsOn();
+
+	//Load default sounds
+	LoadMoveBetweenButtonSound(MOVEBETWEENBUTTONSOUND);
+	LoadSelectButtonSound(SELECTBUTTONSOUND);
 }
 
 
@@ -209,6 +215,10 @@ void MenuSystem::HandleButtonControllerSelection()
 							{
 								//Move
 								MoveToButton(candidateMoveButtons[i].first);
+								if(isSoundOn)
+								{
+									moveBetweenButtonsSound.play();
+								}
 								return; //gotta break out or we'll move to the further out buttons as well
 							}
 						}
@@ -218,6 +228,10 @@ void MenuSystem::HandleButtonControllerSelection()
 							{
 								//Move
 								MoveToButton(candidateMoveButtons[i].first);
+								if(isSoundOn)
+								{
+									moveBetweenButtonsSound.play();
+								}
 								return;
 							}
 						}
@@ -227,6 +241,10 @@ void MenuSystem::HandleButtonControllerSelection()
 							{
 								//Move
 								MoveToButton(candidateMoveButtons[i].first);
+								if(isSoundOn)
+								{
+									moveBetweenButtonsSound.play();
+								}
 								return;
 							}
 						}
@@ -236,6 +254,10 @@ void MenuSystem::HandleButtonControllerSelection()
 							{
 								//Move
 								MoveToButton(candidateMoveButtons[i].first);
+								if(isSoundOn)
+								{
+									moveBetweenButtonsSound.play();
+								}
 								return;
 							}
 						}
@@ -260,6 +282,10 @@ void MenuSystem::HandleButtonActivation(sf::Event events, bool eventFired)
 				{
 					if((events.mouseButton.button == sf::Mouse::Left) || (events.key.code == keyboardSelectionButtons[i]))
 					{
+						if(isSoundOn)
+						{
+							selectButtonSound.play();
+						}
 						//Activate the button, it will toggle if it is a toggle button
 						selectedButton->Activate();
 					}
@@ -272,6 +298,10 @@ void MenuSystem::HandleButtonActivation(sf::Event events, bool eventFired)
 				{
 					if((events.joystickButton.joystickId == joystickSelectionButtons[i].first) && (events.joystickButton.button == joystickSelectionButtons[i].second))
 					{
+						if(isSoundOn)
+						{
+							selectButtonSound.play();
+						}
 						//Activate the button, it will toggle if it is a toggle button
 						selectedButton->Activate();
 					}
@@ -300,4 +330,21 @@ void MenuSystem::MoveToFirstButton()
 			break;
 		}
 	}
+}
+
+void MenuSystem::LoadMoveBetweenButtonSound(std::string soundPath)
+{
+	moveBetweenButtonSoundBuffer.loadFromFile(soundPath);
+	moveBetweenButtonsSound.setBuffer(moveBetweenButtonSoundBuffer);
+}
+
+void MenuSystem::LoadSelectButtonSound(std::string soundPath)
+{
+	selectButtonSoundBuffer.loadFromFile(soundPath);
+	selectButtonSound.setBuffer(selectButtonSoundBuffer);
+}
+
+void MenuSystem::RecheckIfVolumeIsOn()
+{
+	isSoundOn = interStateSingleton.GetIsVolumeOn();
 }
