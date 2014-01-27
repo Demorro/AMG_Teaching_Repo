@@ -3,6 +3,9 @@
 #include "MotionSpline.h"
 #include <memory>
 #include <functional>
+#include <Windows.h>
+#include <sstream>
+
 
 class MenuButton
 {

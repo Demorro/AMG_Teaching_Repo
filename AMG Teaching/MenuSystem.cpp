@@ -182,7 +182,7 @@ void MenuSystem::HandleButtonControllerSelection()
 
 			//Vector of candidate buttons, the pair is a pointer to the button and the distance from the selected buttons
 			std::vector<std::pair<MenuButton*, float>> candidateMoveButtons;
-			candidateMoveButtons.resize(menuElements.size(), std::pair<MenuButton*,float>(nullptr,0));
+			candidateMoveButtons.resize(menuElements.size());
 			for(int i = 0; i < menuElements.size(); i++)
 			{
 				//get button and distance

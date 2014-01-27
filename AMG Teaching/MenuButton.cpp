@@ -37,6 +37,8 @@ void MenuButton::LoadNonToggleableValues(float xPos, float yPos, std::string but
 	buttonSprite.setOrigin(buttonSprite.getGlobalBounds().left + buttonSprite.getGlobalBounds().width/2, buttonSprite.getGlobalBounds().top + buttonSprite.getGlobalBounds().height/2);
 	buttonSprite.setPosition(xPos, yPos);
 
+	this->shouldTweenIn = shouldTweenIn;
+
 	//If there's a tween
 	if(shouldTweenIn)
 	{
@@ -95,17 +97,20 @@ void MenuButton::DoTweenLogic(double deltaTime)
 {
 	if(shouldTweenIn)
 	{
-		if(tweenProgressIterator < 1.0f)
+		//OutputDebugString(L"w");
+		if(tweenInSpline != nullptr)
 		{
-			if(tweenInSpline != nullptr)
+			buttonSprite.setPosition(tweenInSpline->GetPointOnSpline(tweenProgressIterator));
+			tweenProgressIterator += deltaTime * tweenInSpeed;
+			if(tweenProgressIterator > 1.0f)
 			{
-				buttonSprite.setPosition(tweenInSpline->GetPointOnSpline(tweenProgressIterator));
-				tweenProgressIterator += deltaTime * tweenInSpeed;
+				tweenProgressIterator = 1.0f;
 			}
-			else
-			{
-				std::cout << "Cannot tween button, no spline" << std::endl;
-			}
+		}
+		else
+		{
+				
+			std::cout << "Cannot tween button, no spline\n" << std::endl;
 		}
 	}
 }

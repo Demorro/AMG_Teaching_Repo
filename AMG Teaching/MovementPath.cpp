@@ -35,7 +35,7 @@ sf::Vector2f MovementPath::GetPointAtIndex(int index)
 	}
 	else
 	{
-
+		return pathPoints[0];
 		std::cout << "Cannot get movement path point at index : " << index << " as it dosen't seem to exist" << std::endl;
 	}
 }
