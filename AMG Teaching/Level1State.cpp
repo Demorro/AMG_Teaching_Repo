@@ -20,8 +20,12 @@ bool Level1State::Load()
 	//Load level 1
 	loadedLevel = std::unique_ptr<Level>(new Level(TESTLEVEL,&audioManager));
 	
-	stageCam = std::unique_ptr<Camera>(new Camera(Application::GetWindow(),PLAYERSTART));
-	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,PLAYERSTART,sf::IntRect(0,166,126,156),sf::IntRect(0,0,70,150),audioManager));
+	stageCam = std::unique_ptr<Camera>(new Camera(Application::GetWindow(),DEFAULTPLAYERSTART));
+	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,DEFAULTPLAYERSTART,sf::IntRect(0,166,126,156),sf::IntRect(0,0,70,150),audioManager));
+
+	//Set the spawn point
+	player->SetPosition(loadedLevel->GetSpawnPosition());
+	stageCam->JumpToPoint(player->GetPosition().x, player->GetPosition().y);
 
 	pauseKeys.push_back(sf::Keyboard::Escape);
 	pauseControllerButtons.push_back(std::pair<int,int>(0,START));

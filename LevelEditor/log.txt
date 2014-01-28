@@ -1,16 +1,29 @@
-06/12/2013 04:21:07.378 - Log File created.
-06/12/2013 04:21:07.378 - Application started.
-06/12/2013 04:21:07.684 - Creating Game1 object.
-06/12/2013 04:21:07.749 - Game1 creation started.
-06/12/2013 04:21:07.752 - Creating Winform.
-06/12/2013 04:21:07.810 - Winform created.
-06/12/2013 04:21:07.810 - Game1 creation ended.
-06/12/2013 04:21:07.881 - Creating Editor object.
-06/12/2013 04:21:07.886 - Editor creation started.
-06/12/2013 04:21:07.886 - Loading Resources.
-06/12/2013 04:21:07.904 - Resources loaded.
-06/12/2013 04:21:07.904 - Loading Settings.
-06/12/2013 04:21:08.926 - Settings loaded.
-06/12/2013 04:21:08.926 - Creating new level.
-06/12/2013 04:21:08.980 - New level created.
-06/12/2013 04:21:08.981 - Editor creation ended.
+28/01/2014 18:47:12.692 - Log File created.
+28/01/2014 18:47:12.693 - Application started.
+28/01/2014 18:47:13.174 - Creating Game1 object.
+28/01/2014 18:47:13.257 - Game1 creation started.
+28/01/2014 18:47:13.259 - Creating Winform.
+28/01/2014 18:47:13.334 - Winform created.
+28/01/2014 18:47:13.335 - Game1 creation ended.
+28/01/2014 18:47:13.384 - Creating Editor object.
+28/01/2014 18:47:13.388 - Editor creation started.
+28/01/2014 18:47:13.389 - Loading Resources.
+28/01/2014 18:47:13.406 - Resources loaded.
+28/01/2014 18:47:13.406 - Loading Settings.
+28/01/2014 18:47:13.871 - Settings loaded.
+28/01/2014 18:47:13.871 - Creating new level.
+28/01/2014 18:47:13.950 - New level created.
+28/01/2014 18:47:13.950 - Editor creation ended.
+28/01/2014 18:47:34.844 - pictureBox1_Resize().
+28/01/2014 18:48:24.745 - pictureBox1_Resize().
+28/01/2014 18:48:24.862 - pictureBox1_Resize().
+28/01/2014 18:51:59.684 - pictureBox1_Resize().
+28/01/2014 18:51:59.798 - pictureBox1_Resize().
+28/01/2014 18:53:40.368 - pictureBox1_Resize().
+28/01/2014 18:53:40.516 - pictureBox1_Resize().
+28/01/2014 18:55:58.498 - pictureBox1_Resize().
+28/01/2014 18:55:58.613 - pictureBox1_Resize().
+28/01/2014 18:57:18.229 - pictureBox1_Resize().
+28/01/2014 18:57:18.326 - pictureBox1_Resize().
+28/01/2014 19:25:58.266 - pictureBox1_Resize().
+28/01/2014 19:25:58.347 - pictureBox1_Resize().

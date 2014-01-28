@@ -59,8 +59,14 @@ public:
 	//Returns the rects of the death zones
 	std::vector<sf::Rect<float>> &GetDeathZones();
 
+	//Returns the rects of the end zones
+	std::vector<sf::Rect<float>> &GetEndZones();
+
 	//Returns the movement paths
 	std::map<std::string,MovementPath> &GetMovementPaths();
+
+	//Returns the spawn position
+	sf::Vector2f GetSpawnPosition();
 
 private:
 	//Store a reference to the audio manager
@@ -69,6 +75,9 @@ private:
 	//These functions handle loading the parts of the level that need something beyond a basic sprite and collision or a rect, just better encapsulated here.
 	void LoadSpecialPlatform(pugi::xml_node &rootNode, sf::Sprite &baseSprite);
 	void LoadMovementPath(pugi::xml_node &rootNode);
+
+	void LoadLevelMetaData(pugi::xml_node &rootNode);
+	sf::Vector2f spawnPosition;
 
 	void LoadLevelConfigDoc(std::string configPath);
 	
@@ -102,7 +111,7 @@ private:
 		DESTRUCTIBLES,
 		SPECIALPLATFORMS,
 		MOVEMENTPATHS,
-		DEATHZONES,
+		LEVELMETADATA,
 	};
 
 	//The background colour of the level
@@ -124,6 +133,7 @@ private:
 	std::vector<sf::Sprite> foregroundSprites;
 	std::vector<sf::Rect<float>> collisionBounds;
 	std::vector<sf::Rect<float>> deathZones;
+	std::vector<sf::Rect<float>> endZones;
 	std::vector<SpecialPlatform> specialPlatforms;
 	//This is a map as other objects need to reference these by name to allow loading in from the level editor
 	std::map<std::string,MovementPath> movementPaths;

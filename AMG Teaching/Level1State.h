@@ -9,7 +9,7 @@
 #include "XBoxButtons.h"
 #include "Chronometer.h"
 
-#define PLAYERSTART sf::Vector2f(300,545)
+#define DEFAULTPLAYERSTART sf::Vector2f(300,545)
 
 class Level1State : public State
 {

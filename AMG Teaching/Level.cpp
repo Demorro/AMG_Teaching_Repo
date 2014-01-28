@@ -5,6 +5,7 @@ Level::Level(AudioManager *audioManager)
 {
 	this->audioManager = audioManager;
 	backgroundColor = sf::Color::Black;
+	spawnPosition = sf::Vector2f(0,0);
 }
 
 Level::Level(std::string levelDataPath, AudioManager *audioManager)
@@ -141,7 +142,7 @@ bool Level::LoadLevel(std::string levelPath)
 	LoadLayer(COLLISION);
 	LoadLayer(DESTRUCTIBLES);
 	LoadLayer(SPECIALPLATFORMS);
-	LoadLayer(DEATHZONES);
+	LoadLayer(LEVELMETADATA);
 
 	return true;
 }
@@ -243,10 +244,10 @@ void Level::LoadLayer(LevelLayers layer)
 				startNode = beginNode;
 			}
 		}
-		else if(layer == DEATHZONES)
+		else if(layer == LEVELMETADATA)
 		{
 			nodeName = beginNode.attribute("Name").value();
-			if(nodeName == "THEDEATHZONE")
+			if(nodeName == "LevelMetaData")
 			{
 				startNode = beginNode;
 			}
@@ -287,8 +288,8 @@ void Level::LoadLayer(LevelLayers layer)
 			backgroundColor.a = alpha;
 		}
 	}
-	//The collision data, death zone data, movement path data and background colour needs to be loaded in differently to the normal sprite based texture data.
-	else if((layer != COLLISION) && (layer != DEATHZONES) && (layer != BACKGROUNDCOLOUR) && (layer != MOVEMENTPATHS))
+	//The collision data, movement path data, levelmetadata and background colour needs to be loaded in differently to the normal sprite based texture data.
+	else if((layer != COLLISION) && (layer != BACKGROUNDCOLOUR) && (layer != MOVEMENTPATHS) && (layer != LEVELMETADATA))
 	{
 		//Now we have the root node of the layer, start loading in dat data! Yeah Baby Yeah!
 		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
@@ -382,7 +383,7 @@ void Level::LoadLayer(LevelLayers layer)
 		}
 	}
 	//The collision layer needs to be loaded into rects
-	else if((layer == COLLISION) || (layer == DEATHZONES))
+	else if(layer == COLLISION)
 	{
 		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
 		{
@@ -410,10 +411,6 @@ void Level::LoadLayer(LevelLayers layer)
 			{
 				collisionBounds.push_back(loadedRect);
 			}
-			else if(layer == DEATHZONES)
-			{
-				deathZones.push_back(loadedRect);
-			}
 		}
 	}
 	//movement paths have their own special structure
@@ -423,6 +420,89 @@ void Level::LoadLayer(LevelLayers layer)
 		{
 			LoadMovementPath(traversalNode);
 		}
+	}
+	else if(layer == LEVELMETADATA)
+	{
+		//Load the death zone
+		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
+		{
+			LoadLevelMetaData(traversalNode);
+			
+			//if(traversalNode.name.
+			//deathZones.push_back(loadedRect);
+		}
+	}
+}
+
+void Level::LoadLevelMetaData(pugi::xml_node &rootNode)
+{
+	//Load in the death zone
+	std::string deathZoneObjectName = "DeathZone";
+	std::string playerSpawnPosName = "PlayerStartPosition";
+	std::string endZoneName = "EndZone";
+	if(rootNode.attribute("Name").as_string() ==deathZoneObjectName)
+	{
+		//Get the X and Y positions of this object, and then convert the const chars* read into ints so we can use them
+		int xPos;
+		std::stringstream xStream(rootNode.child("Position").child_value("X"));
+		xStream >> xPos;
+		int yPos;
+		std::stringstream yStream(rootNode.child("Position").child_value("Y"));
+		yStream >> yPos;
+
+		//Get the dimensions
+		int width;
+		std::stringstream widthStream(rootNode.child_value("Width"));
+		widthStream >> width;
+		int height;
+		std::stringstream heightStream(rootNode.child_value("Height"));
+		heightStream >> height;
+
+		//Create a rect with the parsed properties
+		sf::Rect<float> loadedRect(xPos,yPos,width,height);
+		deathZones.push_back(loadedRect);
+
+		std::cout << "Loading DeathZone" << std::endl;
+	}
+	//Load in the spawn position
+	if(rootNode.attribute("Name").value() == playerSpawnPosName)
+	{
+		//Get the X and Y positions of this object, and then convert the const chars* read into ints so we can use them
+		int xPos;
+		std::stringstream xStream(rootNode.child("Position").child_value("X"));
+		xStream >> xPos;
+		int yPos;
+		std::stringstream yStream(rootNode.child("Position").child_value("Y"));
+		yStream >> yPos;
+
+		spawnPosition = sf::Vector2f(xPos,yPos);
+
+		std::cout << "Loading PlayerStartPos" << std::endl;
+	}
+	//Load in the ending rectangles(they trigger the end of the level when the player touches em)
+	if(rootNode.attribute("Name").value() == endZoneName)
+	{
+		//Get the X and Y positions of this object, and then convert the const chars* read into ints so we can use them
+		int xPos;
+		std::stringstream xStream(rootNode.child("Position").child_value("X"));
+		xStream >> xPos;
+		int yPos;
+		std::stringstream yStream(rootNode.child("Position").child_value("Y"));
+		yStream >> yPos;
+
+		//Get the dimensions
+		int width;
+		std::stringstream widthStream(rootNode.child_value("Width"));
+		widthStream >> width;
+		int height;
+		std::stringstream heightStream(rootNode.child_value("Height"));
+		heightStream >> height;
+
+		//Create a rect with the parsed properties
+		sf::Rect<float> loadedRect(xPos,yPos,width,height);
+		endZones.push_back(loadedRect);
+
+		std::cout << "Loading EndZone" << std::endl;
 	}
 }
 
@@ -485,7 +565,6 @@ void Level::LoadMovementPath(pugi::xml_node &rootNode)
 	}
 
 	bool pathLoops = rootNode.child("IsPolygon").text().as_bool();
-	std::cout << "PATHLELLOPS : " << pathLoops << std::endl;
 	movementPaths[pathName] = (MovementPath(movementPathPoints,pathLoops));
 	
 }
@@ -621,9 +700,19 @@ std::vector<sf::Rect<float>> &Level::GetDeathZones()
 	return deathZones;
 }
 
+std::vector<sf::Rect<float>> &Level::GetEndZones()
+{
+	return endZones;
+}
+
 std::map<std::string,MovementPath> &Level::GetMovementPaths()
 {
 	return movementPaths;
+}
+
+sf::Vector2f Level::GetSpawnPosition()
+{
+	return spawnPosition;
 }
 
 void Level::DrawLayersBehindPlayer(sf::RenderWindow &window)
