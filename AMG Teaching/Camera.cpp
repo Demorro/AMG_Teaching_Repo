@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Application.h"
 
 Camera::Camera(void)
 {
@@ -39,6 +40,16 @@ void Camera::InitialiseCamera(sf::Vector2f startPositionOffset)
 	}
 
 	
+}
+
+//This function returns a vector that you can subtract from any position to get it into screenspace, just remember to add it again after
+sf::Vector2f Camera::GetScreenSpaceOffsetVector()
+{
+	sf::Vector2f screenCorrectionMoveVector = GetPosition();
+	screenCorrectionMoveVector.x -= Application::GetWindow().getSize().x/2;
+	screenCorrectionMoveVector.y -= Application::GetWindow().getSize().y/2;
+
+	return screenCorrectionMoveVector;
 }
 
 // Load in Camera Config
@@ -107,7 +118,10 @@ void Camera::Update( sf::Event event, bool eventFired,float deltaTime, sf::Vecto
 
 	if(simpleCam)
 	{
-		JumpToPoint(followTarget->x, followTarget->y);
+		if(!locked)
+		{
+			JumpToPoint(followTarget->x, followTarget->y);
+		}
 	}
 	else
 	{
@@ -218,12 +232,12 @@ void Camera::UpdateView()
 	}
 }
 
-bool Camera::getlocked()
+bool Camera::GetLocked()
 {
 	return locked;
 }
 
-void Camera::setlocked(bool value)
+void Camera::SetLocked(bool value)
 {
 	locked = value;
 }

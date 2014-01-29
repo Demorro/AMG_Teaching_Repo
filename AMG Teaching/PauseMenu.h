@@ -3,6 +3,8 @@
 #include "MenuSystem.h"
 #include "Camera.h"
 #include <functional>
+#include <memory>
+#include "TweeningText.h"
 
 class PauseMenu
 {

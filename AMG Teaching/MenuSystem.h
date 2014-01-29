@@ -5,6 +5,7 @@
 #include "XBoxButtons.h"
 #include "Camera.h"
 #include "InterStateSingleTon.h"
+#include <memory>
 
 class MenuSystem
 {
@@ -24,11 +25,11 @@ public:
 
 	void ResetSystemTweens();
 
-	//An AddMenuElement for each type of element
+	//An AddMenuButtonsfor each type of element
 	//Nontoggleablebutton
-	void AddMenuElement(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable = true, bool shouldTweenIn = false, MenuButton::TweenInDirection tweenDirection = MenuButton::TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
+	void AddMenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable = true, bool shouldTweenIn = false, MenuButton::TweenInDirection tweenDirection = MenuButton::TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
 	//toggleable buttons
-	void AddMenuElement(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable = true, bool shouldTweenIn = false, MenuButton::TweenInDirection tweenDirection = MenuButton::TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
+	void AddMenuButtonToggleable(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable = true, bool shouldTweenIn = false, MenuButton::TweenInDirection tweenDirection = MenuButton::TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
 	void ClearMenuElements();
 
 	//Sets the selection to be the first button we got, so we can start selected.

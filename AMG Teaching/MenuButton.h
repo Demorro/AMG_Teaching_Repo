@@ -5,22 +5,14 @@
 #include <functional>
 #include <Windows.h>
 #include <sstream>
+#include "TweenableElement.h"
 
 
-class MenuButton
+class MenuButton : public TweenableElement
 {
 public:
-
-	enum TweenInDirection
-	{
-		Top,
-		Bottom,
-		Left,
-		Right
-	};
-
-	MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable = true, bool shouldTweenIn = false, TweenInDirection tweenDirection = TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
-	MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable = true, bool shouldTweenIn = false, TweenInDirection tweenDirection = TweenInDirection::Top,  float tweenBobAmount = 100.0f, float tweenSpeed = 1.0f, std::function<void()> onClickLogic = nullptr);
+	MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable = true, bool shouldTweenIn = true, std::function<void()> onClickLogic = nullptr);
+	MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable = true, bool shouldTweenIn = true, std::function<void()> onClickLogic = nullptr);
 	~MenuButton(void);
 
 	void Update(sf::Event events, bool eventFired, double deltaTime);
@@ -28,14 +20,12 @@ public:
 
 	void Move(sf::Vector2f movement);
 
-	void ResetTween();
 	void SetSelected(bool isSelected);
 	void Activate();
 	bool IsAToggleButton();
 	sf::Rect<float> GetButtonBounds();
 
 	bool IsSelectable();
-
 	sf::Vector2f GetPosition();
 
 private:
@@ -53,14 +43,6 @@ private:
 	sf::Texture buttonImageToggledResting;
 	sf::Texture buttonImageToggledSelected;
 
-	//For tweening in
-	bool shouldTweenIn;
-	std::unique_ptr<MotionSpline> tweenInSpline;
-	TweenInDirection tweenInDirection; 
-	float tweenInSpeed;
-	float tweenProgressIterator; //Iterate from 0 to 1 for the tween
-
-	void DoTweenLogic(double deltaTime);
-	void LoadNonToggleableValues(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed);
+	void LoadNonToggleableValues(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable);
 };
 

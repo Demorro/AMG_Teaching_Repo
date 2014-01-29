@@ -85,7 +85,7 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	//If the player is going down at this speed, the fall animation is triggered
 	fallVelocityTillFallAnimation = 200.0f;
 
-	handleToStandingPlatform = NULL;
+	handleToStandingPlatform = nullptr;
 
 	return true;
 }
@@ -172,10 +172,13 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 {
 	sprite->UpdateAnimations();
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
-	playerState.ResetInputs();
-	ReceiveKeyboardInput(events,eventFired);
-	ReceiveControllerInput(events,eventFired);
-	DoAttacks(destructibleObjects,shouldPlaySounds);
+	if(playerState.isAcceptingInput) //If we toggle off input, don't want any of these actions to happen (of special note is reset inputs, because we can for instance, toggle left movement on and then turn off inputs and the player will walk himself :))
+	{
+		playerState.ResetInputs();
+		ReceiveKeyboardInput(events,eventFired);
+		ReceiveControllerInput(events,eventFired);
+		DoAttacks(destructibleObjects,shouldPlaySounds);
+	}
 	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms, shouldPlaySounds);
 }
 
@@ -840,7 +843,7 @@ void Player::AdjustPositionForMovingPlatforms(float deltaTime, std::vector<Speci
 {
 	if(playerState.isOnMovingPlatform)
 	{
-		if(handleToStandingPlatform != NULL)
+		if(handleToStandingPlatform != nullptr)
 		{
 			platformMoveVector = handleToStandingPlatform->getPosition() - handleToStandingPlatform->GetLastPosition();
 			if(VectorMagnitude(platformMoveVector)  < 1000)
@@ -1079,4 +1082,23 @@ void Player::SetVelocity(sf::Vector2f velocity)
 sf::FloatRect Player::GetCollider()
 {
 	return collisionRect;
+}
+
+void Player::SetInputs(bool INPUT_MoveLeft, bool INPUT_MoveRight, bool INPUT_Jump, bool INPUT_Attack, bool INPUT_IsSprinting)
+{
+	playerState.INPUT_MoveLeft = INPUT_MoveLeft;
+	playerState.INPUT_MoveRight = INPUT_MoveRight;
+	playerState.INPUT_Jump = INPUT_Jump;
+	playerState.INPUT_Attack = INPUT_Attack;
+	playerState.INPUT_IsSprinting = INPUT_IsSprinting;
+}
+
+void Player::SetIsAcceptingInput(bool isAcceptingInput)
+{
+	this->playerState.isAcceptingInput = isAcceptingInput;
+}
+
+bool Player::GetIsAcceptingInput()
+{
+	return playerState.isAcceptingInput;
 }

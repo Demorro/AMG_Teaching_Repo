@@ -34,6 +34,11 @@ private:
 	//runs logic to make the pause menu work
 	void PauseMenuLogic(sf::Event events, bool eventFired, double deltaTime);
 
+	//Checks if the player has reached the end of the level,
+	bool PlayerHasMadeItToTheEnd();
+	//reacts accordingly
+	void ReactToPlayerWinning();
+
 	//resets the pause tweens and clock and whatnot
 	void ResetPause(bool isGamePaused);
 

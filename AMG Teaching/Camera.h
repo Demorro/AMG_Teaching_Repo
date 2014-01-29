@@ -26,10 +26,13 @@ public:
 	sf::Vector2f GetPosition();
 	sf::Vector2f GetVelocity();
 
-	bool getlocked();
+	//If you subtract this vector from a position, you get the screenspace position, (ie 300,200 will be 300 pixels down and 200 pixels along on the screen,) regardless of where the camera is. For rendering UI mainly.
+	sf::Vector2f GetScreenSpaceOffsetVector();
 
-	void setlocked(bool value);
-	private:
+	bool GetLocked();
+	void SetLocked(bool value);
+private:
+
 	sf::View cameraView;
 	bool LoadConfigValues(std::string configFilePath);
 
@@ -46,8 +49,6 @@ public:
 	// Position of the Center of the Screen
 	sf::Vector2f Last_Center_Point;
 	sf::Vector2f Center_Point;
-
-private:
 
 	//read only, do not set
 	sf::Vector2f velocity;

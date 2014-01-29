@@ -50,6 +50,17 @@ public:
 	//Sort of a special case. Needs to be called before anything (well just the player + platforms really) are stepped in the scene to determine if we're on one
 	void DetermineIfPlayerIsOnMovingPlatform(std::vector<SpecialPlatform> &movingPlatforms);
 
+	//Allows you to directly set the state inputs, Remember these can totally (and probably will be) get wiped by ResetInputs();
+	void SetInputs(bool INPUT_MoveLeft,
+				   bool INPUT_MoveRight,
+				   bool INPUT_Jump,
+				   bool INPUT_Attack,
+				   bool INPUT_IsSprinting);
+
+	//So you can toggle whether or not the player can be controlled
+	void SetIsAcceptingInput(bool isAcceptingInput);
+	bool GetIsAcceptingInput();
+
 private:
 	//these values are stored here so we can flip the sprite and keep the same scale
 	float loadedScaleX;
@@ -175,6 +186,8 @@ private:
 		bool INPUT_Attack;
 		bool INPUT_IsSprinting;
 
+		bool isAcceptingInput;
+
 		enum AnimationState
 		{
 			Idle,
@@ -191,6 +204,7 @@ private:
 
 		PlayerState::PlayerState()
 		{
+			isAcceptingInput = true;
 			movingLeft = false;
 			movingRight = false;
 			facingLeft = false;

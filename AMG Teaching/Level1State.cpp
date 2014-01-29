@@ -74,6 +74,12 @@ void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 			gameTimer.resume();
 		}
 		gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime()));
+
+		//Check for victory
+		if(PlayerHasMadeItToTheEnd())
+		{
+			ReactToPlayerWinning();
+		}
 	}
 	else
 	{
@@ -163,6 +169,26 @@ void Level1State::PauseMenuLogic(sf::Event events, bool eventFired, double delta
 	}
 }
 
+bool Level1State::PlayerHasMadeItToTheEnd()
+{
+	for(int i = 0; i < loadedLevel->GetEndZones().size(); i++)
+	{
+		if(player->GetCollider().intersects(loadedLevel->GetEndZones()[i]))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void Level1State::ReactToPlayerWinning()
+{
+	//So what we wanna do here is lock the camera, force the player to run offscreen, and then display the win statistics.
+	stageCam->SetLocked(true);
+	player->SetIsAcceptingInput(false);
+	player->SetInputs(false,true,false,false,false);
+}
+
 void Level1State::ResetPause(bool isGamePaused)
 {
 	pauseMenu->ResetTweens();
@@ -176,7 +202,6 @@ void Level1State::ResumeGameFromPaused()
 	gameIsPaused = false;
 	pauseMenuTimer.restart();
 }
-
 
 void Level1State::RestartLevel()
 {

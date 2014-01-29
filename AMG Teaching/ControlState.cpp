@@ -25,7 +25,7 @@ bool ControlState::Load()
 	float menuElementsBobAmount = 150.0f;
 	float menuElementsTweenSpeed = 1.4f;
 
-	controlScreenMenuSystem.AddMenuElement(Application::GetWindow().getSize().x/2 + backToMenuButtonDistanceFromCenter, Application::GetWindow().getSize().y - backToMenuButtonDistanceFromBottom, BACKTOMENUNORMAL, BACKTOMENUSELECTED, true, true, MenuButton::TweenInDirection::Left, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&ControlState::GoBackToMenuState,this)));
+	controlScreenMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2 + backToMenuButtonDistanceFromCenter, Application::GetWindow().getSize().y - backToMenuButtonDistanceFromBottom, BACKTOMENUNORMAL, BACKTOMENUSELECTED, true, true, MenuButton::TweenInDirection::Left, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&ControlState::GoBackToMenuState,this)));
 	controlScreenMenuSystem.MoveToFirstButton();
 	return true;
 }

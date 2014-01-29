@@ -3,17 +3,17 @@
 
 
 //A non toggleable button
-MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
+MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable, bool shouldTweenIn, std::function<void()> onClickLogic) : TweenableElement(shouldTweenIn, sf::Vector2f(xPos,yPos))
 {
 	onButtonActivationFunction = onClickLogic;
-	LoadNonToggleableValues(xPos,yPos,buttonImageRestingPath,buttonImageSelectingPath, isSelectable, shouldTweenIn,tweenDirection, tweenBobAmount, tweenSpeed);
+	LoadNonToggleableValues(xPos,yPos,buttonImageRestingPath,buttonImageSelectingPath, isSelectable);
 }
 
 //A toggleable button
-MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
+MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable, bool shouldTweenIn, std::function<void()> onClickLogic) : TweenableElement(shouldTweenIn, sf::Vector2f(xPos,yPos))
 {
 	onButtonActivationFunction = onClickLogic;
-	LoadNonToggleableValues(xPos,yPos,buttonImageRestingPath,buttonImageSelectingPath,isSelectable,shouldTweenIn,tweenDirection, tweenBobAmount, tweenSpeed);
+	LoadNonToggleableValues(xPos,yPos,buttonImageRestingPath,buttonImageSelectingPath,isSelectable);
 
 	//Do the extra toggleable bits
 	isToggleButton = true; //this must come after LoadNonToggleables because isToggleButton is set to false by default there.
@@ -24,7 +24,7 @@ MenuButton::MenuButton(float xPos, float yPos, std::string buttonImageRestingPat
 	buttonIsToggled = false;
 }
 
-void MenuButton::LoadNonToggleableValues(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable, bool shouldTweenIn, TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed)
+void MenuButton::LoadNonToggleableValues(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable)
 {
 	this->isSelectable = isSelectable;
 
@@ -37,93 +37,26 @@ void MenuButton::LoadNonToggleableValues(float xPos, float yPos, std::string but
 	buttonSprite.setOrigin(buttonSprite.getGlobalBounds().left + buttonSprite.getGlobalBounds().width/2, buttonSprite.getGlobalBounds().top + buttonSprite.getGlobalBounds().height/2);
 	buttonSprite.setPosition(xPos, yPos);
 
-	this->shouldTweenIn = shouldTweenIn;
-
-	//If there's a tween
-	if(shouldTweenIn)
-	{
-		tweenInSpeed = tweenSpeed;
-		tweenProgressIterator = 0.0f;
-
-		sf::Vector2f tweenStartPosition; //This position is just off the screen in the tween direction, so you cant see the button
-		sf::Vector2f tweenBobPosition; //The final position + the bob offset
-		sf::Vector2f endTweenPosition = buttonSprite.getPosition();
-		if(tweenDirection == Top)
-		{
-			tweenStartPosition = buttonSprite.getPosition();
-			tweenStartPosition.y = 0 - buttonSprite.getLocalBounds().height;
-			tweenBobPosition = buttonSprite.getPosition();
-			tweenBobPosition.y = tweenBobPosition.y + tweenBobAmount;
-		}
-		else if(tweenDirection == Bottom)
-		{
-			tweenStartPosition = buttonSprite.getPosition();
-			tweenStartPosition.y = Application::GetWindow().getSize().y + buttonSprite.getLocalBounds().height;
-			tweenBobPosition = buttonSprite.getPosition();
-			tweenBobPosition.y = tweenBobPosition.y - tweenBobAmount;
-		}
-		else if(tweenDirection == Left)
-		{
-			tweenStartPosition = buttonSprite.getPosition();
-			tweenStartPosition.x = 0 - buttonSprite.getLocalBounds().width;
-			tweenBobPosition = buttonSprite.getPosition();
-			tweenBobPosition.x = tweenBobPosition.x + tweenBobAmount;
-		}
-		else if(tweenDirection == Right)
-		{
-			tweenStartPosition = buttonSprite.getPosition();
-			tweenStartPosition.x = Application::GetWindow().getSize().x + buttonSprite.getLocalBounds().width;
-			tweenBobPosition = buttonSprite.getPosition();
-			tweenBobPosition.x = tweenBobPosition.x - tweenBobAmount;
-		}
-		tweenInSpline = std::unique_ptr<MotionSpline>(new MotionSpline(tweenStartPosition,tweenBobPosition,endTweenPosition,endTweenPosition));
-	}
-
 	buttonIsToggled = false;
 	isToggleButton = false;
-
 }
 
 MenuButton::~MenuButton(void)
 {
 }
 
+
 void MenuButton::Update(sf::Event events, bool eventFired, double deltaTime)
 {
-	DoTweenLogic(deltaTime);
+	DoTweenLogic(deltaTime,buttonSprite);
 }
 
-void MenuButton::DoTweenLogic(double deltaTime)
-{
-	if(shouldTweenIn)
-	{
-		//OutputDebugString(L"w");
-		if(tweenInSpline != nullptr)
-		{
-			buttonSprite.setPosition(tweenInSpline->GetPointOnSpline(tweenProgressIterator));
-			tweenProgressIterator += deltaTime * tweenInSpeed;
-			if(tweenProgressIterator > 1.0f)
-			{
-				tweenProgressIterator = 1.0f;
-			}
-		}
-		else
-		{
-				
-			std::cout << "Cannot tween button, no spline\n" << std::endl;
-		}
-	}
-}
 
 void MenuButton::Render(sf::RenderWindow &window)
 {
 	window.draw(buttonSprite);
 }
 
-void MenuButton::ResetTween()
-{
-	tweenProgressIterator = 0.0f;
-}
 
 void MenuButton::SetSelected(bool isSelected)
 {

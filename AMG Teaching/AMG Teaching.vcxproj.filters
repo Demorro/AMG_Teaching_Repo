@@ -99,6 +99,15 @@
     <ClCompile Include="PauseMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TweenableElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingSequence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TweeningText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -181,6 +190,15 @@
     </ClInclude>
     <ClInclude Include="Chronometer.h">
       <Filter>Header Files\Other Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="TweenableElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingSequence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TweeningText.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

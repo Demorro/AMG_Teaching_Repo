@@ -6,18 +6,19 @@ PauseMenu::PauseMenu(std::function<void()> ResumeFunction, std::function<void()>
 	float menuElementsBobAmount = 200.0f;
 	float menuElementsTweenSpeed = 1.5f;
 
-	pauseMenuSystem.AddMenuElement(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y/2, PAUSEMENUFRAME, PAUSEMENUFRAME, false, true, MenuButton::TweenInDirection::Top, menuElementsBobAmount, menuElementsTweenSpeed);
+	pauseMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y/2, PAUSEMENUFRAME, PAUSEMENUFRAME, false, true, MenuButton::TweenInDirection::Top, menuElementsBobAmount, menuElementsTweenSpeed);
 
 	float resumeButtonYFromCenter = -120;
-	pauseMenuSystem.AddMenuElement(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y/2 + resumeButtonYFromCenter, PAUSERESUMEBUTTON, PAUSERESUMEBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Left, menuElementsBobAmount, menuElementsTweenSpeed, ResumeFunction);
+	pauseMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y/2 + resumeButtonYFromCenter, PAUSERESUMEBUTTON, PAUSERESUMEBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Left, menuElementsBobAmount, menuElementsTweenSpeed, ResumeFunction);
 
 	float restartButtonYFromCenter = 0;
-	pauseMenuSystem.AddMenuElement(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y/2 + restartButtonYFromCenter, PAUSERESTARTBUTTON, PAUSERESTARTBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Right, menuElementsBobAmount, menuElementsTweenSpeed, RestartFunction);
+	pauseMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y/2 + restartButtonYFromCenter, PAUSERESTARTBUTTON, PAUSERESTARTBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Right, menuElementsBobAmount, menuElementsTweenSpeed, RestartFunction);
 	
 	float quitButtonYFromCenter = 120;
-	pauseMenuSystem.AddMenuElement(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y/2 + quitButtonYFromCenter, PAUSEQUITBUTTON, PAUSEQUITBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Left, menuElementsBobAmount, menuElementsTweenSpeed, QuitFunction);
+	pauseMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y/2 + quitButtonYFromCenter, PAUSEQUITBUTTON, PAUSEQUITBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Left, menuElementsBobAmount, menuElementsTweenSpeed, QuitFunction);
 
 	pauseMenuSystem.MoveToFirstButton();
+
 }
 
 

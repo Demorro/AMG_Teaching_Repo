@@ -48,9 +48,7 @@ void MenuSystem::Render(sf::RenderWindow &renderWindow, Camera &camera)
 {
 	for(int i = 0; i < menuElements.size(); i++)
 	{
-		sf::Vector2f screenCorrectionMoveVector = camera.GetPosition();
-		screenCorrectionMoveVector.x -= Application::GetWindow().getSize().x/2;
-		screenCorrectionMoveVector.y -= Application::GetWindow().getSize().y/2;
+		sf::Vector2f screenCorrectionMoveVector = camera.GetScreenSpaceOffsetVector();
 		menuElements[i]->Move(screenCorrectionMoveVector);
 		menuElements[i]->Render(renderWindow);
 		menuElements[i]->Move(-screenCorrectionMoveVector);
@@ -86,14 +84,18 @@ void MenuSystem::ClearJoyStickSelectionButtons()
 }
 
 //non toggleable button
-void MenuSystem::AddMenuElement(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable, bool shouldTweenIn, MenuButton::TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
+void MenuSystem::AddMenuButton(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, bool isSelectable, bool shouldTweenIn, MenuButton::TweenInDirection tweenDirection, float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
 {
-	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(xPos, yPos, buttonImageRestingPath, buttonImageSelectingPath, isSelectable, shouldTweenIn, tweenDirection, tweenBobAmount, tweenSpeed, onClickLogic)));
+	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(xPos, yPos, buttonImageRestingPath, buttonImageSelectingPath, isSelectable, shouldTweenIn, onClickLogic)));
+	menuElements.back()->GenerateTween(sf::Vector2f(xPos,yPos),menuElements.back()->GetButtonBounds(), tweenDirection, tweenBobAmount, tweenSpeed);
+	menuElements.back()->ResetTween();
 }
 //toggleable button
-void MenuSystem::AddMenuElement(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable, bool shouldTweenIn, MenuButton::TweenInDirection tweenDirection,  float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
+void MenuSystem::AddMenuButtonToggleable(float xPos, float yPos, std::string buttonImageRestingPath, std::string buttonImageSelectingPath, std::string buttonImageToggledRestingPath, std::string buttonImageToggledSelectedPath, bool isSelectable, bool shouldTweenIn, MenuButton::TweenInDirection tweenDirection,  float tweenBobAmount, float tweenSpeed, std::function<void()> onClickLogic)
 {
-	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(xPos, yPos, buttonImageRestingPath, buttonImageSelectingPath, buttonImageToggledRestingPath, buttonImageToggledSelectedPath, isSelectable, shouldTweenIn, tweenDirection, tweenBobAmount, tweenSpeed, onClickLogic)));
+	menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(xPos, yPos, buttonImageRestingPath, buttonImageSelectingPath, buttonImageToggledRestingPath, buttonImageToggledSelectedPath, isSelectable, shouldTweenIn, onClickLogic)));
+	menuElements.back()->GenerateTween(sf::Vector2f(xPos,yPos),menuElements.back()->GetButtonBounds(), tweenDirection, tweenBobAmount, tweenSpeed);
+	menuElements.back()->ResetTween();
 }
 
 void MenuSystem::ClearMenuElements()
