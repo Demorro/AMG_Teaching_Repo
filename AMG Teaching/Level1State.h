@@ -8,6 +8,7 @@
 #include "PauseMenu.h"
 #include "XBoxButtons.h"
 #include "Chronometer.h"
+#include "EndingSequence.h"
 
 #define DEFAULTPLAYERSTART sf::Vector2f(300,545)
 
@@ -38,6 +39,9 @@ private:
 	bool PlayerHasMadeItToTheEnd();
 	//reacts accordingly
 	void ReactToPlayerWinning();
+
+	//The ending sequence text objects
+	std::unique_ptr<EndingSequence> endingSequence;
 
 	//resets the pause tweens and clock and whatnot
 	void ResetPause(bool isGamePaused);
@@ -72,7 +76,4 @@ private:
 	sftools::Chronometer gameTimer;
 	sf::Font timerFont;
 	sf::Text gameTimerText;
-
-	std::string GetTimerTextFromTime(sf::Time time);
-
 };

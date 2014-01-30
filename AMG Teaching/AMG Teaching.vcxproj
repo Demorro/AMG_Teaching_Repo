@@ -135,6 +135,7 @@
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="TweenableElement.h" />
     <ClInclude Include="TweeningText.h" />
+    <ClInclude Include="UtilityFunctions.h" />
     <ClInclude Include="VectorMath.h" />
     <ClInclude Include="XBoxButtons.h" />
     <ClInclude Include="XMLParseUtilities.h" />

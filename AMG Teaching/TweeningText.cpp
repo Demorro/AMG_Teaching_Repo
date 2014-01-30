@@ -5,14 +5,15 @@ TweeningText::TweeningText(sf::Font &font, int textSize, sf::Vector2f position, 
 {
 	text.setFont(font);
 	text.setCharacterSize(textSize);
-	text.setPosition(position);
 	text.setString(initialString);
-
+	text.setOrigin(text.getGlobalBounds().width/2, text.getGlobalBounds().height/2);
+	text.setPosition(position);
 
 	this->shouldTweenIn = shouldTweenIn;
 	this->isLockedToCamera = lockedToCamera;
 	this->gameCam = camera;
 
+	ResetTween();
 }
 
 
@@ -22,22 +23,24 @@ TweeningText::~TweeningText(void)
 
 void TweeningText::Update(sf::Event events, bool eventFired, double deltaTime)
 {
-	if(isLockedToCamera)
-	{
-		if(gameCam != nullptr)
-		{
-			DoTweenLogic(deltaTime,text);
-		}
-	}
-	else
-	{
-		DoTweenLogic(deltaTime,text);
-	}
+	DoTweenLogic(deltaTime,text);
 }
 
 void TweeningText::Render(sf::RenderWindow& window)
 {
-	window.draw(text);
+	if(isLockedToCamera)
+	{
+		if(gameCam != nullptr)
+		{
+			text.move(gameCam->GetScreenSpaceOffsetVector());
+			window.draw(text);
+			text.move(-gameCam->GetScreenSpaceOffsetVector());
+		}
+	}
+	else
+	{
+		window.draw(text);
+	}
 }
 
 void TweeningText::SetText(std::string newText)

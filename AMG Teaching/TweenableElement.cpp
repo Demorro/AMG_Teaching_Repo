@@ -63,7 +63,6 @@ void TweenableElement::DoTweenLogic(double deltaTime, sf::Transformable &object)
 {
 	if(shouldTweenIn)
 	{
-		//OutputDebugString(L"w");
 		if(tweenInSpline != nullptr)
 		{
 			object.setPosition(tweenInSpline->GetPointOnSpline(tweenProgressIterator));
@@ -71,6 +70,7 @@ void TweenableElement::DoTweenLogic(double deltaTime, sf::Transformable &object)
 			if(tweenProgressIterator > 1.0f)
 			{
 				tweenProgressIterator = 1.0f;
+				
 			}
 		}
 		else

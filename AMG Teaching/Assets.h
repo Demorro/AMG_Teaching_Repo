@@ -20,6 +20,7 @@
 #define MOVEBETWEENBUTTONSOUND "../Assets/Sounds/MenuSounds/MenuButtonChange.wav"
 #define SELECTBUTTONSOUND "../Assets/Sounds/MenuSounds/MenuButtonSelect.wav"
 
+
 //Pause Menu
 #define PAUSEMENUFRAME "../Assets/Images/PauseMenu/PauseMenuFrame.png"
 #define PAUSERESUMEBUTTON "../Assets/Images/PauseMenu/ResumeButtonNormal.png"
@@ -28,6 +29,16 @@
 #define PAUSERESTARTBUTTONSELECTED "../Assets/Images/PauseMenu/RestartButtonSelected.png"
 #define PAUSEQUITBUTTON "../Assets/Images/PauseMenu/QuitButtonNormal.png"
 #define PAUSEQUITBUTTONSELECTED "../Assets/Images/PauseMenu/QuitButtonSelected.png"
+
+//Ending sequence
+#define APLUSGRADE "../Assets/Images/EndingSequence/Grades/APlusGrade.png"
+#define AGRADE "../Assets/Images/EndingSequence/Grades/AGrade.png"
+#define BGRADE "../Assets/Images/EndingSequence/Grades/BGrade.png"
+#define CGRADE "../Assets/Images/EndingSequence/Grades/CGrade.png"
+#define EMPTYGRADE "../Assets/Images/EndingSequence/Grades/EmptyGrade.png"
+#define GRADESTAMPSOUND "../Assets/Sounds/MenuSounds/GradeStamp.wav"
+#define APLUSSOUND "../Assets/Sounds/MenuSounds/Gong.wav"
+#define COUNTUPTIMESOUND "../Assets/Sounds/MenuSounds/TimeCounterClicks.wav"
 
 
 //Control state

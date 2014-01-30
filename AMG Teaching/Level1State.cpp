@@ -12,16 +12,17 @@ Level1State::~Level1State(void)
 
 bool Level1State::Load()
 {
-	//std::function<void()>(std::bind(&MenuState::GoToFirstLevelState,this))
+	//load things here, remember to do load checks if possible
 
 	pauseMenu = std::unique_ptr<PauseMenu>(new PauseMenu(std::function<void()>(std::bind(&Level1State::ResumeGameFromPaused,this)), std::function<void()>(std::bind(&Level1State::RestartLevel,this)),  std::function<void()>(std::bind(&Level1State::QuitGame,this))));
 
-	//load things here, remember to do load checks if possible
 	//Load level 1
 	loadedLevel = std::unique_ptr<Level>(new Level(TESTLEVEL,&audioManager));
 	
 	stageCam = std::unique_ptr<Camera>(new Camera(Application::GetWindow(),DEFAULTPLAYERSTART));
 	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,DEFAULTPLAYERSTART,sf::IntRect(0,166,126,156),sf::IntRect(0,0,70,150),audioManager));
+
+	endingSequence = std::unique_ptr<EndingSequence>(new EndingSequence(stageCam.get()));
 
 	//Set the spawn point
 	player->SetPosition(loadedLevel->GetSpawnPosition());
@@ -37,14 +38,14 @@ bool Level1State::Load()
 
 	//initialise the timer and its graphical display
 	int timerCharacterSize = 40;
-	int timerXFromLeft = 35;
-	int timerYFromTop = 20;
+	int timerXFromLeft = 25;
+	int timerYFromTop = 10;
 	gameTimer.reset();
 	timerFont.loadFromFile(DEFAULTFONT);
 	gameTimerText.setFont(timerFont);
 	gameTimerText.setCharacterSize(timerCharacterSize);
 	gameTimerText.setPosition(timerXFromLeft,timerYFromTop);
-	gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime()));
+	gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime(),true));
 	
 	return true;
 }
@@ -71,15 +72,21 @@ void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 		//Update the level timer text
 		if(!gameTimer.isRunning())
 		{
-			gameTimer.resume();
+			if(endingSequence->IsActive() == false)
+			{
+				gameTimer.resume();
+			}
 		}
-		gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime()));
+		gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime(),true));
 
 		//Check for victory
 		if(PlayerHasMadeItToTheEnd())
 		{
+			gameTimer.pause();
 			ReactToPlayerWinning();
 		}
+
+		endingSequence->Update(events,eventFired,deltaTime);
 	}
 	else
 	{
@@ -103,12 +110,15 @@ void Level1State::Draw(sf::RenderWindow &renderWindow)
 	loadedLevel->DrawLayersInFrontOfPlayer(renderWindow);
 
 	//add in this vector(then remove it) to make the object appear in screen space
-	sf::Vector2f screenCorrectionMoveVector = stageCam->GetPosition();
-	screenCorrectionMoveVector.x -= Application::GetWindow().getSize().x/2;
-	screenCorrectionMoveVector.y -= Application::GetWindow().getSize().y/2;
+	sf::Vector2f screenCorrectionMoveVector = stageCam->GetScreenSpaceOffsetVector();
 	gameTimerText.move(screenCorrectionMoveVector);
 	renderWindow.draw(gameTimerText);
 	gameTimerText.move(-screenCorrectionMoveVector);
+
+	if(endingSequence->IsActive())
+	{
+		endingSequence->Render(renderWindow);
+	}
 
 	if(gameIsPaused)
 	{
@@ -181,12 +191,19 @@ bool Level1State::PlayerHasMadeItToTheEnd()
 	return false;
 }
 
+//remember this is run all the time when the player is in the ending collider. Might need to remove that little "quirk," but left it in as it could be useful
 void Level1State::ReactToPlayerWinning()
 {
 	//So what we wanna do here is lock the camera, force the player to run offscreen, and then display the win statistics.
 	stageCam->SetLocked(true);
 	player->SetIsAcceptingInput(false);
 	player->SetInputs(false,true,false,false,false);
+	
+	if(endingSequence->IsActive() == false)
+	{
+		endingSequence->SetIsActive(true);
+		endingSequence->ResetEndingSequence(gameTimer.getElapsedTime().asMilliseconds());
+	}
 }
 
 void Level1State::ResetPause(bool isGamePaused)
@@ -212,37 +229,4 @@ void Level1State::QuitGame()
 {
 	stageCam->JumpToPoint(Application::GetWindow().getSize().x/2,Application::GetWindow().getSize().y/2); //if we dont do this the menustate has a fucked up viewport
 	SwitchState(State::MENU_STATE);
-}
-
-//take in a time object, and return a formatted H:M:S string
-std::string Level1State::GetTimerTextFromTime(sf::Time time)
-{
-	int milliSeconds = time.asMilliseconds();
-	int seconds;
-	int minutes;
-	int hours;
-
-	hours = milliSeconds / (1000*60*60);
-	minutes = (milliSeconds % (1000*60*60)) / (1000*60);
-	seconds = ((milliSeconds % (1000*60*60)) % (1000*60)) / 1000;
-
-
-	std::string returnableTimeString;
-	returnableTimeString = "Time : ";
-
-	std::stringstream timeStream1(std::stringstream::in | std::stringstream::out);
-	timeStream1 << hours;
-	returnableTimeString += timeStream1.str();
-	returnableTimeString += " : ";
-
-	std::stringstream timeStream2(std::stringstream::in | std::stringstream::out);
-	timeStream2 << minutes;
-	returnableTimeString += timeStream2.str();
-	returnableTimeString += " : ";
-
-	std::stringstream timeStream3(std::stringstream::in | std::stringstream::out);
-	timeStream3 << seconds;
-	returnableTimeString += timeStream3.str();
-
-	return returnableTimeString;
 }
