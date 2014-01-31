@@ -157,7 +157,11 @@ private:
 
 	sf::Sound jumpSound;
 	sf::Sound attackSound;
+
+	//the fartSounds are in a vector so you can get a random one for the jump, so it dosen't get tiresome.
+	std::vector<sf::SoundBuffer> fartSoundBuffers;
 	sf::Sound fartSound;
+
 
 	//This struct should store the complete state of the player, both in what it is currently doing and what it has been commanded to do last frame
 	struct PlayerState

@@ -203,5 +203,8 @@
     <ClInclude Include="UtilityFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BigSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

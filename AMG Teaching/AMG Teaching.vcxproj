@@ -118,6 +118,7 @@
     <ClInclude Include="DestructibleObject.h" />
     <ClInclude Include="EndingSequence.h" />
     <ClInclude Include="InterStateSingleTon.h" />
+    <ClInclude Include="BigSprite.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MenuSystem.h" />
     <ClInclude Include="MotionSpline.h" />

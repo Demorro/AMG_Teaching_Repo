@@ -12,7 +12,7 @@ public:
 		Jump,
 		Kick,
 		Fart,
-		PlatformFall
+		PlatformFall,
 	};
 
 	AudioManager(void);

@@ -20,20 +20,21 @@ bool MenuState::Load()
 	}
 	
 
-
 	if(!backgroundImage.loadFromFile(MENUBACKGROUND)){};
-	backGroundSprite.setTexture(backgroundImage);
+	backGroundSprite = std::unique_ptr<BigSprite>(new BigSprite(backgroundImage));
+	backGroundSprite->move(Application::GetWindow().getSize().x/2 - backGroundSprite->GetSize().x/2,Application::GetWindow().getSize().y/2 - backGroundSprite->GetSize().y/2);
+	
 
-	float menuElementsBobAmount = 200.0f;
-	float menuElementsTweenSpeed = 0.9f;
+	float menuElementsBobAmount = 150.0f;
+	float menuElementsTweenSpeed = 1.0f;
 
 	float titleDistanceFromTop = 125;
 	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, titleDistanceFromTop, GAMELOGO, GAMELOGO, false, true, MenuButton::TweenInDirection::Top, menuElementsBobAmount, menuElementsTweenSpeed);
 
-	float startButtonDistanceFromBottom = 150;
+	float startButtonDistanceFromBottom = 320;
 	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y - startButtonDistanceFromBottom, STARTBUTTON, STARTBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToFirstLevelState,this)));
 
-	float quitButtonDistanceFromBottom = 60;
+	float quitButtonDistanceFromBottom = 180;
 	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y - quitButtonDistanceFromBottom, QUITBUTTON, QUITBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::QuitApplication,this)));
 
 	float controlButtonDistanceFromBottom = 110;
@@ -69,7 +70,7 @@ void MenuState::Update(sf::Event events, bool eventFired, double deltaTime)
 void MenuState::Draw(sf::RenderWindow &renderWindow)
 {
 	//Draw things here
-	renderWindow.draw(backGroundSprite);
+	renderWindow.draw(*backGroundSprite);
 
 	mainMenuSystem.Render(renderWindow);
 

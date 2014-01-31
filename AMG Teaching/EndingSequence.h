@@ -19,6 +19,8 @@ public:
 
 	void ResetEndingSequence(float gameTimeInMilliseconds);
 
+	void SetGradeTimes(float aPlusGradeMaxTimeInSeconds, float aGradeMaxTimeInSeconds, float bGradeMaxTimeInSeconds);
+
 private:
 	enum LevelGrade
 	{
@@ -60,6 +62,14 @@ private:
 	sf::Texture aGradeTexture;
 	sf::Texture aPlusGradeTexture;
 	sf::Sprite gradeSprite;
+
+	//grade max times in Seconds
+	float aPlusGradeMaxTimeInSeconds;
+	float aGradeMaxTimeInSeconds;
+	float bGradeMaxTimeInSeconds;
+
+	//returns what grade you should get for said time
+	LevelGrade EndingSequence::WhatGradeFromTime(float timeInSeconds);
 	
 	sf::SoundBuffer gradeStampSoundBuffer;
 	sf::SoundBuffer aPlusStampSoundBuffer;

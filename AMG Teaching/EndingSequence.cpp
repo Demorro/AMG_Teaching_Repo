@@ -60,6 +60,11 @@ EndingSequence::EndingSequence(Camera *stageCam)
 
 	timeBetweenGradeStamps = 1.0f;
 
+	//set default grade times, these should be overwritten by loaded in config files from the level state using SetGradeTimes()
+	aPlusGradeMaxTimeInSeconds = 30;
+	aGradeMaxTimeInSeconds = 50;
+	bGradeMaxTimeInSeconds = 70;
+
 	//grade stamp sound
 	float stampVolume = 100.0f;
 	gradeStampSoundBuffer.loadFromFile(GRADESTAMPSOUND);
@@ -104,8 +109,9 @@ void EndingSequence::Update(sf::Event events, bool eventFired, double deltaTime)
 		//if the time counter has finished, we can do the storing
 		if(currentCountUpDisplay >= playerFinishedTime)
 		{
-			DoGradeStampCountUp(gradeSprite,currentDisplayedGrade,LevelGrade::APlus);
+			DoGradeStampCountUp(gradeSprite,currentDisplayedGrade,WhatGradeFromTime(playerFinishedTime/1000.0f)); //playerfinishedtime is in milliseconds so we have to divide it
 			countUpTimeSound.stop();
+
 		}
 	}
 
@@ -259,5 +265,32 @@ void EndingSequence::DoGradeStampCountUp(sf::Sprite &gradeSprite, LevelGrade cur
 		break;
 	default : 
 		break;
+	}
+}
+
+void EndingSequence::SetGradeTimes(float aPlusGradeMaxTimeInSeconds, float aGradeMaxTimeInSeconds, float bGradeMaxTimeInSeconds)
+{
+	this->aPlusGradeMaxTimeInSeconds = aPlusGradeMaxTimeInSeconds;
+	this->aGradeMaxTimeInSeconds = aGradeMaxTimeInSeconds;
+	this->bGradeMaxTimeInSeconds = bGradeMaxTimeInSeconds;
+}
+
+EndingSequence::LevelGrade EndingSequence::WhatGradeFromTime(float timeInSeconds)
+{
+	if(timeInSeconds < aPlusGradeMaxTimeInSeconds)
+	{
+		return LevelGrade::APlus;
+	}
+	else if(timeInSeconds < aGradeMaxTimeInSeconds)
+	{
+		return LevelGrade::A;
+	}
+	else if(timeInSeconds < bGradeMaxTimeInSeconds)
+	{
+		return LevelGrade::B;
+	}
+	else
+	{
+		return LevelGrade::C;
 	}
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<LevelConfig Name="DefaultLevelConfig" Visible="true">
+
+	<!--Parralax values for the layers, 1 = 1:1 with the camera, where 0.1 will move 1 pixel for every 10 the camera moves-->
+	<FarFarBackgroundParralax>-0.6</FarFarBackgroundParralax>
+	<FarBackgroundParralax>-0.45</FarBackgroundParralax>
+	<MidBackgroundParralax>-0.25</MidBackgroundParralax>
+	<CloseBackgroundParralax>-0.00</CloseBackgroundParralax>
+	<ForegroundParralax>0.0</ForegroundParralax>
+
+	<!--Default values for the falling platforms, some of these can be altered on a platform by platform basis in the editor, some cant.-->
+	<DefaultPlatformFallDelay>1.0</DefaultPlatformFallDelay>
+	<DefaultPlatformFallGravity>2400.0</DefaultPlatformFallGravity>
+	<DefaultPlatformTerminalVelocity>3500.0</DefaultPlatformTerminalVelocity>
+	
+	<!--Defaults for the moving platforms, again, some can be altered on a platform by platform basis in the editor -->
+	<DefaultPlatformMoveSpeed>100.0</DefaultPlatformMoveSpeed>
+	<DefaultDistanceUntillNextPathNode>2.0</DefaultDistanceUntillNextPathNode> <!--Confusing I know, basically when the platform is moving towards a pathnode, im checking the distance each update to make sure it isnt there yet, if the distance is below this value then we cycle on to the next node in the path and move towards that-->
+	
+</LevelConfig>
+
+
+<!--REMINDER : Remember to tell a programmer to set the code defaults to whats in this file before we ship, knowing me i'll forget because i'm drunk or hibernating or something. This is important because if someone deletes the config file you want the game to still run anyways.-->

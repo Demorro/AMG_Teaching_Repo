@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<LevelSpecificConfig Name="Level1Config" Visible="true">
+
+	<!--Maximum Time values in seconds for the grades. Don't need a C one as you always get a C even if you take a million years -->
+	<APlusGrade>35</APlusGrade>
+	<AGrade>50</AGrade>
+	<BGrade>70</BGrade>
+	
+	
+</LevelSpecificConfig>
+
+
+<!--REMINDER : Remember to tell a programmer to set the code defaults to whats in this file before we ship, knowing me i'll forget because i'm drunk or hibernating or something. This is important because if someone deletes the config file you want the game to still run anyways.-->

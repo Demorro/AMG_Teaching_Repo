@@ -35,6 +35,9 @@ private:
 	//runs logic to make the pause menu work
 	void PauseMenuLogic(sf::Event events, bool eventFired, double deltaTime);
 
+	//Loads level specific config values, passes the win times to the end sequence directly
+	void LoadLevelConfigValues(std::string docPath, EndingSequence &endingSequence);
+
 	//Checks if the player has reached the end of the level,
 	bool PlayerHasMadeItToTheEnd();
 	//reacts accordingly

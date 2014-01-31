@@ -125,7 +125,7 @@ void Level::HandleParralax(float deltaTime, sf::Vector2f &cameraVelocity)
 bool Level::LoadLevel(std::string levelPath)
 {
 
-	LoadLevelConfigDoc(LEVELCONFIG);
+	LoadLevelConfigDoc(LEVELDEFAULTSCONFIG);
 
 	LoadXMLDoc(levelDoc,levelPath);
 

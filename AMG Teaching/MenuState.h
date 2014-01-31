@@ -8,6 +8,7 @@
 #include "VectorMath.h"
 #include "XBoxButtons.h"
 #include "MenuSystem.h"
+#include "BigSprite.h"
 
 
 class MenuState : public State
@@ -29,8 +30,8 @@ public:
 	void Draw(sf::RenderWindow &renderWindow);
 
 private:
-	sf::Texture backgroundImage;
-	sf::Sprite backGroundSprite;
+	sf::Image backgroundImage;
+	std::unique_ptr<BigSprite> backGroundSprite;
 
 	/*
 	void HandleButtonMouseSelection(sf::Event events, bool eventFired, double deltaTime);

@@ -1,20 +1,20 @@
 //A place to centralise all the paths for asset loading
 
 //Main menu
-#define MENUBACKGROUND "../Assets/Images/Menu/MenuBackgroundPlaceholder.png"
-#define GAMELOGO "../Assets/Images/Menu/loch_ness_green.png"
-#define STARTBUTTON "../Assets/Images/Menu/StartButtonPlaceholder.png"
-#define STARTBUTTONSELECTED "../Assets/Images/Menu/StartButtonPlaceholderSelected.png"
-#define QUITBUTTON "../Assets/Images/Menu/QuitNormal.png"
-#define QUITBUTTONSELECTED "../Assets/Images/Menu/QuitSelected.png"
-#define VOLUMEBUTTONONNORMAL "../Assets/Images/Menu/VolumeNormalPlaceholder.png"
-#define VOLUMEBUTTONOFFNORMAL "../Assets/Images/Menu/VolumeTurnedOffNormal.png"
-#define VOLUMEBUTTONONSELECTED "../Assets/Images/Menu/VolumeSelectedPlaceholder.png"
-#define VOLUMEBUTTONOFFSELECTED "../Assets/Images/Menu/VolumeSelectedTurnedOffPlaceholder.png"
-#define CONTROLBUTTONNORMAL "../Assets/Images/Menu/ControlButtonNormal.png"
-#define CONTROLBUTTONSELECTED "../Assets/Images/Menu/ControlButtonSelected.png"
-#define BACKTOMENUNORMAL "../Assets/Images/Menu/BackToMenuPlaceholder.png"
-#define BACKTOMENUSELECTED "../Assets/Images/Menu/BackToMenuSelectedPlaceHolder.png"
+#define MENUBACKGROUND "../Assets/Images/Menu/MenuBackground.png"
+#define GAMELOGO "../Assets/Images/Menu/Title.png"
+#define STARTBUTTON "../Assets/Images/Menu/StartButtonUnselected.png"
+#define STARTBUTTONSELECTED "../Assets/Images/Menu/StartButtonSelected.png"
+#define QUITBUTTON "../Assets/Images/Menu/QuitButtonUnselected.png"
+#define QUITBUTTONSELECTED "../Assets/Images/Menu/QuitButtonSelected.png"
+#define VOLUMEBUTTONONNORMAL "../Assets/Images/Menu/VolumeButtonUnselectedOn.png"
+#define VOLUMEBUTTONOFFNORMAL "../Assets/Images/Menu/VolumeButtonUnselectedOff.png"
+#define VOLUMEBUTTONONSELECTED "../Assets/Images/Menu/VolumeButtonSelectedOn.png"
+#define VOLUMEBUTTONOFFSELECTED "../Assets/Images/Menu/VolumeButtonSelectedOff.png"
+#define CONTROLBUTTONNORMAL "../Assets/Images/Menu/ControllerButtonUnselected.png"
+#define CONTROLBUTTONSELECTED "../Assets/Images/Menu/ControllerButtonSelected.png"
+#define BACKTOMENUNORMAL "../Assets/Images/Menu/BackUnselectedButton.png"
+#define BACKTOMENUSELECTED "../Assets/Images/Menu/BackSelectedButton.png"
 //main menu sounds
 #define MENUBACKINGMUSIC "../Assets/Sounds/Music/MenuMusic.wav"
 #define MOVEBETWEENBUTTONSOUND "../Assets/Sounds/MenuSounds/MenuButtonChange.wav"
@@ -42,13 +42,13 @@
 
 
 //Control state
-#define CONTROLSIMAGE "../Assets/Images/Menu/ControllerDiagram.png"
+#define CONTROLSIMAGE "../Assets/Images/Menu/controller.png"
 
+//Config files
 #define PLAYERCONFIG "../ConfigFiles/PlayerConfig.xml"
-
 #define CAMERACONFIG "../ConfigFiles/CameraConfig.xml"
-
-#define LEVELCONFIG "../ConfigFiles/LevelConfig.xml"
+#define LEVELDEFAULTSCONFIG "../ConfigFiles/LevelDefaultsConfig.xml"
+#define LEVEL1CONFIG "../ConfigFiles/Level1Config.xml"
 
 #define TESTLEVEL "../Assets/Levels/TestLevel.xml"
 
@@ -59,11 +59,16 @@
 #define DESTRUCTIBLEEFFECTNAME "DestroyEffect.png"
 #define DESTRUCTIBLESOUNDNAME "DestroySound.wav"
 
-//other sounds
+//player sounds
 #define JUMPSOUND "../Assets/Sounds/Jump.wav"
 #define KICKSOUND "../Assets/Sounds/Kick.wav"
-#define FARTSOUND "../Assets/Sounds/Fart.wav"
+#define FARTSOUND1 "../Assets/Sounds/FartSounds/Fart1.wav"
+#define FARTSOUND2 "../Assets/Sounds/FartSounds/Fart2.wav"
+#define FARTSOUND3 "../Assets/Sounds/FartSounds/Fart3.wav"
+#define FARTSOUND4 "../Assets/Sounds/FartSounds/Fart4.wav"
+#define FARTSOUND5 "../Assets/Sounds/FartSounds/Fart5.wav"
 
+//Level sounds
 #define PLATFORMFALLSOUND "../Assets/Sounds/PlatformFall.wav"
 
 //fonts

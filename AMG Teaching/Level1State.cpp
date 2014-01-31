@@ -46,6 +46,9 @@ bool Level1State::Load()
 	gameTimerText.setCharacterSize(timerCharacterSize);
 	gameTimerText.setPosition(timerXFromLeft,timerYFromTop);
 	gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime(),true));
+
+	//Load level specific config values
+	LoadLevelConfigValues(LEVEL1CONFIG, *endingSequence);
 	
 	return true;
 }
@@ -229,4 +232,21 @@ void Level1State::QuitGame()
 {
 	stageCam->JumpToPoint(Application::GetWindow().getSize().x/2,Application::GetWindow().getSize().y/2); //if we dont do this the menustate has a fucked up viewport
 	SwitchState(State::MENU_STATE);
+}
+
+void Level1State::LoadLevelConfigValues(std::string docPath, EndingSequence &endingSequence)
+{
+	pugi::xml_document levelConfigDoc;
+
+	LoadXMLDoc(levelConfigDoc,docPath);
+	pugi::xml_node configRoot = levelConfigDoc.child("LevelSpecificConfig");
+
+	float aPlusGradeMaxTime = 0;
+	float aGradeMaxTime = 0;
+	float bGradeMaxTime = 0;
+	LoadNumericalValue(aPlusGradeMaxTime,configRoot,"APlusGrade");
+	LoadNumericalValue(aGradeMaxTime,configRoot,"AGrade");
+	LoadNumericalValue(bGradeMaxTime,configRoot,"BGrade");
+
+	endingSequence.SetGradeTimes(aPlusGradeMaxTime, aGradeMaxTime, bGradeMaxTime);
 }

@@ -16,11 +16,20 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	//Load audio files needed for the player
 	this->audioManager->LoadSoundFile(JUMPSOUND,AudioManager::Jump);
 	this->audioManager->LoadSoundFile(KICKSOUND,AudioManager::Kick);
-	this->audioManager->LoadSoundFile(FARTSOUND,AudioManager::Fart);
+
+	//load the fart sounds
+	int noOfFartSounds = 5;
+	fartSoundBuffers.resize(noOfFartSounds,sf::SoundBuffer());
+	fartSoundBuffers[0].loadFromFile(FARTSOUND5);
+	fartSoundBuffers[1].loadFromFile(FARTSOUND4);
+	fartSoundBuffers[2].loadFromFile(FARTSOUND3);
+	fartSoundBuffers[3].loadFromFile(FARTSOUND2);
+	fartSoundBuffers[4].loadFromFile(FARTSOUND1);
+	fartSound.setBuffer(fartSoundBuffers[rand() % fartSoundBuffers.size()]);
+
 	//set the audio to the sf::sound instances
 	jumpSound.setBuffer(audioManager.GetSoundFile(AudioManager::Jump));
 	attackSound.setBuffer(audioManager.GetSoundFile(AudioManager::Kick));
-	fartSound.setBuffer(audioManager.GetSoundFile(AudioManager::Fart));
 
 	//Load the big ol' sprite texture, if this becomes too big we may need to split it up
 	if(!spriteSheet.loadFromFile(PLAYERTEXTURE))
@@ -255,7 +264,7 @@ void Player::ReceiveControllerInput(sf::Event events, bool eventfired)
 		}
 
 		//Attack
-		if(sf::Joystick::isButtonPressed(0,XBOXCONTROLLERBUTTONS::X))
+		if((sf::Joystick::isButtonPressed(0,XBOXCONTROLLERBUTTONS::X)) || (sf::Joystick::isButtonPressed(0,XBOXCONTROLLERBUTTONS::B)))
 		{
 			playerState.INPUT_Attack = true;
 		}
@@ -498,6 +507,7 @@ void Player::DoJumping(sf::Event events, bool eventFired, bool shouldPlaySounds)
 							{
 								if(shouldPlaySounds)
 								{
+									fartSound.setBuffer(fartSoundBuffers[rand() % fartSoundBuffers.size()]); //do a random fart noise
 									fartSound.play();
 								}
 								playerState.velocity.y = 0;

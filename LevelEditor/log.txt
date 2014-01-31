@@ -1,35 +1,20 @@
-28/01/2014 18:47:12.692 - Log File created.
-28/01/2014 18:47:12.693 - Application started.
-28/01/2014 18:47:13.174 - Creating Game1 object.
-28/01/2014 18:47:13.257 - Game1 creation started.
-28/01/2014 18:47:13.259 - Creating Winform.
-28/01/2014 18:47:13.334 - Winform created.
-28/01/2014 18:47:13.335 - Game1 creation ended.
-28/01/2014 18:47:13.384 - Creating Editor object.
-28/01/2014 18:47:13.388 - Editor creation started.
-28/01/2014 18:47:13.389 - Loading Resources.
-28/01/2014 18:47:13.406 - Resources loaded.
-28/01/2014 18:47:13.406 - Loading Settings.
-28/01/2014 18:47:13.871 - Settings loaded.
-28/01/2014 18:47:13.871 - Creating new level.
-28/01/2014 18:47:13.950 - New level created.
-28/01/2014 18:47:13.950 - Editor creation ended.
-28/01/2014 18:47:34.844 - pictureBox1_Resize().
-28/01/2014 18:48:24.745 - pictureBox1_Resize().
-28/01/2014 18:48:24.862 - pictureBox1_Resize().
-28/01/2014 18:51:59.684 - pictureBox1_Resize().
-28/01/2014 18:51:59.798 - pictureBox1_Resize().
-28/01/2014 18:53:40.368 - pictureBox1_Resize().
-28/01/2014 18:53:40.516 - pictureBox1_Resize().
-28/01/2014 18:55:58.498 - pictureBox1_Resize().
-28/01/2014 18:55:58.613 - pictureBox1_Resize().
-28/01/2014 18:57:18.229 - pictureBox1_Resize().
-28/01/2014 18:57:18.326 - pictureBox1_Resize().
-28/01/2014 19:25:58.266 - pictureBox1_Resize().
-28/01/2014 19:25:58.347 - pictureBox1_Resize().
-28/01/2014 22:49:28.175 - pictureBox1_Resize().
-28/01/2014 22:49:28.294 - pictureBox1_Resize().
-29/01/2014 01:07:03.340 - pictureBox1_Resize().
-29/01/2014 01:07:03.430 - pictureBox1_Resize().
-29/01/2014 01:08:20.986 - pictureBox1_Resize().
-29/01/2014 01:08:21.161 - pictureBox1_Resize().
+31/01/2014 03:09:36.310 - Log File created.
+31/01/2014 03:09:36.311 - Application started.
+31/01/2014 03:09:37.221 - Creating Game1 object.
+31/01/2014 03:09:37.316 - Game1 creation started.
+31/01/2014 03:09:37.318 - Creating Winform.
+31/01/2014 03:09:37.502 - Winform created.
+31/01/2014 03:09:37.502 - Game1 creation ended.
+31/01/2014 03:09:37.574 - Creating Editor object.
+31/01/2014 03:09:37.627 - Editor creation started.
+31/01/2014 03:09:37.628 - Loading Resources.
+31/01/2014 03:09:37.646 - Resources loaded.
+31/01/2014 03:09:37.646 - Loading Settings.
+31/01/2014 03:09:39.276 - Settings loaded.
+31/01/2014 03:09:39.277 - Creating new level.
+31/01/2014 03:09:39.327 - New level created.
+31/01/2014 03:09:39.328 - Editor creation ended.
+31/01/2014 03:12:55.417 - Application ended.
+31/01/2014 03:46:34.703 - pictureBox1_Resize().
+31/01/2014 03:46:34.799 - pictureBox1_Resize().
+31/01/2014 08:23:17.945 - Application ended.
