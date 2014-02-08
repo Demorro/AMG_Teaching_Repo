@@ -90,6 +90,7 @@
     <ClCompile Include="DestructibleObject.cpp" />
     <ClCompile Include="EndingSequence.cpp" />
     <ClCompile Include="InterStateSingleTon.cpp" />
+    <ClCompile Include="LoadedLevel.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MenuSystem.cpp" />
     <ClCompile Include="MotionSpline.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="EndingSequence.h" />
     <ClInclude Include="InterStateSingleTon.h" />
     <ClInclude Include="BigSprite.h" />
+    <ClInclude Include="LoadedLevel.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MenuSystem.h" />
     <ClInclude Include="MotionSpline.h" />

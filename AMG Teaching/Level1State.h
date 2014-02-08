@@ -31,52 +31,9 @@ public:
 	void Draw(sf::RenderWindow &renderWindow);
 
 private:
+	std::unique_ptr<Level> level1;
 
-	//runs logic to make the pause menu work
-	void PauseMenuLogic(sf::Event events, bool eventFired, double deltaTime);
-
-	//Loads level specific config values, passes the win times to the end sequence directly
-	void LoadLevelConfigValues(std::string docPath, EndingSequence &endingSequence);
-
-	//Checks if the player has reached the end of the level,
-	bool PlayerHasMadeItToTheEnd();
-	//reacts accordingly
-	void ReactToPlayerWinning();
-
-	//The ending sequence text objects
-	std::unique_ptr<EndingSequence> endingSequence;
-
-	//resets the pause tweens and clock and whatnot
-	void ResetPause(bool isGamePaused);
-
-	//Loads in and stored data representations of the level, as well as rendering it
-	std::unique_ptr<Level> loadedLevel;
+	//The level will sometimes need to trigger state changes, but since it cant access SwitchState, this checks if the state needs to be switched. 
+	void CheckIfLevelWantsToSwitchState();
 	
-	//Controls the camera for this stage
-	std::unique_ptr<Camera> stageCam;
-
-	//The main player character
-	std::unique_ptr<Player> player;
-
-	//The pause menu, plus bool for determining whether the game is paused, (used for stopping all the level update logic)
-	std::unique_ptr<PauseMenu> pauseMenu;
-	bool gameIsPaused;
-	std::vector<sf::Keyboard::Key> pauseKeys;
-	std::vector<std::pair<int,int>> pauseControllerButtons;
-	//dont want to be able to spam the pause menu too much, so use a timer;
-	sf::Clock pauseMenuTimer;
-	float timeBetweenPauses;
-
-	AudioManager audioManager;
-
-	void ResumeGameFromPaused();
-	void RestartLevel();
-	void QuitGame();
-
-	bool isSoundOn;
-
-	//Level timer
-	sftools::Chronometer gameTimer;
-	sf::Font timerFont;
-	sf::Text gameTimerText;
 };
