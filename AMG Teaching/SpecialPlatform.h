@@ -1,13 +1,13 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include <SFML\Audio.hpp>
 #include "MovementPath.h"
 #include "VectorMath.h"
-#include "AudioManager.h"
 
 class SpecialPlatform : public sf::Sprite
 {
 public:
-	SpecialPlatform(sf::Sprite &platformSprite, float fallDelay, float fallGravity, float fallMaxSpeed, float movementSpeed, float distanceTillGoToNextPathNode, std::vector<sf::Rect<float>>* killPlatformZones, AudioManager *audioManager);
+	SpecialPlatform(sf::Sprite &platformSprite, float fallDelay, float fallGravity, float fallMaxSpeed, float movementSpeed, float distanceTillGoToNextPathNode, std::vector<sf::Rect<float>>* killPlatformZones, sf::SoundBuffer &fallingSound);
 	~SpecialPlatform(void);
 
 	//Sets if the patforms is falling, following a path, etc
@@ -30,7 +30,7 @@ public:
 	sf::Vector2f GetCurrentVelocity();
 	
 	//Run the update logic for falling and whatnot
-	//Pass in a reference to the player to the platforms can handle themselves falling out of the sky. DATS GOOD OOP, I THINK. MAYBE ITS AWFUL? MAYBE MY CAPS LOCK KEY IS HELD DOWN? MAYBE IM DOING THE WORK OF THREE BLOODY PROGRAMMERS IN THE ONE DAY I CAN SPARE FROM MY OTHER COURSEWORK AND COMMITMENTS? WHO BLOODY KNOWS ANYMORE!?
+	//Pass in a reference to the player to the platforms can handle themselves falling out of the sky. DATS GOOD OOP, I THINK. MAYBE ITS AWFUL? MAYBE MY CAPS LOCK KEY IS HELD DOWN? MAYBE IM DOING THE WORK OF THREE BLOODY PROGRAMMERS IN THE ONE DAY I CAN SPARE FROM MY OTHER COURSEWORK AND COMMITMENTS? WHO EVEN BLOODY KNOWS ANYMORE!?
 	//We would like to apologise for the fault in the ending of the above comment, the programmer responsible has been sacked.
 	//Again, we would like to apologise for the fault in the above comment apologising for the fault in the comment two line above, those responsible for sacking the programmer have been sacked
 	//etc...
@@ -43,8 +43,7 @@ public:
 	bool ShouldDestroy();
 
 private:
-	//Store a reference to the audio manager
-	AudioManager* audioManager;
+
 	sf::Sound fallSound;
 
 	bool isAFallingPlatform;

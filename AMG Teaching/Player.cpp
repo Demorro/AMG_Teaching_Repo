@@ -1,21 +1,23 @@
 #include "Player.h"
 
-Player::Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager)
+Player::Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect)
 {
-	Initialise(playerTexturePath, startPos, startTextureRect, boundsRect, audioManager);
+	Initialise(playerTexturePath, startPos, startTextureRect, boundsRect);
 }
 
 Player::~Player(void)
 {
 }
 
-bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager)
+bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect)
 {
-	//Store a reference to the audiomanager
-	this->audioManager = &audioManager;
+
 	//Load audio files needed for the player
-	this->audioManager->LoadSoundFile(JUMPSOUND,AudioManager::Jump);
-	this->audioManager->LoadSoundFile(KICKSOUND,AudioManager::Kick);
+	jumpSoundBuffer.loadFromFile(JUMPSOUND);
+	attackSoundBuffer.loadFromFile(KICKSOUND);
+	//set the audio to the sf::sound instances
+	jumpSound.setBuffer(jumpSoundBuffer);
+	attackSound.setBuffer(attackSoundBuffer);
 
 	//load the fart sounds
 	int noOfFartSounds = 5;
@@ -26,10 +28,6 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	fartSoundBuffers[3].loadFromFile(FARTSOUND2);
 	fartSoundBuffers[4].loadFromFile(FARTSOUND1);
 	fartSound.setBuffer(fartSoundBuffers[rand() % fartSoundBuffers.size()]);
-
-	//set the audio to the sf::sound instances
-	jumpSound.setBuffer(audioManager.GetSoundFile(AudioManager::Jump));
-	attackSound.setBuffer(audioManager.GetSoundFile(AudioManager::Kick));
 
 	//Load the big ol' sprite texture, if this becomes too big we may need to split it up
 	if(!spriteSheet.loadFromFile(PLAYERTEXTURE))

@@ -10,11 +10,9 @@
 #include "Assets.h"
 #include "DestructibleObject.h"
 #include "SFML\Audio.hpp"
-#include "AudioManager.h"
 #include "XMLParseUtilities.h"
 #include "SpecialPlatform.h"
 #include "Player.h"
-#include "AudioManager.h"
 #include "MovementPath.h"
 #include "MovingCollider.h"
 
@@ -25,9 +23,9 @@
 class LoadedLevel
 {
 public:
-	LoadedLevel(AudioManager *audioManager);
+	LoadedLevel();
 	//Pass in the path to the desired levels XML file, should be in Assets/LoadedLevels
-	LoadedLevel(std::string levelDataPath, AudioManager *audioManager);
+	LoadedLevel(std::string levelDataPath);
 	~LoadedLevel(void);
 
 	//Loads the level in from the xml file found at levelPath
@@ -69,9 +67,6 @@ public:
 	sf::Vector2f GetSpawnPosition();
 
 private:
-	//Store a reference to the audio manager
-	AudioManager* audioManager;
-
 	//These functions handle loading the parts of the level that need something beyond a basic sprite and collision or a rect, just better encapsulated here.
 	void LoadSpecialPlatform(pugi::xml_node &rootNode, sf::Sprite &baseSprite);
 	void LoadMovementPath(pugi::xml_node &rootNode);
@@ -140,6 +135,10 @@ private:
 	//The first sprite is the normal, non destructed object, while the second is the destroyed sprite. These MUST be the same size.
 	std::vector<DestructibleObject> destructibleObjects;
 
+	//the keys for the level sounds in the map;
+	std::string fallingSoundKey;
+	//Loads the sounds the level needs (such as the platform fall sounds) and puts them into the loadedMapSounds map
+	void LoadLevelSounds();
 
 	//loads in the ancillary assets for the destructibles and puts them into the relevent containers
 	//Give em the original loaded sprite from the destructibles layer, loaded in using the normal sprite loading code, then the texture name and relative texture name already parsed using the regular sprite loading code.

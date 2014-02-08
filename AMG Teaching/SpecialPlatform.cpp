@@ -1,14 +1,9 @@
 #include "SpecialPlatform.h"
 
 
-SpecialPlatform::SpecialPlatform(sf::Sprite &platformSprite, float fallDelay, float fallGravity, float fallMaxSpeed, float movementSpeed, float distanceTillGoToNextPathNode, std::vector<sf::Rect<float>>* killPlatformZones,  AudioManager *audioManager) : sf::Sprite(platformSprite)
+SpecialPlatform::SpecialPlatform(sf::Sprite &platformSprite, float fallDelay, float fallGravity, float fallMaxSpeed, float movementSpeed, float distanceTillGoToNextPathNode, std::vector<sf::Rect<float>>* killPlatformZones,  sf::SoundBuffer &fallingSound) : sf::Sprite(platformSprite)
 {
-	this->audioManager = audioManager;
-	if(audioManager != NULL)
-	{
-		fallSound.setBuffer(audioManager->GetSoundFile(AudioManager::PlatformFall));
-	}
-	
+	fallSound.setBuffer(fallingSound);
 
 	hasBeenStoodOn = false;
 	shouldBeFalling = false;

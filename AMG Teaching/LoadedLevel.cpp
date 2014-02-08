@@ -1,23 +1,15 @@
 #include "LoadedLevel.h"
 
 
-LoadedLevel::LoadedLevel(AudioManager *audioManager)
+LoadedLevel::LoadedLevel()
 {
-	this->audioManager = audioManager;
 	backgroundColor = sf::Color::Black;
 	spawnPosition = sf::Vector2f(0,0);
 }
 
-LoadedLevel::LoadedLevel(std::string levelDataPath, AudioManager *audioManager)
+LoadedLevel::LoadedLevel(std::string levelDataPath)
 {
-	this->audioManager = audioManager;
-
-	//This is probably as good as place as any to load the level specific audio
-	if(audioManager != NULL)
-	{
-		audioManager->LoadSoundFile(PLATFORMFALLSOUND,AudioManager::PlatformFall);
-	}
-
+	LoadLevelSounds();
 	LoadLevel(levelDataPath);
 }
 
@@ -76,6 +68,17 @@ void LoadedLevel::LoadLevelConfigDoc(std::string configPath)
 	}
 }
 
+void LoadedLevel::LoadLevelSounds()
+{
+	fallingSoundKey = "PlatformFallSound";
+
+	//Load the falling platform sounds;
+	sf::SoundBuffer fallingSoundBuffer;
+	fallingSoundBuffer.loadFromFile(PLATFORMFALLSOUND);
+
+	loadedMapSounds[fallingSoundKey] = std::unique_ptr<sf::SoundBuffer>(new sf::SoundBuffer(fallingSoundBuffer));
+}
+
 void LoadedLevel::Update(double deltaTime, Player &player, sf::Vector2f &cameraVelocity)
 {
 	//run the updates for the destructibles, but only if neccesary (ie the destroy animations are playing,)
@@ -131,7 +134,6 @@ bool LoadedLevel::LoadLevel(std::string levelPath)
 
 	//Movement Paths need to be loaded before the special platforms(or anything else that might make use of them)
 	LoadLayer(MOVEMENTPATHS);
-
 	LoadLayer(BACKGROUNDCOLOUR);
 	LoadLayer(FARFARBACKGROUND);
 	LoadLayer(FARBACKGROUND);
@@ -508,7 +510,7 @@ void LoadedLevel::LoadLevelMetaData(pugi::xml_node &rootNode)
 
 void LoadedLevel::LoadSpecialPlatform(pugi::xml_node &rootNode, sf::Sprite &baseSprite)
 {
-	SpecialPlatform platform(baseSprite,defaultPlatformFallDelay, defaultPlatformFallGravity, defaultPlatformTerminalVelocity, defaultPlatformMoveSpeed, defaultPlatformMoveDistanceTillNextPathNode, &GetDeathZones(), audioManager);
+	SpecialPlatform platform(baseSprite,defaultPlatformFallDelay, defaultPlatformFallGravity, defaultPlatformTerminalVelocity, defaultPlatformMoveSpeed, defaultPlatformMoveDistanceTillNextPathNode, &GetDeathZones(),*loadedMapSounds[fallingSoundKey]);
 
 	bool isAFallingPlatform;
 	isAFallingPlatform = rootNode.child("CustomProperties").find_child_by_attribute("Property","Name","ShouldFall").child("boolean").text().as_bool();

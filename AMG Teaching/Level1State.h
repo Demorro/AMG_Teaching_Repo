@@ -4,7 +4,6 @@
 #include "Assets.h"
 #include "Camera.h"
 #include "Player.h"
-#include "AudioManager.h"
 #include "PauseMenu.h"
 #include "XBoxButtons.h"
 #include "Chronometer.h"

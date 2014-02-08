@@ -84,7 +84,6 @@
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControlState.cpp" />
     <ClCompile Include="DestructibleObject.cpp" />
@@ -112,7 +111,6 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
-    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chronometer.h" />
     <ClInclude Include="ControlState.h" />

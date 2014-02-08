@@ -6,7 +6,6 @@
 #include <iostream>
 #include <sstream>
 #include "DestructibleObject.h"
-#include "AudioManager.h"
 #include "SFML\Audio.hpp"
 #include <math.h>
 #include "AnimatedSprite.h"
@@ -15,6 +14,7 @@
 #include "VectorMath.h"
 #include "XBoxButtons.h"
 #include <math.h>
+#include <memory>
 
 #define DEBUGPLAYER false
 
@@ -27,7 +27,7 @@ public:
 		DoubleJump
 	};
 
-	Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager);
+	Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect);
 	~Player(void);
 
 	//Runs the update logic, the rect vector is because this also runs the collision code
@@ -89,12 +89,10 @@ private:
 	//Makes sure the correct animations are playing
 	void HandleAnimations();
 
-	//Store a reference to the audio manager
-	AudioManager *audioManager;
 
 	sf::Rect<float> collisionRect;
 
-	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect, AudioManager &audioManager);
+	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect);
 	//Loads the config values from the default config file if it can be found, else just plugs in defaults
 	bool LoadConfigValues(std::string configFilePath);
 
@@ -155,6 +153,8 @@ private:
 	sf::Clock doubleJumpKeyTimer;
 	float doubleJumpKeyTime;
 
+	sf::SoundBuffer jumpSoundBuffer;
+	sf::SoundBuffer attackSoundBuffer;
 	sf::Sound jumpSound;
 	sf::Sound attackSound;
 

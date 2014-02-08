@@ -4,7 +4,7 @@
 Level::Level(std::string levelPath, State::StateID levelState)
 {
 	//Load level
-	loadedLevel = std::unique_ptr<LoadedLevel>(new LoadedLevel(levelPath,&audioManager));
+	loadedLevel = std::unique_ptr<LoadedLevel>(new LoadedLevel(levelPath));
 
 	stateToSwitchToOnChange = levelState;
 	needToResetState = false;
@@ -23,7 +23,7 @@ void Level::Load()
 	pauseMenu = std::unique_ptr<PauseMenu>(new PauseMenu(std::function<void()>(std::bind(&Level::ResumeGameFromPaused,this)), std::function<void()>(std::bind(&Level::RestartLevel,this)),  std::function<void()>(std::bind(&Level::QuitGame,this))));
 
 	stageCam = std::unique_ptr<Camera>(new Camera(Application::GetWindow(),DEFAULTPLAYERSTART));
-	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,DEFAULTPLAYERSTART,sf::IntRect(0,166,126,156),sf::IntRect(0,0,70,150),audioManager));
+	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,DEFAULTPLAYERSTART,sf::IntRect(0,166,126,156),sf::IntRect(0,0,70,150)));
 
 	endingSequence = std::unique_ptr<EndingSequence>(new EndingSequence(stageCam.get()));
 
