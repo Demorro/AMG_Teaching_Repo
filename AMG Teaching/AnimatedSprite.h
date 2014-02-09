@@ -25,6 +25,9 @@ public:
 
 	void AddAnimation(std::string animationName, std::vector<sf::IntRect> frames, float frameTime);
 
+	//An easier way of loading an animation strip into an animation without passing a vector of intrects.
+	void LoadSingleAnimation(sf::Vector2i startFrame, int xFrameOffset, int noOfFrames, int frameWidth, int frameHeight, float frameTime, std::string animationName);
+
 	void ChangeAnimSpeed(std::string, float);
 
 private:
@@ -44,16 +47,17 @@ private:
 		Animation::Animation()
 		{
 			frameTime = 0.2f;
+			animationFrames = std::vector<sf::IntRect>();
 		}
 
-		Animation::Animation(std::vector<sf::IntRect> animationFrames, float frameTime = 0.2f)
+		Animation::Animation(std::vector<sf::IntRect> _animationFrames, float _frameTime = 0.2f)
 		{
-			this->animationFrames = animationFrames;
-			this->frameTime = frameTime;
+			this->animationFrames = _animationFrames;
+			this->frameTime = _frameTime;
 		}
 	};
 
-	Animation* currentAnimation;
+	Animation currentAnimation;
 	std::map<std::string, Animation> animations;
 
 

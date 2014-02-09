@@ -15,6 +15,8 @@
 #include "Player.h"
 #include "MovementPath.h"
 #include "MovingCollider.h"
+#include "AnimatedSprite.h"
+#include "CheckPoint.h"
 
 //you should do a check against this if you're drawing any debug sprites so it can be toggled easily
 #define LEVEL_DEBUG false
@@ -60,6 +62,9 @@ public:
 	//Returns the rects of the end zones
 	std::vector<sf::Rect<float>> &GetEndZones();
 
+	//Returns the animated sprite objects that are the checkpoints
+	std::vector<CheckPoint> &GetCheckPoints();
+
 	//Returns the movement paths
 	std::map<std::string,MovementPath> &GetMovementPaths();
 
@@ -100,6 +105,7 @@ private:
 		FARBACKGROUND,
 		MIDBACKGROUND,
 		NEARBACKGROUND,
+		CHECKPOINTS,
 		OBJECTS,
 		FOREGROUND,
 		COLLISION,
@@ -108,6 +114,7 @@ private:
 		MOVEMENTPATHS,
 		LEVELMETADATA,
 	};
+
 
 	//The background colour of the level
 	sf::Color backgroundColor;
@@ -126,6 +133,7 @@ private:
 	std::vector<sf::Sprite> nearBackGroundSprites;
 	std::vector<sf::Sprite> objectSprites;
 	std::vector<sf::Sprite> foregroundSprites;
+	std::vector<CheckPoint> checkPoints;
 	std::vector<sf::Rect<float>> collisionBounds;
 	std::vector<sf::Rect<float>> deathZones;
 	std::vector<sf::Rect<float>> endZones;
@@ -134,6 +142,8 @@ private:
 	std::map<std::string,MovementPath> movementPaths;
 	//The first sprite is the normal, non destructed object, while the second is the destroyed sprite. These MUST be the same size.
 	std::vector<DestructibleObject> destructibleObjects;
+
+	void LoadCheckPoint(sf::Vector2f checkPointPosition);
 
 	//the keys for the level sounds in the map;
 	std::string fallingSoundKey;

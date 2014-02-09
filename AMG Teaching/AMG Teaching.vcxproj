@@ -85,6 +85,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="ControlState.cpp" />
     <ClCompile Include="DestructibleObject.cpp" />
     <ClCompile Include="EndingSequence.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="Chronometer.h" />
     <ClInclude Include="ControlState.h" />
     <ClInclude Include="DestructibleObject.h" />

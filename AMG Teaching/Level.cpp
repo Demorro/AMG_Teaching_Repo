@@ -85,6 +85,9 @@ void Level::Update(sf::Event events, bool eventFired, double deltaTime)
 		}
 		gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime(),true));
 
+		//Run the logic for activating checkpoints and stuff
+		RunCheckPointLogic(*player);
+
 		//Check for victory
 		if(PlayerHasMadeItToTheEnd())
 		{
@@ -132,6 +135,30 @@ void Level::Draw(sf::RenderWindow &renderWindow)
 	}
 }
 
+void Level::RunCheckPointLogic(Player &player)
+{
+
+	if(loadedLevel != nullptr)
+	{
+		for(int i = 0; i < loadedLevel->GetCheckPoints().size(); i++)
+		{
+			if(player.GetCollider().intersects(loadedLevel->GetCheckPoints()[i].getGlobalBounds())) //if the player is touching a checkpoint
+			{
+				if(loadedLevel->GetCheckPoints()[i].IsActiveCheckPoint() == false)
+				{
+					//we need to activate this checkpoint
+					//disable all the checkpoints
+					for(int j = 0; j < loadedLevel->GetCheckPoints().size(); j++)
+					{
+						loadedLevel->GetCheckPoints()[j].Disable();
+					}
+					//enable this one
+					loadedLevel->GetCheckPoints()[i].Activate();
+				}
+			}
+		}
+	}
+}
 
 void Level::PauseMenuLogic(sf::Event events, bool eventFired, double deltaTime)
 {

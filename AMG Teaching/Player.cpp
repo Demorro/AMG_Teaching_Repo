@@ -1021,40 +1021,25 @@ void Player::HandleAnimations()
 void Player::LoadAnimations()
 {
 	//Load Walk
-	LoadSingleAnimation(sf::Vector2i(0,0),125,19,126,156,0.03f,walkAnimName);
+	sprite->LoadSingleAnimation(sf::Vector2i(0,0),125,19,126,156,0.03f,walkAnimName);
 	//Load Idle
-	LoadSingleAnimation(sf::Vector2i(0,166),125,20,126,156,0.06f,idleAnimName);
+	sprite->LoadSingleAnimation(sf::Vector2i(0,166),125,20,126,156,0.06f,idleAnimName);
 	//Load Jump
-	LoadSingleAnimation(sf::Vector2i(125,505),125,4,120,156,0.03f,jumpAnimName);
+	sprite->LoadSingleAnimation(sf::Vector2i(125,505),125,4,120,156,0.03f,jumpAnimName);
 	//Load Fall from Single Jump
-	LoadSingleAnimation(sf::Vector2i(625,505),125,6,120,156,0.03f,fallAnimName);
+	sprite->LoadSingleAnimation(sf::Vector2i(625,505),125,6,120,156,0.03f,fallAnimName);
 	//Load Fall From Double Jump
-	LoadSingleAnimation(sf::Vector2i(1250,686),125,8,120,156,0.03f,doubleJumpToFallAnimName);
+	sprite->LoadSingleAnimation(sf::Vector2i(1250,686),125,8,120,156,0.03f,doubleJumpToFallAnimName);
 	//Load Land From Normal Jump
-	LoadSingleAnimation(sf::Vector2i(1250,506),125,6,120,156,0.03f,landFromNormalJumpAnimName);
+	sprite->LoadSingleAnimation(sf::Vector2i(1250,506),125,6,120,156,0.03f,landFromNormalJumpAnimName);
 	//Load Double Jump
-	LoadSingleAnimation(sf::Vector2i(0,686),125,10,120,156,0.03f,doubleJumpAnimName);
+	sprite->LoadSingleAnimation(sf::Vector2i(0,686),125,10,120,156,0.03f,doubleJumpAnimName);
 	//Load Kick
-	LoadSingleAnimation(sf::Vector2i(0,863),125,15,120,156,0.03f,kickAnimName);
+	sprite->LoadSingleAnimation(sf::Vector2i(0,863),125,15,120,156,0.03f,kickAnimName);
 
 	sprite->SetCurrentAnimation(idleAnimName);
 	sprite->SetRepeating(true);
 	sprite->Play();
-}
-
-void Player::LoadSingleAnimation(sf::Vector2i startFrame, int xFrameOffset, int noOfFrames, int frameWidth, int frameHeight, float frameTime, std::string animationName)
-{
-	std::vector<sf::IntRect> anim;
-
-	sf::Rect<int> frameSize;
-	frameSize.width = frameWidth;
-	frameSize.height = frameHeight;
-	for(int i = 0; i < noOfFrames; i++)
-	{
-		anim.push_back(sf::IntRect((i * xFrameOffset) + startFrame.x,0 + startFrame.y,frameSize.width,frameSize.height));
-	}
-
-	sprite->AddAnimation(animationName,anim,frameTime);
 }
 
 

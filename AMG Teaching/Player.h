@@ -85,7 +85,6 @@ private:
 
 	//Loads the player specific animations
 	void LoadAnimations();
-	void LoadSingleAnimation(sf::Vector2i startFrame, int xFrameOffset, int noOfFrames, int frameWidth, int frameHeight, float frameTime, std::string animationName);
 	//Makes sure the correct animations are playing
 	void HandleAnimations();
 

@@ -60,7 +60,7 @@
     <PackedValue>4294902015</PackedValue>
   </ColorTextureTransparent>
   <DefaultPathItemLineWidth>4</DefaultPathItemLineWidth>
-  <DefaultContentRootFolder>C:\Coding\C++\AMG Teaching\AMG_Teaching_Repo</DefaultContentRootFolder>
+  <DefaultContentRootFolder>C:\Coding\C++\AMG_Teaching_Repo</DefaultContentRootFolder>
   <CameraSpeed>500</CameraSpeed>
   <CameraFastSpeed>2000</CameraFastSpeed>
   <DefaultTextureOriginMethod>TextureCenter</DefaultTextureOriginMethod>

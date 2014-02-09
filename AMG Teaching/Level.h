@@ -45,6 +45,8 @@ private:
 	//runs logic to make the pause menu work
 	void PauseMenuLogic(sf::Event events, bool eventFired, double deltaTime);
 
+	//Runs the checkpointLogic, updating the current checkpoint and updating the animations if they have any.
+	void RunCheckPointLogic(Player &player);
 
 	//resets the pause tweens and clock and whatnot
 	void ResetPause(bool isGamePaused);

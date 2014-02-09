@@ -98,6 +98,12 @@ void LoadedLevel::Update(double deltaTime, Player &player, sf::Vector2f &cameraV
 		}
 	}
 
+	//run the update on the checkpoints
+	for(int i = 0; i < checkPoints.size(); i++)
+	{
+		checkPoints[i].UpdateAnimations();
+	}
+
 	HandleParralax(deltaTime,cameraVelocity);
 }
 
@@ -139,6 +145,7 @@ bool LoadedLevel::LoadLevel(std::string levelPath)
 	LoadLayer(FARBACKGROUND);
 	LoadLayer(MIDBACKGROUND);
 	LoadLayer(NEARBACKGROUND);
+	LoadLayer(CHECKPOINTS);
 	LoadLayer(OBJECTS);
 	LoadLayer(FOREGROUND);
 	LoadLayer(COLLISION);
@@ -194,6 +201,14 @@ void LoadedLevel::LoadLayer(LevelLayers layer)
 		{
 			nodeName = beginNode.attribute("Name").value();
 			if(nodeName == "NearBackGround")
+			{
+				startNode = beginNode;
+			}
+		}
+		else if(layer == CHECKPOINTS)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "CheckPoints")
 			{
 				startNode = beginNode;
 			}
@@ -352,17 +367,21 @@ void LoadedLevel::LoadLayer(LevelLayers layer)
 			{
 				farFarBackGroundSprites.push_back(objectSprite);
 			}
-			if(layer == FARBACKGROUND)
+			else if(layer == FARBACKGROUND)
 			{
 				farBackGroundSprites.push_back(objectSprite);
 			}
-			if(layer == MIDBACKGROUND)
+			else if(layer == MIDBACKGROUND)
 			{
 				midBackGroundSprites.push_back(objectSprite);
 			}
-			if(layer == NEARBACKGROUND)
+			else if(layer == NEARBACKGROUND)
 			{
 				nearBackGroundSprites.push_back(objectSprite);
+			}
+			else if(layer == CHECKPOINTS)
+			{
+				LoadCheckPoint(objectSprite.getPosition());
 			}
 			else if(layer == OBJECTS)
 			{
@@ -429,11 +448,42 @@ void LoadedLevel::LoadLayer(LevelLayers layer)
 		for(pugi::xml_node traversalNode = startNode.first_child().first_child(); traversalNode; traversalNode = traversalNode.next_sibling())
 		{
 			LoadLevelMetaData(traversalNode);
-			
-			//if(traversalNode.name.
-			//deathZones.push_back(loadedRect);
 		}
 	}
+}
+
+void LoadedLevel::LoadCheckPoint(sf::Vector2f checkPointPosition)
+{
+	std::cout << "Loading Checkpoints" << std::endl;
+
+	//check if the checkpoint spritesheet is already in the map
+	if (loadedMapTextures.find(CHECKPOINTSHEET) == loadedMapTextures.end() ) 
+	{
+		//load the checkpoint spritesheet
+		std::unique_ptr<sf::Texture> checkPointTexture(new sf::Texture());
+		checkPointTexture->loadFromFile(CHECKPOINTSHEET);
+		loadedMapTextures[CHECKPOINTSHEET] = std::move(checkPointTexture);
+	} 
+	else 
+	{
+		//Checkpoint texture is already in the map
+	}
+	
+
+	float startX = 0;
+	float startY = 0;
+	float subRectWidth = 120;
+	float subRectHeight = 260;
+	CheckPoint checkPoint(sf::IntRect(startX,startY,subRectWidth,subRectHeight));
+
+	checkPoint.setTexture(*loadedMapTextures[CHECKPOINTSHEET]);
+	checkPoint.setOrigin(checkPoint.getGlobalBounds().left + checkPoint.getGlobalBounds().width/2, checkPoint.getGlobalBounds().top + checkPoint.getGlobalBounds().height/2); //set the origin to the center
+	checkPoint.setPosition(checkPointPosition);
+	
+	checkPoints.push_back(checkPoint);
+
+	
+
 }
 
 void LoadedLevel::LoadLevelMetaData(pugi::xml_node &rootNode)
@@ -707,6 +757,11 @@ std::vector<sf::Rect<float>> &LoadedLevel::GetEndZones()
 	return endZones;
 }
 
+std::vector<CheckPoint> &LoadedLevel::GetCheckPoints()
+{
+	return checkPoints;
+}
+
 std::map<std::string,MovementPath> &LoadedLevel::GetMovementPaths()
 {
 	return movementPaths;
@@ -738,6 +793,10 @@ void LoadedLevel::DrawLayersBehindPlayer(sf::RenderWindow &window)
 	for(size_t i = 0; i < nearBackGroundSprites.size(); i++)
 	{
 		window.draw(nearBackGroundSprites[i]);
+	}
+	for(size_t i = 0; i < checkPoints.size(); i++)
+	{
+		window.draw(checkPoints[i]);
 	}
 	for(size_t i = 0; i < destructibleObjects.size(); i++)
 	{
