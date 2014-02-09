@@ -51,7 +51,7 @@
 	<WalkFrameDelay>0.03</WalkFrameDelay>
 	
 	<!--The delay between frames in the sprint animation, lower means a quicker animation cycle-->
-	<SprintFrameDelay>0.02</SprintFrameDelay>
+	<SprintFrameDelay>0.022</SprintFrameDelay>
 
 	
 </PlayerConfig>

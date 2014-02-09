@@ -28,7 +28,7 @@ void Level::Load()
 	endingSequence = std::unique_ptr<EndingSequence>(new EndingSequence(stageCam.get()));
 
 	deathSequenceTimer.restart();
-	deathSequenceTime = 1.5f;
+	deathSequenceTime = 1.0f;
 	isOnDeathSequence = false;
 	activeCheckPointPosition = loadedLevel->GetSpawnPosition();
 
@@ -189,7 +189,10 @@ void Level::HandlePlayerDeaths(Player &player)
 				{
 					if(loadedLevel->GetCheckPoints()[j].IsActiveCheckPoint()) //this will work even if there is more than one active checkpoint, but there never should be
 					{
-						activeCheckPointPosition = loadedLevel->GetCheckPoints()[j].getPosition();
+						//this bit of maths maked it so the player spawns on the ground, rather than in the center origin of the checkpoint( or rather the players lower bound is equal to the checkpoints lower bound)
+						sf::Vector2f positionToSpawnAt = loadedLevel->GetCheckPoints()[j].getPosition();
+						positionToSpawnAt.y += ((loadedLevel->GetCheckPoints()[j].getGlobalBounds().height/2) - player.GetCollider().height/2);
+						activeCheckPointPosition = positionToSpawnAt;
 					}
 				}
 			}

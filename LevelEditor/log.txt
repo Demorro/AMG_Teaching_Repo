@@ -15,3 +15,8 @@
 09/02/2014 12:29:14.439 - New level created.
 09/02/2014 12:29:14.440 - Editor creation ended.
 09/02/2014 12:29:22.772 - pictureBox1_Resize().
+09/02/2014 15:58:32.537 - pictureBox1_Resize().
+09/02/2014 15:58:32.604 - pictureBox1_Resize().
+09/02/2014 19:13:06.274 - pictureBox1_Resize().
+09/02/2014 19:13:06.474 - pictureBox1_Resize().
+09/02/2014 19:13:10.431 - Application ended.

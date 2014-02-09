@@ -991,7 +991,7 @@ void Player::HandleAnimations()
 			{
 				playerState.animState = PlayerState::AnimationState::Walk;
 				sprite->SetCurrentAnimation(walkAnimName);
-				sprite->ChangeAnimSpeed(walkAnimName,0.03f);
+				sprite->ChangeAnimSpeed(walkAnimName,walkFrameTime);
 				sprite->SetRepeating(true);
 				sprite->Play();
 			}
