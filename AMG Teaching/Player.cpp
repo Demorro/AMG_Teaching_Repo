@@ -189,6 +189,19 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms, shouldPlaySounds);
 }
 
+void Player::Respawn(sf::Vector2f spawnPosition)
+{
+	bool canPlayerDoubleJump = playerState.canDoubleJump;
+
+	//Reset the players state to default.
+	playerState.ResetEverythingButAnimation();
+	lastState.ResetEverythingButAnimation();
+	
+
+	ToggleAbility(Player::Abilities::DoubleJump, canPlayerDoubleJump);
+
+	SetPosition(spawnPosition);
+}
 
 void Player::ReceiveKeyboardInput(sf::Event events, bool eventFired)
 {

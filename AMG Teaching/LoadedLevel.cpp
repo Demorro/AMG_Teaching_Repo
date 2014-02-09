@@ -492,7 +492,10 @@ void LoadedLevel::LoadLevelMetaData(pugi::xml_node &rootNode)
 	std::string deathZoneObjectName = "DeathZone";
 	std::string playerSpawnPosName = "PlayerStartPosition";
 	std::string endZoneName = "EndZone";
-	if(rootNode.attribute("Name").as_string() ==deathZoneObjectName)
+
+	//A DeathZone is a rect with the start of the string being "DeathZone", so "DeathZone1" "DeathZoneBlocks" or "DeathZoneHoopyFrood" will all work
+	std::string rectNameForDeathZone = rootNode.attribute("Name").as_string();
+	if(rectNameForDeathZone.substr(0,deathZoneObjectName.size()) == deathZoneObjectName)
 	{
 		//Get the X and Y positions of this object, and then convert the const chars* read into ints so we can use them
 		int xPos;

@@ -3,7 +3,7 @@
 
 AnimatedSprite::AnimatedSprite(sf::IntRect startRect)
 {
-	//currentAnimation = nullptr;
+	currentAnimation = Animation();
 	repeating = false;
 	currentFrame = 0;
 	shouldPlay = false;
@@ -142,7 +142,7 @@ void AnimatedSprite::SetRepeating(bool _repeating)
 
 void AnimatedSprite::AddAnimation(std::string animationName, std::vector<sf::IntRect> frames, float frameTime)
 {
-	Animation animationToAdd(frames,frameTime);
+	Animation animationToAdd(frames,frameTime,animationName);
 	animations[animationName] = animationToAdd;
 
 	//if(currentAnimation == nullptr)
@@ -158,6 +158,12 @@ void AnimatedSprite::ChangeAnimSpeed(std::string animationName, float frameTime)
 	if(animations.count(animationName))
 	{
 		animations[animationName].frameTime = frameTime;
+
+		//since the currentanimation dosent use a pointer anymore, need to change the current animation copy speed too
+		if(currentAnimation.animationName == animationName)
+		{
+			currentAnimation.frameTime = frameTime;
+		}
 	}
 	else
 	{

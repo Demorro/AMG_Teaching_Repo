@@ -60,6 +60,13 @@ private:
 	sf::Clock pauseMenuTimer;
 	float timeBetweenPauses;
 
+	void HandlePlayerDeaths(Player &player);
+	//the timer stuff is needed because upon dying, the scene dosent immediately snap back to a checkpoint, there needs to be a couple of seconds to play audio/watch the player fall, etc
+	sf::Clock deathSequenceTimer;
+	float deathSequenceTime;
+	bool isOnDeathSequence;
+	sf::Vector2f activeCheckPointPosition;
+
 	//Checks if the player has reached the end of the level,
 	bool PlayerHasMadeItToTheEnd();
 	//reacts accordingly

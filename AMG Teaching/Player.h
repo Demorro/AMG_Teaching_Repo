@@ -44,6 +44,9 @@ public:
 	sf::Vector2f GetVelocity();
 	void SetVelocity(sf::Vector2f velocity);
 
+	//Calling this causes the player to respawn at the specified position, removing any temporary abilities he might have.
+	void Respawn(sf::Vector2f spawnPosition);
+
 	//Give or take an ability from the player, this function needs to be maintained when a new ability is added, along with the Abilites enum
 	void ToggleAbility(Abilities ability, bool active);
 
@@ -207,6 +210,12 @@ private:
 
 		PlayerState::PlayerState()
 		{
+			ResetEverythingButAnimation();
+			animState = AnimationState::Idle;
+		}
+
+		void PlayerState::ResetEverythingButAnimation()
+		{
 			isAcceptingInput = true;
 			movingLeft = false;
 			movingRight = false;
@@ -226,7 +235,6 @@ private:
 			canDoubleJump = false;
 			wasSprintingUponJump = false;
 			velocity = sf::Vector2f(0,0);
-			animState = AnimationState::Idle;
 		}
 
 		void PlayerState::ResetInputs()

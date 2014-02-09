@@ -43,17 +43,20 @@ private:
 	{
 		std::vector<sf::IntRect> animationFrames;
 		float frameTime;
+		std::string animationName;
 
 		Animation::Animation()
 		{
 			frameTime = 0.2f;
 			animationFrames = std::vector<sf::IntRect>();
+			animationName = "DefaultAnimation";
 		}
 
-		Animation::Animation(std::vector<sf::IntRect> _animationFrames, float _frameTime = 0.2f)
+		Animation::Animation(std::vector<sf::IntRect> _animationFrames, float _frameTime = 0.2f, std::string _animationName = "DefaultAnimation")
 		{
 			this->animationFrames = _animationFrames;
 			this->frameTime = _frameTime;
+			this->animationName = _animationName;
 		}
 	};
 

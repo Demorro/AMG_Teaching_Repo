@@ -27,6 +27,11 @@ void Level::Load()
 
 	endingSequence = std::unique_ptr<EndingSequence>(new EndingSequence(stageCam.get()));
 
+	deathSequenceTimer.restart();
+	deathSequenceTime = 1.5f;
+	isOnDeathSequence = false;
+	activeCheckPointPosition = loadedLevel->GetSpawnPosition();
+
 	//Set the spawn point
 	player->SetPosition(loadedLevel->GetSpawnPosition());
 	stageCam->JumpToPoint(player->GetPosition().x, player->GetPosition().y);
@@ -71,6 +76,9 @@ void Level::Update(sf::Event events, bool eventFired, double deltaTime)
 
 		//Update the player, handles movement and collision and every other darn thing
 		player->Update(events,eventFired,deltaTime,loadedLevel->GetStaticCollisionBounds(),loadedLevel->GetSpecialPlatforms(),loadedLevel->GetDestructibleObjects(),isSoundOn);
+
+		//Check if the player has died, and react accordingly
+		HandlePlayerDeaths(*player);
 
 		//Camera update, follow the player
 		stageCam->Update(events, eventFired,deltaTime, &player->GetPosition());
@@ -156,6 +164,47 @@ void Level::RunCheckPointLogic(Player &player)
 					loadedLevel->GetCheckPoints()[i].Activate();
 				}
 			}
+		}
+	}
+}
+
+void Level::HandlePlayerDeaths(Player &player)
+{
+	if(isOnDeathSequence == false)
+	{
+		//check for deaths
+		for(int i = 0; i < loadedLevel->GetDeathZones().size(); i++)
+		{
+			if(player.GetCollider().intersects(loadedLevel->GetDeathZones()[i])) //then the player is in a death zone
+			{
+				activeCheckPointPosition = loadedLevel->GetSpawnPosition();
+
+				deathSequenceTimer.restart();
+				isOnDeathSequence = true;
+				stageCam->SetLocked(true);
+				player.SetIsAcceptingInput(false);
+
+				//find the active checkpoint
+				for(int j = 0; j < loadedLevel->GetCheckPoints().size(); j++)
+				{
+					if(loadedLevel->GetCheckPoints()[j].IsActiveCheckPoint()) //this will work even if there is more than one active checkpoint, but there never should be
+					{
+						activeCheckPointPosition = loadedLevel->GetCheckPoints()[j].getPosition();
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		//if the death sequence is already going, run the stuff
+		if(deathSequenceTimer.getElapsedTime().asSeconds() > deathSequenceTime)
+		{
+			//the time has run, time to respawn
+			player.SetIsAcceptingInput(true);
+			isOnDeathSequence = false;
+			player.Respawn(activeCheckPointPosition);
+			stageCam->SetLocked(false);
 		}
 	}
 }

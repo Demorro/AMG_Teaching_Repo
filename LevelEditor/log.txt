@@ -1,28 +1,17 @@
-08/02/2014 18:08:23.492 - Log File created.
-08/02/2014 18:08:23.493 - Application started.
-08/02/2014 18:08:23.818 - Creating Game1 object.
-08/02/2014 18:08:23.921 - Game1 creation started.
-08/02/2014 18:08:23.923 - Creating Winform.
-08/02/2014 18:08:24.018 - Winform created.
-08/02/2014 18:08:24.018 - Game1 creation ended.
-08/02/2014 18:08:24.142 - Creating Editor object.
-08/02/2014 18:08:24.147 - Editor creation started.
-08/02/2014 18:08:24.147 - Loading Resources.
-08/02/2014 18:08:24.168 - Resources loaded.
-08/02/2014 18:08:24.168 - Loading Settings.
-08/02/2014 18:08:24.646 - Settings loaded.
-08/02/2014 18:08:24.646 - Creating new level.
-08/02/2014 18:08:24.724 - New level created.
-08/02/2014 18:08:24.724 - Editor creation ended.
-08/02/2014 18:09:07.332 - pictureBox1_Resize().
-08/02/2014 18:18:17.559 - pictureBox1_Resize().
-08/02/2014 18:18:17.644 - pictureBox1_Resize().
-08/02/2014 18:22:29.799 - pictureBox1_Resize().
-08/02/2014 18:22:29.864 - pictureBox1_Resize().
-08/02/2014 18:36:04.134 - pictureBox1_Resize().
-08/02/2014 18:36:04.240 - pictureBox1_Resize().
-08/02/2014 18:36:07.929 - pictureBox1_Resize().
-08/02/2014 18:36:08.011 - pictureBox1_Resize().
-09/02/2014 11:23:55.385 - pictureBox1_Resize().
-09/02/2014 11:23:55.504 - pictureBox1_Resize().
-09/02/2014 11:23:56.748 - Application ended.
+09/02/2014 12:29:12.857 - Log File created.
+09/02/2014 12:29:12.858 - Application started.
+09/02/2014 12:29:13.203 - Creating Game1 object.
+09/02/2014 12:29:13.274 - Game1 creation started.
+09/02/2014 12:29:13.276 - Creating Winform.
+09/02/2014 12:29:13.332 - Winform created.
+09/02/2014 12:29:13.332 - Game1 creation ended.
+09/02/2014 12:29:13.382 - Creating Editor object.
+09/02/2014 12:29:13.387 - Editor creation started.
+09/02/2014 12:29:13.387 - Loading Resources.
+09/02/2014 12:29:13.407 - Resources loaded.
+09/02/2014 12:29:13.407 - Loading Settings.
+09/02/2014 12:29:14.383 - Settings loaded.
+09/02/2014 12:29:14.383 - Creating new level.
+09/02/2014 12:29:14.439 - New level created.
+09/02/2014 12:29:14.440 - Editor creation ended.
+09/02/2014 12:29:22.772 - pictureBox1_Resize().

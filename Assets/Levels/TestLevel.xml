@@ -5271,8 +5271,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_2210" Visible="true">
                     <Position>
-                        <X>1324</X>
-                        <Y>444</Y>
+                        <X>2681</X>
+                        <Y>441</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -7310,33 +7310,6 @@
                         <Y>322</Y>
                     </Origin>
                 </Item>
-                <Item xsi:type="TextureItem" Name="Texture_1868" Visible="true">
-                    <Position>
-                        <X>1483</X>
-                        <Y>876</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\ScotlandGrass.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\ScotlandGrass</asset_name>
-                    <Origin>
-                        <X>494</X>
-                        <Y>322</Y>
-                    </Origin>
-                </Item>
                 <Item xsi:type="TextureItem" Name="Texture_1930" Visible="true">
                     <Position>
                         <X>2472</X>
@@ -7932,7 +7905,7 @@
                         <Y>574</Y>
                     </Position>
                     <CustomProperties />
-                    <Width>3957</Width>
+                    <Width>1980</Width>
                     <Height>623</Height>
                     <FillColor>
                         <R>192</R>
@@ -8190,6 +8163,22 @@
                     <CustomProperties />
                     <Width>137</Width>
                     <Height>43</Height>
+                    <FillColor>
+                        <R>192</R>
+                        <G>0</G>
+                        <B>192</B>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                </Item>
+                <Item xsi:type="RectangleItem" Name="Rectangle_2211" Visible="true">
+                    <Position>
+                        <X>1980</X>
+                        <Y>574</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>987</Width>
+                    <Height>623</Height>
                     <FillColor>
                         <R>192</R>
                         <G>0</G>
@@ -9044,12 +9033,28 @@
             <Items>
                 <Item xsi:type="RectangleItem" Name="DeathZone" Visible="true">
                     <Position>
-                        <X>-4962</X>
-                        <Y>1278</Y>
+                        <X>-5012</X>
+                        <Y>1441</Y>
                     </Position>
                     <CustomProperties />
                     <Width>30014</Width>
                     <Height>1967</Height>
+                    <FillColor>
+                        <R>192</R>
+                        <G>0</G>
+                        <B>192</B>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                </Item>
+                <Item xsi:type="RectangleItem" Name="DeathZone1" Visible="true">
+                    <Position>
+                        <X>923</X>
+                        <Y>896</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>1124</Width>
+                    <Height>516</Height>
                     <FillColor>
                         <R>192</R>
                         <G>0</G>
@@ -9110,11 +9115,11 @@
     </Layers>
     <CustomProperties />
     <EditorRelated>
-        <NextItemNumber>2210</NextItemNumber>
+        <NextItemNumber>2213</NextItemNumber>
         <ContentRootFolder>C:\Coding\C++\AMG_Teaching_Repo</ContentRootFolder>
         <CameraPosition>
-            <X>411.92334</X>
-            <Y>367.403564</Y>
+            <X>1911.42334</X>
+            <Y>657.903564</Y>
         </CameraPosition>
         <Version>1.3.0.0</Version>
     </EditorRelated>
