@@ -31,11 +31,13 @@ public:
 
 	bool GetLocked();
 	void SetLocked(bool value);
+
+	sf::Vector2f Center_Point;
+	
 private:
-
-	sf::View cameraView;
+	
 	bool LoadConfigValues(std::string configFilePath);
-
+	sf::View cameraView;
 	//Store a reference to the window so you can call setView after every view change
 	sf::RenderWindow* window;
 	float zoom;
@@ -48,7 +50,10 @@ private:
 
 	// Position of the Center of the Screen
 	sf::Vector2f Last_Center_Point;
-	sf::Vector2f Center_Point;
+
+
+
+	float Delay;
 
 	//read only, do not set
 	sf::Vector2f velocity;

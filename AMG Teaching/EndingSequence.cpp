@@ -71,6 +71,8 @@ EndingSequence::EndingSequence(Camera *stageCam)
 	aPlusStampSoundBuffer.loadFromFile(APLUSSOUND);
 	gradeStampSound.setBuffer(gradeStampSoundBuffer);
 	gradeStampSound.setVolume(stampVolume);
+
+	
 	SetIsActive(false);
 }
 
@@ -113,8 +115,9 @@ void EndingSequence::Update(sf::Event events, bool eventFired, double deltaTime)
 			countUpTimeSound.stop();
 
 		}
-	}
 
+	}
+	
 	
 
 }
@@ -133,8 +136,10 @@ void EndingSequence::Render(sf::RenderWindow &renderWindow)
 		gradeSprite.move(gameCam->GetScreenSpaceOffsetVector());
 		renderWindow.draw(gradeSprite);
 		gradeSprite.move(-gameCam->GetScreenSpaceOffsetVector());
+
 	}
 }
+
 
 bool EndingSequence::IsActive()
 {

@@ -24,9 +24,12 @@ bool Level1State::Load()
 
 	endingSequence = std::unique_ptr<EndingSequence>(new EndingSequence(stageCam.get()));
 
+
 	//Set the spawn point
 	player->SetPosition(loadedLevel->GetSpawnPosition());
 	stageCam->JumpToPoint(player->GetPosition().x, player->GetPosition().y);
+
+	fadeout = std::unique_ptr<Fade>(new Fade(Application::GetWindow()));
 
 	pauseKeys.push_back(sf::Keyboard::Escape);
 	pauseControllerButtons.push_back(std::pair<int,int>(0,START));
@@ -40,6 +43,7 @@ bool Level1State::Load()
 	int timerCharacterSize = 40;
 	int timerXFromLeft = 25;
 	int timerYFromTop = 10;
+	hasdonefadein = false;
 	gameTimer.reset();
 	timerFont.loadFromFile(DEFAULTFONT);
 	gameTimerText.setFont(timerFont);
@@ -56,10 +60,16 @@ bool Level1State::Load()
 void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 {
 	//Update things here, remember about deltatime for framerate independent movement
-	
+
 	//Dont run main level logic if game is paused. Doing it with the timer means theres a short delay after unpausing, and means that the button used to unpause wont be registered in the first game iteration, which is good.
 	if((pauseMenuTimer.getElapsedTime().asSeconds() > timeBetweenPauses) && (gameIsPaused == false))
 	{
+
+		if(hasdonefadein == false)
+		{
+		hasdonefadein = fadeout->dofadein(*stageCam);
+		}
+
 		//Need to check if the player is on a moving platform before the level step to make it work right
 		player->DetermineIfPlayerIsOnMovingPlatform(loadedLevel->GetSpecialPlatforms());
 
@@ -85,11 +95,16 @@ void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 		//Check for victory
 		if(PlayerHasMadeItToTheEnd())
 		{
+			fadeout->dofadeout(*stageCam);
 			gameTimer.pause();
 			ReactToPlayerWinning();
 		}
 
 		endingSequence->Update(events,eventFired,deltaTime);
+
+		
+			
+
 	}
 	else
 	{
@@ -108,6 +123,7 @@ void Level1State::Draw(sf::RenderWindow &renderWindow)
 {
 	//Draw things here
 	//Draw the level first
+
 	loadedLevel->DrawLayersBehindPlayer(renderWindow);
 	player->Render(renderWindow);
 	loadedLevel->DrawLayersInFrontOfPlayer(renderWindow);
@@ -118,11 +134,13 @@ void Level1State::Draw(sf::RenderWindow &renderWindow)
 	renderWindow.draw(gameTimerText);
 	gameTimerText.move(-screenCorrectionMoveVector);
 
+	fadeout->Render(renderWindow);
+
 	if(endingSequence->IsActive())
 	{
 		endingSequence->Render(renderWindow);
 	}
-
+	
 	if(gameIsPaused)
 	{
 		pauseMenu->Render(renderWindow, *stageCam);
@@ -206,6 +224,7 @@ void Level1State::ReactToPlayerWinning()
 	{
 		endingSequence->SetIsActive(true);
 		endingSequence->ResetEndingSequence(gameTimer.getElapsedTime().asMilliseconds());
+		
 	}
 }
 

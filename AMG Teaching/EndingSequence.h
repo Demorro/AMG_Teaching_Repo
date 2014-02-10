@@ -33,7 +33,6 @@ private:
 
 	sf::Font endFont;
 	float textSize;
-
 	bool isEndingSequenceActive;
 
 	std::unique_ptr<TweeningText> completedText;

@@ -21,6 +21,7 @@
 #define SELECTBUTTONSOUND "../Assets/Sounds/MenuSounds/MenuButtonSelect.wav"
 
 
+#define FADEIMAGE "../Assets/Images/Fade/Fade.png"
 //Pause Menu
 #define PAUSEMENUFRAME "../Assets/Images/PauseMenu/PauseMenuFrame.png"
 #define PAUSERESUMEBUTTON "../Assets/Images/PauseMenu/ResumeButtonNormal.png"

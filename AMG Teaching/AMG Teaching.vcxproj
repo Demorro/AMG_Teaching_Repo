@@ -89,6 +89,7 @@
     <ClCompile Include="ControlState.cpp" />
     <ClCompile Include="DestructibleObject.cpp" />
     <ClCompile Include="EndingSequence.cpp" />
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="InterStateSingleTon.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MenuSystem.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="ControlState.h" />
     <ClInclude Include="DestructibleObject.h" />
     <ClInclude Include="EndingSequence.h" />
+    <ClInclude Include="Fade.h" />
     <ClInclude Include="InterStateSingleTon.h" />
     <ClInclude Include="BigSprite.h" />
     <ClInclude Include="MenuButton.h" />

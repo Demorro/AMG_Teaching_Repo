@@ -26,6 +26,7 @@ void Camera::InitialiseCamera(sf::Vector2f startPositionOffset)
 		LoadConfigValues(CAMERACONFIG);
 		cameraView = window->getDefaultView();
 		cameraView.zoom(zoom);
+		
 		//cameraView.move(startPositionOffset);
 		JumpToPoint(startPositionOffset.x,startPositionOffset.y);
 		locked = false;
@@ -33,6 +34,8 @@ void Camera::InitialiseCamera(sf::Vector2f startPositionOffset)
 		UpdateView();
 
 		simpleCam = true;
+
+		
 	}
 	else
 	{
@@ -241,3 +244,4 @@ void Camera::SetLocked(bool value)
 {
 	locked = value;
 }
+

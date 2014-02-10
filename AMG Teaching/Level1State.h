@@ -9,6 +9,7 @@
 #include "XBoxButtons.h"
 #include "Chronometer.h"
 #include "EndingSequence.h"
+#include "Fade.h"
 
 #define DEFAULTPLAYERSTART sf::Vector2f(300,545)
 
@@ -60,7 +61,11 @@ private:
 
 	//The pause menu, plus bool for determining whether the game is paused, (used for stopping all the level update logic)
 	std::unique_ptr<PauseMenu> pauseMenu;
+
+	std::unique_ptr<Fade> fadeout;
+
 	bool gameIsPaused;
+	bool hasdonefadein;
 	std::vector<sf::Keyboard::Key> pauseKeys;
 	std::vector<std::pair<int,int>> pauseControllerButtons;
 	//dont want to be able to spam the pause menu too much, so use a timer;
