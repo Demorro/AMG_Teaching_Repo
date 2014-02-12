@@ -5302,6 +5302,68 @@
                 <Y>1</Y>
             </ScrollSpeed>
         </Layer>
+        <Layer Name="DialogueCharacters" Visible="true">
+            <Items>
+                <Item xsi:type="TextureItem" Name="Texture_2214" Visible="true">
+                    <Position>
+                        <X>-765</X>
+                        <Y>428</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\DialogueCharacters\MR SAIGER\Saiger.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\DialogueCharacters\MR SAIGER\Saiger</asset_name>
+                    <Origin>
+                        <X>92</X>
+                        <Y>125</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_2215" Visible="true">
+                    <Position>
+                        <X>744</X>
+                        <Y>501</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\DialogueCharacters\TestCharacter\SmallGuy.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\DialogueCharacters\TestCharacter\SmallGuy</asset_name>
+                    <Origin>
+                        <X>34</X>
+                        <Y>77</Y>
+                    </Origin>
+                </Item>
+            </Items>
+            <ScrollSpeed>
+                <X>1</X>
+                <Y>1</Y>
+            </ScrollSpeed>
+        </Layer>
         <Layer Name="Objects" Visible="true">
             <Items>
                 <Item xsi:type="TextureItem" Name="Texture_0972" Visible="true">
@@ -9115,11 +9177,11 @@
     </Layers>
     <CustomProperties />
     <EditorRelated>
-        <NextItemNumber>2213</NextItemNumber>
+        <NextItemNumber>2215</NextItemNumber>
         <ContentRootFolder>C:\Coding\C++\AMG_Teaching_Repo</ContentRootFolder>
         <CameraPosition>
-            <X>1911.42334</X>
-            <Y>657.903564</Y>
+            <X>415.256775</X>
+            <Y>350.014679</Y>
         </CameraPosition>
         <Version>1.3.0.0</Version>
     </EditorRelated>

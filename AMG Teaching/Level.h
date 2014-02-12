@@ -9,6 +9,7 @@
 #include "Chronometer.h"
 #include "EndingSequence.h"
 #include "State.h"
+#include "NPC.h"
 
 class Level
 {
@@ -27,6 +28,7 @@ public:
 	State::StateID stateToSwitchToOnChange;
 
 private:
+
 	//Loads in and stored data representations of the level, as well as rendering it
 	std::unique_ptr<LoadedLevel> loadedLevel;
 	

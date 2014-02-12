@@ -38,5 +38,23 @@ inline bool LoadXMLDoc(pugi::xml_document &configDoc, std::string configFilePath
 		return false;
 	}
 	std::cout << std::endl;
+}
 
+//Adapted from stackoverflow users "billz" answer found here : http://stackoverflow.com/questions/13172158/c-split-string-by-line
+inline std::vector<std::string> SplitStringIntoLines(std::string input)
+{
+	std::vector<std::string> returnStrings;
+
+	std::stringstream ss(input);
+	std::string to;
+
+	if(input.size() > 0)
+	{
+		while(std::getline(ss,to))
+		{
+			returnStrings.push_back(to);
+		}
+	}
+
+	return returnStrings;
 }

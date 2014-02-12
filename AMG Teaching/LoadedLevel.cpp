@@ -87,6 +87,7 @@ void LoadedLevel::Update(double deltaTime, Player &player, sf::Vector2f &cameraV
 		destructibleObjects[i].Update(deltaTime);
 	}
 
+
 	for(size_t i = 0; i < specialPlatforms.size(); i++)
 	{
 		specialPlatforms[i].Update(deltaTime,player.GetCollider(),player.GetVelocity());
@@ -102,6 +103,12 @@ void LoadedLevel::Update(double deltaTime, Player &player, sf::Vector2f &cameraV
 	for(int i = 0; i < checkPoints.size(); i++)
 	{
 		checkPoints[i].UpdateAnimations();
+	}
+
+	//run the update on the dialogue characters
+	for(int i = 0; i < dialogueCharacters.size(); i++)
+	{
+		dialogueCharacters[i].Update(deltaTime,player);
 	}
 
 	HandleParralax(deltaTime,cameraVelocity);
@@ -146,6 +153,7 @@ bool LoadedLevel::LoadLevel(std::string levelPath)
 	LoadLayer(MIDBACKGROUND);
 	LoadLayer(NEARBACKGROUND);
 	LoadLayer(CHECKPOINTS);
+	LoadLayer(DIALOGUECHARACTERS);
 	LoadLayer(OBJECTS);
 	LoadLayer(FOREGROUND);
 	LoadLayer(COLLISION);
@@ -209,6 +217,14 @@ void LoadedLevel::LoadLayer(LevelLayers layer)
 		{
 			nodeName = beginNode.attribute("Name").value();
 			if(nodeName == "CheckPoints")
+			{
+				startNode = beginNode;
+			}
+		}
+		else if(layer == DIALOGUECHARACTERS)
+		{
+			nodeName = beginNode.attribute("Name").value();
+			if(nodeName == "DialogueCharacters")
 			{
 				startNode = beginNode;
 			}
@@ -383,6 +399,10 @@ void LoadedLevel::LoadLayer(LevelLayers layer)
 			{
 				LoadCheckPoint(objectSprite.getPosition());
 			}
+			else if(layer == DIALOGUECHARACTERS)
+			{
+				LoadDialogueCharacter(objectSprite,relativeTexPath,*loadedMapTextures[texName]);
+			}
 			else if(layer == OBJECTS)
 			{
 				objectSprites.push_back(objectSprite);
@@ -481,9 +501,97 @@ void LoadedLevel::LoadCheckPoint(sf::Vector2f checkPointPosition)
 	checkPoint.setPosition(checkPointPosition);
 	
 	checkPoints.push_back(checkPoint);
+}
 
+void LoadedLevel::LoadDialogueCharacter(sf::Sprite &baseSprite, std::string originalRelativeTexPath, sf::Texture &charTexture)
+{
+	//Load the speech bubble that the character needs if we havn't already got it.
+	if (loadedMapTextures.find(SPEECHBUBBLE) == loadedMapTextures.end() ) 
+	{
+		//load the checkpoint spritesheet
+		std::unique_ptr<sf::Texture> speechBubbleTexture(new sf::Texture());
+		speechBubbleTexture->loadFromFile(SPEECHBUBBLE);
+		loadedMapTextures[SPEECHBUBBLE] = std::move(speechBubbleTexture);
+	} 
+	else 
+	{
+		//Checkpoint texture is already in the map
+	}
+
+	//Get the full path the the xml file containing the speech text and audio paths
+	std::string speechConfigFileName = "\\CharacterSpeechConfig.xml";
+	std::string speechConfigPath = originalRelativeTexPath.substr(0,originalRelativeTexPath.find_last_of("\\"));
+	speechConfigPath = "..\\" + speechConfigPath + speechConfigFileName;
+
+	//load it in
+	pugi::xml_document speechConfigDoc;
+	LoadXMLDoc(speechConfigDoc,speechConfigPath);
+
+	std::string speechNodeName = "Speech";
+	std::string speechBubbleXOriginName = "SpeechBubbleOriginFromTopLeftX";
+	std::string speechBubbleYOriginName = "SpeechBubbleOriginFromTopLeftY";
+	std::string shouldLoopAttributeName = "PhrasesShouldLoop";
+
+	bool shouldLoop = false;
+
+	std::vector<std::string> speechText;
+	std::vector<std::string> speechAudioPath;
+
+	float speechBubbleXOriginPos = 0;
+	float speechBubbleYOriginPos = 0;
+
+	int noOfSpeechNodes = 0;
+
+	shouldLoop = speechConfigDoc.child("CharacterSpeechConfig").attribute(shouldLoopAttributeName.c_str()).as_bool();
+
+	//loop through the nodes, loading up the speech vectors and getting the position of the speech bubble.
+	for(pugi::xml_node node = speechConfigDoc.child("CharacterSpeechConfig").first_child(); node; node = node.next_sibling())
+	{
+		std::string nodeName = node.name();
+
+		if(nodeName == speechNodeName)
+		{
+			noOfSpeechNodes++;
+			std::string text = node.child_value("SpeechText");
+			std::string audioFilePath = node.child_value("AudioFilePath");
+			//process the audio file path so it points to the correct reletive file path from root folder.
+			audioFilePath = "..\\" + originalRelativeTexPath.substr(0,originalRelativeTexPath.find_last_of("\\")) + "\\" + audioFilePath;
+
+			//load the vectors
+			speechText.push_back(text);
+			speechAudioPath.push_back(audioFilePath);
+		}
+		else if(nodeName == speechBubbleXOriginName)
+		{
+			LoadNumericalValue(speechBubbleXOriginPos,speechConfigDoc.child("CharacterSpeechConfig"),speechBubbleXOriginName); //load the x origin position of speech bubble 
+		}
+		else if(nodeName == speechBubbleYOriginName)
+		{
+			LoadNumericalValue(speechBubbleYOriginPos,speechConfigDoc.child("CharacterSpeechConfig"),speechBubbleYOriginName); //load the y origin position of speech bubble
+		}
+	}
+
+	//create a vector of pairs from the speechtext and audio path vectors, to be passed into the dialogue character constructor. first is text, second is audio path
+	std::vector<std::pair<std::string,std::string>> textAndAudioPaths;
+	for(int i = 0; i < noOfSpeechNodes; i++)
+	{
+		std::string textToPush = "";
+		std::string pathToPush = "";
+
+		if(speechText.size() > i)
+		{
+			textToPush = speechText[i];
+		}
+		if(speechAudioPath.size() > i)
+		{
+			pathToPush = speechAudioPath[i];
+		}
+
+		textAndAudioPaths.push_back(std::pair<std::string,std::string>(textToPush,pathToPush));
+	}
 	
-
+	dialogueCharacters.push_back(DialogueCharacter(baseSprite.getPosition(),charTexture,textAndAudioPaths,sf::Vector2f(speechBubbleXOriginPos,speechBubbleYOriginPos),*loadedMapTextures[SPEECHBUBBLE],shouldLoop));
+	dialogueCharacters.back().Load();
 }
 
 void LoadedLevel::LoadLevelMetaData(pugi::xml_node &rootNode)
@@ -800,6 +908,10 @@ void LoadedLevel::DrawLayersBehindPlayer(sf::RenderWindow &window)
 	for(size_t i = 0; i < checkPoints.size(); i++)
 	{
 		window.draw(checkPoints[i]);
+	}
+	for(size_t i = 0; i < dialogueCharacters.size(); i++)
+	{
+		dialogueCharacters[i].Render(window);
 	}
 	for(size_t i = 0; i < destructibleObjects.size(); i++)
 	{

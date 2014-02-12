@@ -59,6 +59,7 @@ void Level::Load()
 	LoadLevelConfigValues(LEVEL1CONFIG, *endingSequence);
 
 	needToResetState = false;
+
 }
 
 void Level::Update(sf::Event events, bool eventFired, double deltaTime)

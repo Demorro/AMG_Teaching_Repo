@@ -61,6 +61,7 @@
 
 //Names for objects that dont actually have their sprites loaded in from the editor(includes anything with an animation as you dont want to be dragging in a whole spritesheet to gleed)
 #define CHECKPOINTSHEET "../Assets/Images/DefinedObjects/CheckPointSheet.png"
+#define SPEECHBUBBLE "../Assets/Images/DefinedObjects/SpeechBubbleOpenGameArt.png"
 
 //player sounds
 #define JUMPSOUND "../Assets/Sounds/Jump.wav"

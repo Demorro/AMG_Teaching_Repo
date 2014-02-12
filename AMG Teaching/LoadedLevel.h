@@ -17,6 +17,7 @@
 #include "MovingCollider.h"
 #include "AnimatedSprite.h"
 #include "CheckPoint.h"
+#include "DialogueCharacter.h"
 
 //you should do a check against this if you're drawing any debug sprites so it can be toggled easily
 #define LEVEL_DEBUG false
@@ -106,6 +107,7 @@ private:
 		MIDBACKGROUND,
 		NEARBACKGROUND,
 		CHECKPOINTS,
+		DIALOGUECHARACTERS,
 		OBJECTS,
 		FOREGROUND,
 		COLLISION,
@@ -134,6 +136,7 @@ private:
 	std::vector<sf::Sprite> objectSprites;
 	std::vector<sf::Sprite> foregroundSprites;
 	std::vector<CheckPoint> checkPoints;
+	std::vector<DialogueCharacter> dialogueCharacters;
 	std::vector<sf::Rect<float>> collisionBounds;
 	std::vector<sf::Rect<float>> deathZones;
 	std::vector<sf::Rect<float>> endZones;
@@ -144,6 +147,7 @@ private:
 	std::vector<DestructibleObject> destructibleObjects;
 
 	void LoadCheckPoint(sf::Vector2f checkPointPosition);
+	void LoadDialogueCharacter(sf::Sprite &baseSprite, std::string originalRelativeTexPath, sf::Texture &charTexture);
 
 	//the keys for the level sounds in the map;
 	std::string fallingSoundKey;
