@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
+
+	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
+	<Speech>
+		<SpeechText>
+		My name is Hayden
+		and I love you.
+		</SpeechText>
+		<AudioFilePath>Iloveyou.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		My name is Hayden
+		and I hate you
+		</SpeechText>
+		<AudioFilePath>ihateyou.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		My Emotions!
+		MY EMOTIONS!
+		</SpeechText>
+		<AudioFilePath>myemotions.wav</AudioFilePath>
+	</Speech>
+	
+
+	
+	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
+	<SpeechBubbleOriginFromTopLeftX>85</SpeechBubbleOriginFromTopLeftX>
+	<SpeechBubbleOriginFromTopLeftY>150</SpeechBubbleOriginFromTopLeftY>
+
+
+</CharacterSpeechConfig>

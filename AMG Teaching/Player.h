@@ -131,6 +131,11 @@ private:
 
 	void AdjustPositionForMovingPlatforms(float deltaTime, std::vector<SpecialPlatform> &movingPlatforms);
 
+	//Do the footstep sounds
+	void DoWalkingSounds(bool shouldPlaySounds);
+	sf::SoundBuffer footStepSoundBuffer;
+	sf::Sound footStepSound;
+
 	//These variables define how the player moves, loaded in in LoadConfigValues, which itself should be called in initialise
 	float maximumHorizontalSpeed;
 	float airAcceleration;

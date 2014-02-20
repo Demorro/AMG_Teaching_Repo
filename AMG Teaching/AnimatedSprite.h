@@ -12,6 +12,11 @@ public:
 	void Play();
 	void Play(int startFrame);
 	void Play(std::string animation, int startFrame);
+	
+	//returns the current frame that the animation is on;
+	int GetCurrentFrame();
+	//returns the current animation that is playing
+	std::string GetCurrentAnimationName();
 
 	void Pause();
 	void Stop();
@@ -19,7 +24,6 @@ public:
 	void Resume();
 
 	bool IsPlaying();
-
 	void SetCurrentAnimation(std::string animation);
 	void SetRepeating(bool _repeating);
 

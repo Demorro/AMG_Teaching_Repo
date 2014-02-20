@@ -19,13 +19,13 @@ public:
 	void SetIsVolumeOn(bool volume);
 	bool GetIsVolumeOn();
 
-	//For the menu music
-	bool LoadMenuMusicFile(std::string menuMusicFilePath);
-	void PlayMenuMusic();
-	void AdjustMenuMusicVolume(float volume);
-	void StopMenuMusic();
-	bool MenuMusicIsPlaying();
-	void SetMenuMusicLooping(bool looping);
+	//For Music that needs to keep playing even through state changes/reset
+	bool LoadInterStateMusicFile(std::string menuMusicFilePath);
+	void PlayInterStateMusic();
+	void AdjustInterStateMusicVolume(float volume);
+	void StopInterStateMusic();
+	bool InterStateMusicIsPlaying();
+	void SetInterStateMusicLooping(bool looping);
 
 private:
 	InterStateSingleton();
@@ -36,7 +36,7 @@ private:
 	bool isVolumeOn;
 
 	//Since the menu jumps between multiple states, put the menu music stuff here, so it's consistent
-	sf::Music menuMusic;
+	sf::Music interStateMusic;
 
 };
 

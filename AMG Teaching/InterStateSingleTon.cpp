@@ -6,8 +6,6 @@ InterStateSingleton::InterStateSingleton()
 {
 	//Load up the menu music
 	interStateSingleton.SetIsVolumeOn(true);
-	interStateSingleton.LoadMenuMusicFile(MENUBACKINGMUSIC);
-	interStateSingleton.SetMenuMusicLooping(true);
 }
 
 InterStateSingleton& InterStateSingleton::GetInstance()
@@ -29,29 +27,29 @@ bool InterStateSingleton::GetIsVolumeOn()
 
 
 //For the interstate menu music
-bool InterStateSingleton::LoadMenuMusicFile(std::string menuMusicFilePath)
+bool InterStateSingleton::LoadInterStateMusicFile(std::string menuMusicFilePath)
 {
-	if(!menuMusic.openFromFile(menuMusicFilePath))
+	if(!interStateMusic.openFromFile(menuMusicFilePath))
 	{
 		return false;
 	}
 	return true;
 }
-void InterStateSingleton::PlayMenuMusic()
+void InterStateSingleton::PlayInterStateMusic()
 {
-	menuMusic.play();
+	interStateMusic.play();
 }
-void InterStateSingleton::AdjustMenuMusicVolume(float volume)
+void InterStateSingleton::AdjustInterStateMusicVolume(float volume)
 {
-	menuMusic.setVolume(volume);
+	interStateMusic.setVolume(volume);
 }
-void InterStateSingleton::StopMenuMusic()
+void InterStateSingleton::StopInterStateMusic()
 {
-	menuMusic.stop();
+	interStateMusic.stop();
 }
-bool InterStateSingleton::MenuMusicIsPlaying()
+bool InterStateSingleton::InterStateMusicIsPlaying()
 {
-	if(menuMusic.getStatus() == sf::SoundSource::Status::Playing)
+	if(interStateMusic.getStatus() == sf::SoundSource::Status::Playing)
 	{
 		return true;
 	}
@@ -61,7 +59,7 @@ bool InterStateSingleton::MenuMusicIsPlaying()
 		return false;
 	}
 }
-void InterStateSingleton::SetMenuMusicLooping(bool looping)
+void InterStateSingleton::SetInterStateMusicLooping(bool looping)
 {
-	menuMusic.setLoop(looping);
+	interStateMusic.setLoop(looping);
 }

@@ -15,9 +15,12 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	//Load audio files needed for the player
 	jumpSoundBuffer.loadFromFile(JUMPSOUND);
 	attackSoundBuffer.loadFromFile(KICKSOUND);
+	footStepSoundBuffer.loadFromFile(FOOTSTEPSOUND);
 	//set the audio to the sf::sound instances
 	jumpSound.setBuffer(jumpSoundBuffer);
 	attackSound.setBuffer(attackSoundBuffer);
+	footStepSound.setBuffer(footStepSoundBuffer);
+
 
 	//load the fart sounds
 	int noOfFartSounds = 5;
@@ -187,6 +190,7 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 		DoAttacks(destructibleObjects,shouldPlaySounds);
 	}
 	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms, shouldPlaySounds);
+	DoWalkingSounds(shouldPlaySounds);
 }
 
 void Player::Respawn(sf::Vector2f spawnPosition)
@@ -766,6 +770,38 @@ void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects, boo
 			}
 			//Reset the timer so we can't attack again immediately
 			attackTimer.restart();
+		}
+	}
+}
+
+//Play footstep sound when appropriate frame is displayed
+void Player::DoWalkingSounds(bool shouldPlaySounds)
+{
+	//the footstep sound should play on these frames
+	std::vector<int> footstepFrames;
+	footstepFrames.push_back(4);
+	footstepFrames.push_back(14);
+
+	if(shouldPlaySounds == true)
+	{
+		if(sprite != nullptr)
+		{
+			if(sprite->IsPlaying())
+			{
+				if(sprite->GetCurrentAnimationName() == walkAnimName)
+				{
+					for(int i = 0; i < footstepFrames.size(); i++)
+					{
+						if(sprite->GetCurrentFrame() == footstepFrames[i])
+						{
+							if(playerState.grounded)
+							{
+								footStepSound.play();
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

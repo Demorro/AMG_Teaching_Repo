@@ -14,9 +14,12 @@ MenuState::~MenuState(void)
 bool MenuState::Load()
 {
 	//Start the music, it's loaded in the singleton
-	if(interStateSingleton.MenuMusicIsPlaying() == false)
+	if(interStateSingleton.InterStateMusicIsPlaying() == false)
 	{
-		interStateSingleton.PlayMenuMusic();
+		interStateSingleton.AdjustInterStateMusicVolume(MENUMUSICVOLUME);
+		interStateSingleton.LoadInterStateMusicFile(MENUBACKINGMUSIC);
+		interStateSingleton.SetInterStateMusicLooping(true);
+		interStateSingleton.PlayInterStateMusic();
 	}
 	
 
@@ -83,12 +86,12 @@ void MenuState::ToggleVolume()
 	if(interStateSingleton.GetIsVolumeOn())
 	{
 		interStateSingleton.SetIsVolumeOn(false);
-		interStateSingleton.AdjustMenuMusicVolume(0);
+		interStateSingleton.AdjustInterStateMusicVolume(0);
 	}
 	else
 	{
 		interStateSingleton.SetIsVolumeOn(true);
-		interStateSingleton.AdjustMenuMusicVolume(100);
+		interStateSingleton.AdjustInterStateMusicVolume(100);
 	}
 
 	mainMenuSystem.RecheckIfVolumeIsOn();
@@ -96,7 +99,7 @@ void MenuState::ToggleVolume()
 
 void MenuState::GoToFirstLevelState()
 {
-	interStateSingleton.StopMenuMusic();
+	interStateSingleton.StopInterStateMusic();
 	SwitchState(State::LEVEL1_STATE);
 }
 

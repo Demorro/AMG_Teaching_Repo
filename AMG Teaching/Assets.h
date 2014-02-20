@@ -66,6 +66,7 @@
 //player sounds
 #define JUMPSOUND "../Assets/Sounds/Jump.wav"
 #define KICKSOUND "../Assets/Sounds/Kick.wav"
+#define FOOTSTEPSOUND "../Assets/Sounds/FootStep.wav"
 #define FARTSOUND1 "../Assets/Sounds/FartSounds/Fart1.wav"
 #define FARTSOUND2 "../Assets/Sounds/FartSounds/Fart2.wav"
 #define FARTSOUND3 "../Assets/Sounds/FartSounds/Fart3.wav"
@@ -74,6 +75,11 @@
 
 //Level sounds
 #define PLATFORMFALLSOUND "../Assets/Sounds/PlatformFall.wav"
+
+//Level1Music
+#define MENUMUSICVOLUME 75
+#define LEVELMUSICVOLUME 15
+#define LEVEL1MUSIC "../Assets/Sounds/Music/Level1Music.wav"
 
 //fonts
 #define DEFAULTFONT "../Assets/Fonts/SourceSansPro-Black.otf"

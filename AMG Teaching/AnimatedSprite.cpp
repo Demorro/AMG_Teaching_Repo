@@ -121,6 +121,16 @@ void AnimatedSprite::StopAndReset()
 
 }
 
+int AnimatedSprite::GetCurrentFrame()
+{
+	return currentFrame;
+}
+
+std::string AnimatedSprite::GetCurrentAnimationName()
+{
+	return currentAnimation.animationName;
+}
+
 void AnimatedSprite::SetCurrentAnimation(std::string animationName)
 {
 	//this is true if the key exists
