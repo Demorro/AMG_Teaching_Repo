@@ -46,6 +46,7 @@
 
 //Config files
 #define PLAYERCONFIG "../ConfigFiles/PlayerConfig.xml"
+#define AUDIOCONFIG "../ConfigFiles/AudioConfig.xml"
 #define CAMERACONFIG "../ConfigFiles/CameraConfig.xml"
 #define LEVELDEFAULTSCONFIG "../ConfigFiles/LevelDefaultsConfig.xml"
 #define LEVEL1CONFIG "../ConfigFiles/Level1Config.xml"
@@ -67,6 +68,7 @@
 #define JUMPSOUND "../Assets/Sounds/Jump.wav"
 #define KICKSOUND "../Assets/Sounds/Kick.wav"
 #define FOOTSTEPSOUND "../Assets/Sounds/FootStep.wav"
+#define LANDSOUND "../Assets/Sounds/Land.wav"
 #define FARTSOUND1 "../Assets/Sounds/FartSounds/Fart1.wav"
 #define FARTSOUND2 "../Assets/Sounds/FartSounds/Fart2.wav"
 #define FARTSOUND3 "../Assets/Sounds/FartSounds/Fart3.wav"
@@ -77,8 +79,8 @@
 #define PLATFORMFALLSOUND "../Assets/Sounds/PlatformFall.wav"
 
 //Level1Music
-#define MENUMUSICVOLUME 75
-#define LEVELMUSICVOLUME 15
+#define MENUMUSICVOLUME 50
+#define LEVELMUSICVOLUME 10
 #define LEVEL1MUSIC "../Assets/Sounds/Music/Level1Music.wav"
 
 //fonts

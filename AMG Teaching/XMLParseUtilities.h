@@ -20,6 +20,19 @@ inline void LoadNumericalValue(float &valueToLoadInto, pugi::xml_node &rootNode,
 	}
 }
 
+inline void LoadTextValue(std::string &valueToLoadInto, pugi::xml_node &rootNode, std::string valueNodeName)
+{
+	pugi::xml_node workingNode = rootNode.child(valueNodeName.c_str());
+	if(workingNode)
+	{
+		valueToLoadInto = workingNode.child_value();
+	}
+	else
+	{
+		std::cout << "Couldn't find " << valueNodeName << " in config file, using default" << std::endl;
+	}
+}
+
 inline bool LoadXMLDoc(pugi::xml_document &configDoc, std::string configFilePath)
 {
 	//Load the config file into memory

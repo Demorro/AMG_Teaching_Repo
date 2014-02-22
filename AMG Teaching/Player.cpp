@@ -12,26 +12,6 @@ Player::~Player(void)
 bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect)
 {
 
-	//Load audio files needed for the player
-	jumpSoundBuffer.loadFromFile(JUMPSOUND);
-	attackSoundBuffer.loadFromFile(KICKSOUND);
-	footStepSoundBuffer.loadFromFile(FOOTSTEPSOUND);
-	//set the audio to the sf::sound instances
-	jumpSound.setBuffer(jumpSoundBuffer);
-	attackSound.setBuffer(attackSoundBuffer);
-	footStepSound.setBuffer(footStepSoundBuffer);
-
-
-	//load the fart sounds
-	int noOfFartSounds = 5;
-	fartSoundBuffers.resize(noOfFartSounds,sf::SoundBuffer());
-	fartSoundBuffers[0].loadFromFile(FARTSOUND5);
-	fartSoundBuffers[1].loadFromFile(FARTSOUND4);
-	fartSoundBuffers[2].loadFromFile(FARTSOUND3);
-	fartSoundBuffers[3].loadFromFile(FARTSOUND2);
-	fartSoundBuffers[4].loadFromFile(FARTSOUND1);
-	fartSound.setBuffer(fartSoundBuffers[rand() % fartSoundBuffers.size()]);
-
 	//Load the big ol' sprite texture, if this becomes too big we may need to split it up
 	if(!spriteSheet.loadFromFile(PLAYERTEXTURE))
 	{
@@ -64,6 +44,7 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 
 	//Read the player movement variables from the config files, or if it cant be found load defaults
 	LoadConfigValues(PLAYERCONFIG);
+	LoadAudioConfigValues(AUDIOCONFIG);
 
 	doubleJumpKeyTimer.restart();
 	//you need to have 65ms without having a jump key down to double jump again. This isnt a balance thing, it's more of a "Make sure the game dosent jump twice at once" thing
@@ -178,6 +159,93 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	return true;
 }
 
+bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
+{
+	std::string jumpSoundPathNodeName = "JumpSoundPath";
+	std::string footStepSoundPathNodeName = "FootStepSoundPath";
+	std::string kickSoundPathNodeName = "KickSoundPath";
+	std::string landSoundPathNodeName = "LandSoundPath";
+	std::string fartSoundPathNodeName = "FartSoundPath";
+	std::string jumpVolumeNodeName = "JumpSoundVolume";
+	std::string footStepVolumeNodeName = "FootStepSoundVolume";
+	std::string kickVolumeNodeName = "KickSoundVolume";
+	std::string landVolumeNodeName = "LandSoundVolume";
+	std::string fartSoundVolumeNodeName = "FartSoundVolume";
+
+	std::string jumpSoundPath = JUMPSOUND;
+	std::string footStepSoundPath = FOOTSTEPSOUND;
+	std::string kickSoundPath = KICKSOUND;
+	std::string landSoundPath = LANDSOUND;
+	std::vector<std::string> fartSoundPaths;
+
+	float jumpSoundVolume = 100;
+	float footStepSoundVolume = 100;
+	float kickSoundVolume = 100;
+	float landSoundVolume = 100;
+	float fartSoundVolume = 100;
+
+	
+	pugi::xml_document configDoc;
+	LoadXMLDoc(configDoc,audioConfigFilePath);
+
+	//Work through all the variables we need to load and load em, checking for if they're there or not each time
+	//TODO : This whole things needs refactoring into a generic loader function, this violates DRY like mad.
+	pugi::xml_node rootNode = configDoc.child("AudioConfig");
+
+	//load in the fart sounds, do it like this cause you can have a variable amount of fart sounds
+	for(pugi::xml_node node = rootNode.first_child(); node; node = node.next_sibling())
+	{
+		std::string nodeName = node.name();
+		if(nodeName == fartSoundPathNodeName)
+		{
+			std::string value = node.child_value();
+			fartSoundPaths.push_back(value);
+		}
+	}
+	//Load fart volume
+	LoadNumericalValue(fartSoundVolume,rootNode,fartSoundVolumeNodeName);
+
+	//Load in Jump Sound Path
+	LoadTextValue(jumpSoundPath,rootNode,jumpSoundPathNodeName);
+	LoadNumericalValue(jumpSoundVolume,rootNode,jumpVolumeNodeName);
+	//Load in FootStep Sound Path
+	LoadTextValue(footStepSoundPath,rootNode,footStepSoundPathNodeName);
+	LoadNumericalValue(footStepSoundVolume,rootNode,footStepVolumeNodeName);
+	//Load in Kick Sound Path
+	LoadTextValue(kickSoundPath,rootNode,kickSoundPathNodeName);
+	LoadNumericalValue(kickSoundVolume,rootNode,kickVolumeNodeName);
+	//Load in Land Sound Path
+	LoadTextValue(landSoundPath,rootNode,landSoundPathNodeName);
+	LoadNumericalValue(landSoundVolume,rootNode,landVolumeNodeName);
+
+	
+	//Load audio files needed for the player
+	jumpSoundBuffer.loadFromFile(jumpSoundPath);
+	attackSoundBuffer.loadFromFile(kickSoundPath);
+	footStepSoundBuffer.loadFromFile(footStepSoundPath);
+	landSoundBuffer.loadFromFile(landSoundPath);
+	//set the audio to the sf::sound instances
+	jumpSound.setBuffer(jumpSoundBuffer);
+	jumpSound.setVolume(jumpSoundVolume);
+	attackSound.setBuffer(attackSoundBuffer);
+	attackSound.setVolume(kickSoundVolume);
+	footStepSound.setBuffer(footStepSoundBuffer);
+	footStepSound.setVolume(footStepSoundVolume);
+	landSound.setBuffer(landSoundBuffer);
+	landSound.setVolume(landSoundVolume);
+
+	//load the fart sounds
+	int noOfFartSounds = fartSoundPaths.size();
+	fartSoundBuffers.resize(noOfFartSounds,sf::SoundBuffer());
+	for(int i = 0; i < fartSoundBuffers.size(); i++)
+	{
+		fartSoundBuffers[i].loadFromFile(fartSoundPaths[i]);
+	}
+	fartSound.setBuffer(fartSoundBuffers[rand() % fartSoundBuffers.size()]);
+	fartSound.setVolume(fartSoundVolume);
+	
+	return true;
+}
 void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, std::vector<DestructibleObject> &destructibleObjects, bool shouldPlaySounds)
 {
 	sprite->UpdateAnimations();
@@ -190,7 +258,7 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 		DoAttacks(destructibleObjects,shouldPlaySounds);
 	}
 	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms, shouldPlaySounds);
-	DoWalkingSounds(shouldPlaySounds);
+	DoAnimationSounds(shouldPlaySounds);
 }
 
 void Player::Respawn(sf::Vector2f spawnPosition)
@@ -775,7 +843,7 @@ void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects, boo
 }
 
 //Play footstep sound when appropriate frame is displayed
-void Player::DoWalkingSounds(bool shouldPlaySounds)
+void Player::DoAnimationSounds(bool shouldPlaySounds)
 {
 	//the footstep sound should play on these frames
 	std::vector<int> footstepFrames;
@@ -798,6 +866,16 @@ void Player::DoWalkingSounds(bool shouldPlaySounds)
 							{
 								footStepSound.play();
 							}
+						}
+					}
+				}
+				if(sprite->GetCurrentAnimationName() == landFromNormalJumpAnimName)
+				{
+					if(sprite->GetCurrentFrame() == 0)
+					{
+						if(playerState.grounded)
+						{
+							landSound.play();
 						}
 					}
 				}

@@ -381,6 +381,7 @@ void LoadedLevel::LoadLayer(LevelLayers layer)
 			//And now actually place the sprites into the correct storage for rendering
 			if(layer == FARFARBACKGROUND)
 			{
+				//BigSprite bigSprite(objectSprite.getPosition(), *loadedMapTextures[texName]);
 				farFarBackGroundSprites.push_back(objectSprite);
 			}
 			else if(layer == FARBACKGROUND)

@@ -8,28 +8,15 @@ class BigSprite : public sf::Transformable, public sf::Drawable
 {
 public:
 
+	BigSprite(sf::Vector2f position, const sf::Texture &sourceTexture)
+	{
+		setPosition(position);
+		SetupImage(sourceTexture.copyToImage());
+	}
+
     BigSprite(const sf::Image& source)
     {
-		noOfTexturesX = 0;
-		noOfTexturesY = 0;
-
-		unsigned int size = sf::Texture::getMaximumSize();
-		for (unsigned int i = 0; i < source.getSize().x; i += size)
-		{
-			noOfTexturesX++;
-			for (unsigned int j = 0; j < source.getSize().y; j += size)
-            {
-
-				noOfTexturesY++;
-                sf::Texture texture;
-				texture.loadFromImage(source, sf::IntRect(i, j, size, size));
-                myTextures.push_back(texture);
-
-                sf::Sprite sprite(myTextures.back());
-				sprite.setPosition(i, j);
-                mySprites.push_back(sprite);
-            }
-		}
+		SetupImage(source);
 	}
 
 	void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const
@@ -99,6 +86,30 @@ public:
 	}
 
 private:
+
+	void SetupImage(sf::Image source)
+	{
+		noOfTexturesX = 0;
+		noOfTexturesY = 0;
+
+		unsigned int size = sf::Texture::getMaximumSize();
+		for (unsigned int i = 0; i < source.getSize().x; i += size)
+		{
+			noOfTexturesX++;
+			for (unsigned int j = 0; j < source.getSize().y; j += size)
+            {
+
+				noOfTexturesY++;
+                sf::Texture texture;
+				texture.loadFromImage(source, sf::IntRect(i, j, size, size));
+                myTextures.push_back(texture);
+
+                sf::Sprite sprite(myTextures.back());
+				sprite.setPosition(i, j);
+                mySprites.push_back(sprite);
+            }
+		}
+	}
 
 	int noOfTexturesX;
 	int noOfTexturesY;

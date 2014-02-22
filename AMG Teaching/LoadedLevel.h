@@ -18,6 +18,7 @@
 #include "AnimatedSprite.h"
 #include "CheckPoint.h"
 #include "DialogueCharacter.h"
+#include "BigSprite.h"
 
 //you should do a check against this if you're drawing any debug sprites so it can be toggled easily
 #define LEVEL_DEBUG false

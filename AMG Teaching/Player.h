@@ -97,6 +97,7 @@ private:
 	bool Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect);
 	//Loads the config values from the default config file if it can be found, else just plugs in defaults
 	bool LoadConfigValues(std::string configFilePath);
+	bool LoadAudioConfigValues(std::string audioConfigFilePath);
 
 	//This function polls the input devices and updates the player state accordingly.
 	void ReceiveKeyboardInput(sf::Event events, bool eventFired);
@@ -131,11 +132,6 @@ private:
 
 	void AdjustPositionForMovingPlatforms(float deltaTime, std::vector<SpecialPlatform> &movingPlatforms);
 
-	//Do the footstep sounds
-	void DoWalkingSounds(bool shouldPlaySounds);
-	sf::SoundBuffer footStepSoundBuffer;
-	sf::Sound footStepSound;
-
 	//These variables define how the player moves, loaded in in LoadConfigValues, which itself should be called in initialise
 	float maximumHorizontalSpeed;
 	float airAcceleration;
@@ -162,12 +158,19 @@ private:
 
 	sf::SoundBuffer jumpSoundBuffer;
 	sf::SoundBuffer attackSoundBuffer;
+	sf::SoundBuffer landSoundBuffer;
 	sf::Sound jumpSound;
 	sf::Sound attackSound;
+	sf::Sound landSound;
 
 	//the fartSounds are in a vector so you can get a random one for the jump, so it dosen't get tiresome.
 	std::vector<sf::SoundBuffer> fartSoundBuffers;
 	sf::Sound fartSound;
+
+	//Do the footstep sounds
+	void DoAnimationSounds(bool shouldPlaySounds);
+	sf::SoundBuffer footStepSoundBuffer;
+	sf::Sound footStepSound;
 
 
 	//This struct should store the complete state of the player, both in what it is currently doing and what it has been commanded to do last frame
