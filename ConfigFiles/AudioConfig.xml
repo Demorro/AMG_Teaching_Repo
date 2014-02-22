@@ -5,23 +5,23 @@
 	<!--All Volume levels are from 0-100, 0 being silent, 100 being full source volume-->
 
 	<!--Menu Music-->
-	<MenuMusicPath>"../Assets/Sounds/Music/MenuMusic.wav"</MenuMusicPath>
-	<MenuMusicVolume>50</MenuMusicVolume>
+	<MenuMusicPath>../Assets/Sounds/Music/MenuMusic.wav</MenuMusicPath>
+	<MenuMusicVolume>40</MenuMusicVolume>
 	
 	<!--Level 1 Music-->
-	<Level1MusicPath>"../Assets/Sounds/Music/Level1Music.wav"</Level1MusicPath>
-	<Level1MusicVolume>10</Level1MusicVolume>
+	<Level1MusicPath>../Assets/Sounds/Music/Level1Music.wav</Level1MusicPath>
+	<Level1MusicVolume>18</Level1MusicVolume>
 	
 	<!--Level1 Ground Level Ambience -->
-	<GroundLevel1AmbiencePath>"../Assets/Sounds/Music/MenuMusic.wav"</GroundLevel1AmbiencePath>
-	<GroundLevel1AmbienceVolume>50</GroundLevel1AmbienceVolume>
+	<GroundLevel1AmbiencePath>../Assets/Sounds/Level1GroundAmbience.wav</GroundLevel1AmbiencePath>
+	<GroundLevel1AmbienceVolume>100</GroundLevel1AmbienceVolume>
 	<!--Level1 Sky Level Ambience -->
-	<SkyLevel1AmbiencePath>"../Assets/Sounds/Music/MenuMusic.wav"</SkyLevel1AmbiencePath>
-	<SkyLevel1AmbienceVolume>50</SkyLevel1AmbienceVolume>
+	<SkyLevel1AmbiencePath>../Assets/Sounds/Level1SkyAmbience.wav</SkyLevel1AmbiencePath>
+	<SkyLevel1AmbienceVolume>80</SkyLevel1AmbienceVolume>
 	<!--This stuff defines how the crossfading between the ground ambience and sky ambience works-->
-	<!--The way this works is that at the minheight, the game will start fading out the ground ambience and fading in the sky ambience as we go up, at the max height, we will only be hearing the sky level ambience and not hear the ground ambience at all-->
-	<AmbienceCrossFadeMinHeight>100</AmbienceCrossFadeMinHeight>
-	<AmbienceCrossFadeMaxHeight>200</AmbienceCrossFadeMaxHeight>
+	<!--The way this works is that at the minheight, the game will start fading out the ground ambience and fading in the sky ambience as we go up, at the max height, we will only be hearing the sky level ambience and not hear the ground ambience at all, min at 1000, max at 3500 makes sense normally-->
+	<AmbienceCrossFadeMinHeightLevel1>1000</AmbienceCrossFadeMinHeightLevel1>
+	<AmbienceCrossFadeMaxHeightLevel1>3500</AmbienceCrossFadeMaxHeightLevel1>
 	
 	
 	<!--Player Audio-->
@@ -37,6 +37,12 @@
 	<LandSoundPath>../Assets/Sounds/Land.wav</LandSoundPath>
 	<LandSoundVolume>100</LandSoundVolume>
 	
+	<FallingFastSoundPath>../Assets/Sounds/FallingFast.wav</FallingFastSoundPath>
+	<FallingFastSoundVolume>100</FallingFastSoundVolume>
+	<!--The falling fast sound is triggered when, you guessed it, the player is falling fast. This value determines how fast the player has to be falling before it's triggered, 1000-3000 is a good range. For reference, landing from a double jump your maximum fall speed is about 900-1000-->
+	<FallingFastTriggerSpeed>1400</FallingFastTriggerSpeed>
+	
+	
 	<!--Add as many fart sounds as you like-->
 	<FartSoundPath>../Assets/Sounds/FartSounds/Fart1.wav</FartSoundPath>
 	<FartSoundPath>../Assets/Sounds/FartSounds/Fart2.wav</FartSoundPath>
@@ -44,6 +50,7 @@
 	<FartSoundPath>../Assets/Sounds/FartSounds/Fart4.wav</FartSoundPath>
 	<FartSoundPath>../Assets/Sounds/FartSounds/Fart5.wav</FartSoundPath>
 	<FartSoundVolume>100</FartSoundVolume>
+	
 	
 </AudioConfig>
 

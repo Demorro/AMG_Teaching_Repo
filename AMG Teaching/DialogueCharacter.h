@@ -10,7 +10,7 @@ class DialogueCharacter
 {
 public:
 	//speechtextandaudiopaths, first is the text, second is the audio path.
-	DialogueCharacter(sf::Vector2f position, sf::Texture &characterTexture, std::vector<std::pair<std::string, std::string>> speechTextAndAudioPaths, sf::Vector2f speechBubblePosition, sf::Texture &speechBubbleTexture, bool shouldPhrasesLoop);
+	DialogueCharacter(sf::Vector2f position, sf::Texture &characterTexture, std::vector<std::pair<std::string, std::string>> speechTextAndAudioPaths, sf::Vector2f speechBubblePosition, sf::Texture &speechBubbleTexture, bool shouldPhrasesLoop, float speechVolume);
 	~DialogueCharacter(void);
 
 	void Update(double deltaTime, Player &player);

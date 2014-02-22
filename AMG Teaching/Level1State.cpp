@@ -13,24 +13,12 @@ Level1State::~Level1State(void)
 
 bool Level1State::Load()
 {
-	//load in the music for this level
-	interStateSingleton.LoadInterStateMusicFile(LEVEL1MUSIC);
-
-	//Start the music, it's loaded in the singleton
-	if(interStateSingleton.InterStateMusicIsPlaying() == false)
-	{
-		if(interStateSingleton.GetIsVolumeOn() == true)
-		{
-			interStateSingleton.AdjustInterStateMusicVolume(LEVELMUSICVOLUME);
-			interStateSingleton.SetInterStateMusicLooping(true);
-			interStateSingleton.PlayInterStateMusic();
-		}
-	}
-
 	level1 = std::unique_ptr<Level>(new Level(TESTLEVEL, ID));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
 	level1->Load();
 	return true;
 }
+
+
 
 void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 {

@@ -13,16 +13,9 @@ MenuState::~MenuState(void)
 
 bool MenuState::Load()
 {
-	//Start the music, it's loaded in the singleton
-	if(interStateSingleton.InterStateMusicIsPlaying() == false)
-	{
-		interStateSingleton.AdjustInterStateMusicVolume(MENUMUSICVOLUME);
-		interStateSingleton.LoadInterStateMusicFile(MENUBACKINGMUSIC);
-		interStateSingleton.SetInterStateMusicLooping(true);
-		interStateSingleton.PlayInterStateMusic();
-	}
 	
-
+	LoadMenuAudio(AUDIOCONFIG);
+	
 	if(!backgroundImage.loadFromFile(MENUBACKGROUND)){};
 	backGroundSprite = std::unique_ptr<BigSprite>(new BigSprite(backgroundImage));
 	backGroundSprite->move(Application::GetWindow().getSize().x/2 - backGroundSprite->GetSize().x/2,Application::GetWindow().getSize().y/2 - backGroundSprite->GetSize().y/2);
@@ -57,12 +50,35 @@ bool MenuState::Load()
 
 	mainMenuSystem.MoveToFirstButton();
 
-	
-
-	
-	
-
 	return true;
+}
+
+void MenuState::LoadMenuAudio(std::string audioConfigFilePath)
+{
+	std::string menuMusicPathNodeName = "MenuMusicPath";
+	std::string menuMusicVolumeNodeName = "MenuMusicVolume";
+
+	std::string menuMusicPath = MENUBACKINGMUSIC;
+	menuVolume = 100;
+
+	pugi::xml_document configDoc;
+	LoadXMLDoc(configDoc,audioConfigFilePath);
+
+	//Work through all the variables we need to load and load em, checking for if they're there or not each time
+	//TODO : This whole things needs refactoring into a generic loader function, this violates DRY like mad.
+	pugi::xml_node rootNode = configDoc.child("AudioConfig");
+
+	LoadTextValue(menuMusicPath,rootNode,menuMusicPathNodeName);
+	LoadNumericalValue(menuVolume,rootNode,menuMusicVolumeNodeName);
+
+	//Start the music, it's loaded in the singleton
+	if(interStateSingleton.InterStateMusicIsPlaying() == false)
+	{
+		interStateSingleton.AdjustInterStateMusicVolume(menuVolume);
+		interStateSingleton.LoadInterStateMusicFile(menuMusicPath);
+		interStateSingleton.SetInterStateMusicLooping(true);
+		interStateSingleton.PlayInterStateMusic();
+	}
 }
 
 void MenuState::Update(sf::Event events, bool eventFired, double deltaTime)
@@ -91,7 +107,7 @@ void MenuState::ToggleVolume()
 	else
 	{
 		interStateSingleton.SetIsVolumeOn(true);
-		interStateSingleton.AdjustInterStateMusicVolume(100);
+		interStateSingleton.AdjustInterStateMusicVolume(menuVolume);
 	}
 
 	mainMenuSystem.RecheckIfVolumeIsOn();

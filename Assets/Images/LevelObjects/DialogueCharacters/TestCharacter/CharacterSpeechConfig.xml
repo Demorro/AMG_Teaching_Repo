@@ -61,6 +61,9 @@
 	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
 	<SpeechBubbleOriginFromTopLeftX>30</SpeechBubbleOriginFromTopLeftX>
 	<SpeechBubbleOriginFromTopLeftY>52</SpeechBubbleOriginFromTopLeftY>
+	
+	<!--The volume of the speech, 0 is silent, 100 is full recording volume-->
+	<SpeechVolume>100</SpeechVolume>
 
 
 </CharacterSpeechConfig>

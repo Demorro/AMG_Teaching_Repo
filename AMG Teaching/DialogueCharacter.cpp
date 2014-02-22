@@ -1,7 +1,7 @@
 #include "DialogueCharacter.h"
 
 
-DialogueCharacter::DialogueCharacter(sf::Vector2f position, sf::Texture &characterTexture, std::vector<std::pair<std::string, std::string>> speechTextAndAudioPaths, sf::Vector2f speechBubblePosition,  sf::Texture &speechBubbleTexture, bool shouldPhrasesLoop)
+DialogueCharacter::DialogueCharacter(sf::Vector2f position, sf::Texture &characterTexture, std::vector<std::pair<std::string, std::string>> speechTextAndAudioPaths, sf::Vector2f speechBubblePosition,  sf::Texture &speechBubbleTexture, bool shouldPhrasesLoop, float speechVolume)
 {
 	//whether or not the dialogue phrases loop back to the beginning or whether they just stay at the end when they get there
 	shouldLoopPhrases = shouldPhrasesLoop;
@@ -35,6 +35,8 @@ DialogueCharacter::DialogueCharacter(sf::Vector2f position, sf::Texture &charact
 
 	currentSpeechDataIndex = 0;
 	textColor = sf::Color::Black;
+
+	voice.setVolume(speechVolume);
 }
 
 

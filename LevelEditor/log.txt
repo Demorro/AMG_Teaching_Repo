@@ -1,36 +1,17 @@
-22/02/2014 07:25:21.069 - Log File created.
-22/02/2014 07:25:21.070 - Application started.
-22/02/2014 07:25:21.438 - Creating Game1 object.
-22/02/2014 07:25:21.512 - Game1 creation started.
-22/02/2014 07:25:21.515 - Creating Winform.
-22/02/2014 07:25:21.703 - Winform created.
-22/02/2014 07:25:21.703 - Game1 creation ended.
-22/02/2014 07:25:21.788 - Creating Editor object.
-22/02/2014 07:25:21.792 - Editor creation started.
-22/02/2014 07:25:21.793 - Loading Resources.
-22/02/2014 07:25:21.809 - Resources loaded.
-22/02/2014 07:25:21.810 - Loading Settings.
-22/02/2014 07:25:23.893 - Settings loaded.
-22/02/2014 07:25:23.894 - Creating new level.
-22/02/2014 07:25:23.962 - New level created.
-22/02/2014 07:25:23.962 - Editor creation ended.
-22/02/2014 07:25:56.075 - Exception caught: 
-
- Object reference not set to an instance of an object.
-
-   at GLEED2D.Editor.draw(SpriteBatch sb)
-   at GLEED2D.Game1.Draw(GameTime gameTime)
-   at Microsoft.Xna.Framework.Game.DrawFrame()
-   at Microsoft.Xna.Framework.Game.Tick()
-   at Microsoft.Xna.Framework.Game.HostIdle(Object sender, EventArgs e)
-   at Microsoft.Xna.Framework.GameHost.OnIdle()
-   at Microsoft.Xna.Framework.WindowsGameHost.ApplicationIdle(Object sender, EventArgs e)
-   at System.Windows.Forms.Application.ThreadContext.System.Windows.Forms.UnsafeNativeMethods.IMsoComponent.FDoIdle(Int32 grfidlef)
-   at System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(Int32 dwComponentID, Int32 reason, Int32 pvLoopData)
-   at System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
-   at System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
-   at System.Windows.Forms.Application.Run(Form mainForm)
-   at Microsoft.Xna.Framework.WindowsGameHost.Run()
-   at Microsoft.Xna.Framework.Game.Run()
-   at GLEED2D.Program.Main(String[] args)
-22/02/2014 07:25:57.506 - Application ended.
+22/02/2014 14:02:39.372 - Log File created.
+22/02/2014 14:02:39.372 - Application started.
+22/02/2014 14:02:39.842 - Creating Game1 object.
+22/02/2014 14:02:39.927 - Game1 creation started.
+22/02/2014 14:02:39.930 - Creating Winform.
+22/02/2014 14:02:40.010 - Winform created.
+22/02/2014 14:02:40.011 - Game1 creation ended.
+22/02/2014 14:02:40.223 - Creating Editor object.
+22/02/2014 14:02:40.272 - Editor creation started.
+22/02/2014 14:02:40.273 - Loading Resources.
+22/02/2014 14:02:40.294 - Resources loaded.
+22/02/2014 14:02:40.294 - Loading Settings.
+22/02/2014 14:02:41.035 - Settings loaded.
+22/02/2014 14:02:41.036 - Creating new level.
+22/02/2014 14:02:41.138 - New level created.
+22/02/2014 14:02:41.138 - Editor creation ended.
+22/02/2014 14:03:00.432 - Application ended.

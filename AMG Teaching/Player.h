@@ -158,17 +158,24 @@ private:
 
 	sf::SoundBuffer jumpSoundBuffer;
 	sf::SoundBuffer attackSoundBuffer;
+	sf::SoundBuffer fallingFastSoundBuffer;
 	sf::SoundBuffer landSoundBuffer;
 	sf::Sound jumpSound;
 	sf::Sound attackSound;
+	sf::Sound fallingFastSound;
 	sf::Sound landSound;
+
+	//The speed the player has to be falling to trigger the falling fast sound
+	float fallingFastTriggerSpeed;
+	//The addition in the velocity from the fallingFastTriggerSpeed to trigger a hard landing
+	float hardLandingVelocityAddition;
 
 	//the fartSounds are in a vector so you can get a random one for the jump, so it dosen't get tiresome.
 	std::vector<sf::SoundBuffer> fartSoundBuffers;
 	sf::Sound fartSound;
 
 	//Do the footstep sounds
-	void DoAnimationSounds(bool shouldPlaySounds);
+	void DoPassiveSounds(bool shouldPlaySounds);
 	sf::SoundBuffer footStepSoundBuffer;
 	sf::Sound footStepSound;
 

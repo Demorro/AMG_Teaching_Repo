@@ -165,16 +165,21 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	std::string footStepSoundPathNodeName = "FootStepSoundPath";
 	std::string kickSoundPathNodeName = "KickSoundPath";
 	std::string landSoundPathNodeName = "LandSoundPath";
+	std::string fallingFastSoundPathNodeName = "FallingFastSoundPath";
 	std::string fartSoundPathNodeName = "FartSoundPath";
 	std::string jumpVolumeNodeName = "JumpSoundVolume";
 	std::string footStepVolumeNodeName = "FootStepSoundVolume";
 	std::string kickVolumeNodeName = "KickSoundVolume";
 	std::string landVolumeNodeName = "LandSoundVolume";
+	std::string fallingFastVolumeNodeName = "FallingFastSoundVolume";
 	std::string fartSoundVolumeNodeName = "FartSoundVolume";
+	std::string fallingFastTriggerSpeedNodeName = "FallingFastTriggerSpeed";
+
 
 	std::string jumpSoundPath = JUMPSOUND;
 	std::string footStepSoundPath = FOOTSTEPSOUND;
 	std::string kickSoundPath = KICKSOUND;
+	std::string fallingFastSoundPath = FALLINGFASTSOUND;
 	std::string landSoundPath = LANDSOUND;
 	std::vector<std::string> fartSoundPaths;
 
@@ -182,7 +187,10 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	float footStepSoundVolume = 100;
 	float kickSoundVolume = 100;
 	float landSoundVolume = 100;
+	float fallingFastSoundVolume = 100;
 	float fartSoundVolume = 100;
+
+	fallingFastTriggerSpeed = 1000;
 
 	
 	pugi::xml_document configDoc;
@@ -214,6 +222,10 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	//Load in Kick Sound Path
 	LoadTextValue(kickSoundPath,rootNode,kickSoundPathNodeName);
 	LoadNumericalValue(kickSoundVolume,rootNode,kickVolumeNodeName);
+	//Load in Fast Fall Sound
+	LoadTextValue(fallingFastSoundPath,rootNode,fallingFastSoundPathNodeName);
+	LoadNumericalValue(fallingFastSoundVolume,rootNode,fallingFastVolumeNodeName);
+	LoadNumericalValue(fallingFastTriggerSpeed, rootNode,fallingFastTriggerSpeedNodeName);
 	//Load in Land Sound Path
 	LoadTextValue(landSoundPath,rootNode,landSoundPathNodeName);
 	LoadNumericalValue(landSoundVolume,rootNode,landVolumeNodeName);
@@ -223,6 +235,7 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	jumpSoundBuffer.loadFromFile(jumpSoundPath);
 	attackSoundBuffer.loadFromFile(kickSoundPath);
 	footStepSoundBuffer.loadFromFile(footStepSoundPath);
+	fallingFastSoundBuffer.loadFromFile(fallingFastSoundPath);
 	landSoundBuffer.loadFromFile(landSoundPath);
 	//set the audio to the sf::sound instances
 	jumpSound.setBuffer(jumpSoundBuffer);
@@ -231,8 +244,12 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	attackSound.setVolume(kickSoundVolume);
 	footStepSound.setBuffer(footStepSoundBuffer);
 	footStepSound.setVolume(footStepSoundVolume);
+	fallingFastSound.setBuffer(fallingFastSoundBuffer);
+	fallingFastSound.setVolume(fallingFastSoundVolume); //because falling fast is turned on and off by volume tween, rather than actual play
+	fallingFastSound.setLoop(true);
 	landSound.setBuffer(landSoundBuffer);
 	landSound.setVolume(landSoundVolume);
+
 
 	//load the fart sounds
 	int noOfFartSounds = fartSoundPaths.size();
@@ -257,8 +274,8 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 		ReceiveControllerInput(events,eventFired);
 		DoAttacks(destructibleObjects,shouldPlaySounds);
 	}
+	DoPassiveSounds(shouldPlaySounds); // Do before handle movement cause it uses the last state set in there
 	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms, shouldPlaySounds);
-	DoAnimationSounds(shouldPlaySounds);
 }
 
 void Player::Respawn(sf::Vector2f spawnPosition)
@@ -843,7 +860,7 @@ void Player::DoAttacks(std::vector<DestructibleObject> &destructibleObjects, boo
 }
 
 //Play footstep sound when appropriate frame is displayed
-void Player::DoAnimationSounds(bool shouldPlaySounds)
+void Player::DoPassiveSounds(bool shouldPlaySounds)
 {
 	//the footstep sound should play on these frames
 	std::vector<int> footstepFrames;
@@ -856,6 +873,7 @@ void Player::DoAnimationSounds(bool shouldPlaySounds)
 		{
 			if(sprite->IsPlaying())
 			{
+				//Footsteps
 				if(sprite->GetCurrentAnimationName() == walkAnimName)
 				{
 					for(int i = 0; i < footstepFrames.size(); i++)
@@ -869,16 +887,36 @@ void Player::DoAnimationSounds(bool shouldPlaySounds)
 						}
 					}
 				}
+				//Landing
 				if(sprite->GetCurrentAnimationName() == landFromNormalJumpAnimName)
 				{
-					if(sprite->GetCurrentFrame() == 0)
+					if(sprite->GetCurrentFrame() == 1)
 					{
 						if(playerState.grounded)
 						{
-							landSound.play();
+							if(landSound.getStatus() != sf::Sound::Status::Playing)
+							{
+								landSound.play();
+							}
 						}
 					}
 				}
+			}
+		}
+		//Fast fall sound
+		//Start playing when the velocity is high, stop when it isnt
+		if(fallingFastSound.getStatus() != sf::Sound::Status::Playing)
+		{
+			if(playerState.velocity.y > fallingFastTriggerSpeed)
+			{
+				fallingFastSound.play();
+			}
+		}
+		else
+		{
+			if(playerState.velocity.y < fallingFastTriggerSpeed)
+			{
+				fallingFastSound.stop();
 			}
 		}
 	}

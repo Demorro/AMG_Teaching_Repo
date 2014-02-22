@@ -34,6 +34,9 @@ private:
 	std::unique_ptr<BigSprite> backGroundSprite;
 
 	MenuSystem mainMenuSystem;
+	float menuVolume;
+
+	void LoadMenuAudio(std::string audioConfigFilePath);
 
 	void ToggleVolume();
 	void GoToFirstLevelState();

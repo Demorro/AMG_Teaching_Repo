@@ -14,6 +14,7 @@
 class Level
 {
 public:
+
 	Level(std::string levelPath, State::StateID levelState);
 	~Level(void);
 	
@@ -28,7 +29,6 @@ public:
 	State::StateID stateToSwitchToOnChange;
 
 private:
-
 	//Loads in and stored data representations of the level, as well as rendering it
 	std::unique_ptr<LoadedLevel> loadedLevel;
 	
@@ -81,6 +81,19 @@ private:
 	
 
 	bool isSoundOn;
+	sf::SoundBuffer groundLevelAmbienceBuffer;
+	sf::SoundBuffer skyLevelAmbienceBuffer;
+	sf::Sound groundLevelAmbience;
+	sf::Sound skyLevelAmbience;
+	void LoadLevelAudio(std::string audioConfigFilePath, State::StateID levelState); //The levelstate is passed in because we've centrailised the audio config file for the audio guys convenience, so we need to know what paths we're loading
+	float musicVolume;
+	float groundAmbienceVolume;
+	float skyAmbienceVolume;
+
+	float ambientCrossFadeMinHeightLevel;
+	float ambientCrossFadeMaxHeightLevel;
+	float groundLevel;
+	void FadeAmbientSoundsAccordingToHeight(sf::Vector2f playerPosition, float crossFadeMinHeightLevel, float crossFadeMaxHeightLevel);
 
 	//Level timer
 	sftools::Chronometer gameTimer;
