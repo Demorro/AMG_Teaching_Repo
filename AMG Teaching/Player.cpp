@@ -52,6 +52,8 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 
 	//The player can double jump in this level
 	ToggleAbility(DoubleJump,true);
+	//FOR DEBUG, THE PLAYER CAN ALWAYS ROCKETHOVER
+	ToggleAbility(RocketHover,true);
 
 	//Initialise the attack rect collider
 	attackCollider = GetCollider();
@@ -68,6 +70,7 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	landFromNormalJumpAnimName = "Land";
 	doubleJumpAnimName = "DoubleJump";
 	doubleJumpToFallAnimName = "LandFromDoubleJump";
+	rocketHoverAnimName = "RocketHover";
 	kickAnimName = "Name";
 
 	//Load the animations in, done manually for now
@@ -94,6 +97,8 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	jumpStrength = 800;
 	doubleJumpStrength = 800;
 	doubleJumpVelocityChangeImpulse = 500;
+	hoverStrength = 3000;
+	maxHoverVerticalSpeed = 400;
 	attackRange = 30;
 	attackDelay = 1;
 	sprintMultiplier = 2;
@@ -128,6 +133,8 @@ bool Player::LoadConfigValues(std::string configFilePath)
 	LoadNumericalValue(jumpStrength,rootNode,"JumpStrength");
 	LoadNumericalValue(doubleJumpStrength,rootNode,"DoubleJumpStrength");
 	LoadNumericalValue(doubleJumpVelocityChangeImpulse,rootNode,"DoubleJumpVelocityChangeImpulse");
+	LoadNumericalValue(hoverStrength,rootNode,"HoverStrength");
+	LoadNumericalValue(maxHoverVerticalSpeed,rootNode,"MaxHoverVerticalSpeed");
 	LoadNumericalValue(attackRange,rootNode,"AttackRange");
 	LoadNumericalValue(attackDelay,rootNode,"AttackDelay");
 	LoadNumericalValue(sprintMultiplier,rootNode,"SprintMultiplier");
@@ -148,6 +155,8 @@ bool Player::LoadConfigValues(std::string configFilePath)
 		std::cout << "JumpStrength : " << jumpStrength << std::endl;
 		std::cout << "DoubleJumpStrength : " << doubleJumpStrength << std::endl;
 		std::cout << "DoubleJumpVelocityChangeImpulse : " << doubleJumpVelocityChangeImpulse << std::endl;
+		std::cout << "HoverStrength : " << hoverStrength << std::endl;
+		std::cout << "MaxHoverVerticalSpeed : " << maxHoverVerticalSpeed << std::endl;
 		std::cout << "AttackRange : " << attackRange << std::endl;
 		std::cout << "AttackDelay : " << attackDelay << std::endl;
 		std::cout << "SprintMultiplier : " << sprintMultiplier << std::endl;
@@ -167,6 +176,7 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	std::string landSoundPathNodeName = "LandSoundPath";
 	std::string fallingFastSoundPathNodeName = "FallingFastSoundPath";
 	std::string fartSoundPathNodeName = "FartSoundPath";
+	std::string rocketHoverSoundNodeName = "FartHoverSoundPath";
 	std::string jumpVolumeNodeName = "JumpSoundVolume";
 	std::string footStepVolumeNodeName = "FootStepSoundVolume";
 	std::string kickVolumeNodeName = "KickSoundVolume";
@@ -174,6 +184,7 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	std::string fallingFastVolumeNodeName = "FallingFastSoundVolume";
 	std::string fartSoundVolumeNodeName = "FartSoundVolume";
 	std::string fallingFastTriggerSpeedNodeName = "FallingFastTriggerSpeed";
+	std::string rocketHoverVolumeNodeName = "FartHoverSoundVolume";
 
 
 	std::string jumpSoundPath = JUMPSOUND;
@@ -181,6 +192,7 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	std::string kickSoundPath = KICKSOUND;
 	std::string fallingFastSoundPath = FALLINGFASTSOUND;
 	std::string landSoundPath = LANDSOUND;
+	std::string rocketHoverSoundPath = FARTHOVERSOUND;
 	std::vector<std::string> fartSoundPaths;
 
 	float jumpSoundVolume = 100;
@@ -188,6 +200,7 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	float kickSoundVolume = 100;
 	float landSoundVolume = 100;
 	float fallingFastSoundVolume = 100;
+	float rocketHoverSoundVolume = 100;
 	float fartSoundVolume = 100;
 
 	fallingFastTriggerSpeed = 1000;
@@ -222,14 +235,16 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	//Load in Kick Sound Path
 	LoadTextValue(kickSoundPath,rootNode,kickSoundPathNodeName);
 	LoadNumericalValue(kickSoundVolume,rootNode,kickVolumeNodeName);
-	//Load in Fast Fall Sound
+	//Load in Fast Fall Sound Path
 	LoadTextValue(fallingFastSoundPath,rootNode,fallingFastSoundPathNodeName);
 	LoadNumericalValue(fallingFastSoundVolume,rootNode,fallingFastVolumeNodeName);
 	LoadNumericalValue(fallingFastTriggerSpeed, rootNode,fallingFastTriggerSpeedNodeName);
 	//Load in Land Sound Path
 	LoadTextValue(landSoundPath,rootNode,landSoundPathNodeName);
 	LoadNumericalValue(landSoundVolume,rootNode,landVolumeNodeName);
-
+	//Load in the Rocket Hover Sound Path
+	LoadTextValue(rocketHoverSoundPath,rootNode,rocketHoverSoundNodeName);
+	LoadNumericalValue(rocketHoverSoundVolume,rootNode,rocketHoverVolumeNodeName);
 	
 	//Load audio files needed for the player
 	jumpSoundBuffer.loadFromFile(jumpSoundPath);
@@ -237,6 +252,7 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	footStepSoundBuffer.loadFromFile(footStepSoundPath);
 	fallingFastSoundBuffer.loadFromFile(fallingFastSoundPath);
 	landSoundBuffer.loadFromFile(landSoundPath);
+	rocketHoverSoundBuffer.loadFromFile(rocketHoverSoundPath);
 	//set the audio to the sf::sound instances
 	jumpSound.setBuffer(jumpSoundBuffer);
 	jumpSound.setVolume(jumpSoundVolume);
@@ -249,6 +265,9 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 	fallingFastSound.setLoop(true);
 	landSound.setBuffer(landSoundBuffer);
 	landSound.setVolume(landSoundVolume);
+	rocketHoverSound.setBuffer(rocketHoverSoundBuffer);
+	rocketHoverSound.setVolume(rocketHoverSoundVolume);
+	rocketHoverSound.setLoop(true);
 
 
 	//load the fart sounds
@@ -281,6 +300,7 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 void Player::Respawn(sf::Vector2f spawnPosition)
 {
 	bool canPlayerDoubleJump = playerState.canDoubleJump;
+	bool canPlayerRocketHover = playerState.canRocketHover;
 
 	//Reset the players state to default.
 	playerState.ResetEverythingButAnimation();
@@ -288,7 +308,7 @@ void Player::Respawn(sf::Vector2f spawnPosition)
 	
 
 	ToggleAbility(Player::Abilities::DoubleJump, canPlayerDoubleJump);
-
+	ToggleAbility(Player::Abilities::RocketHover, canPlayerRocketHover);
 	SetPosition(spawnPosition);
 }
 
@@ -382,7 +402,7 @@ void Player::HandleMovement(sf::Event events, bool eventFired, double deltaTime,
 	AdjustPositionForMovingPlatforms(deltaTime,movingPlatforms);
 
 	//Deal wid jumping 
-	DoJumping(events, eventFired, shouldPlaySounds);
+	DoJumping(events, eventFired, shouldPlaySounds,deltaTime);
 	//update the player velocity to move left and right depending on player inputs
 	DoLeftAndRightMovement(deltaTime);
 	//Add Gravity
@@ -562,12 +582,11 @@ void Player::DoLeftAndRightMovement(double deltaTime)
 	}
 
 }
-void Player::DoJumping(sf::Event events, bool eventFired, bool shouldPlaySounds)
+void Player::DoJumping(sf::Event events, bool eventFired, bool shouldPlaySounds, double deltaTime)
 {
 	//Jump
 	if(playerState.INPUT_Jump)
 	{
-		
 		//you can only jump if you're grounded, or if you're in the grace period after falling off a ledge
 		if(playerState.grounded == true) 
 		{
@@ -590,17 +609,43 @@ void Player::DoJumping(sf::Event events, bool eventFired, bool shouldPlaySounds)
 			}
 
 		}
-		else
+		else //do the double jump behaviour, whatever that might be
 		{
-			//Dont double jump if the player dosent have the ability
-			if(playerState.canDoubleJump)
+			//If we're not grounded, we could be trying to double jump
+			if(playerState.firstJumping == true)
 			{
-				//If we're not grounded, we could be trying to double jump
-				if(playerState.firstJumping == true)
+				if(!playerState.doubleJumping)
 				{
-					if(!playerState.doubleJumping)
+					if(!playerState.grounded)
 					{
-						if(!playerState.grounded)
+						if(playerState.canRocketHover) //if the player can do the rocketHover, do that over all other jump abilities
+						{
+							//Use the double jump timer, only add the velocity if the player can double jump, or it is already hovering
+							if((doubleJumpKeyTimer.getElapsedTime().asMilliseconds() > doubleJumpKeyTime) || (playerState.rocketHovering == true))
+							{
+								//limit the upwards hover speed so it dosent accelerate forever, going up is negative
+								if(playerState.velocity.y - (hoverStrength * deltaTime) < -maxHoverVerticalSpeed)
+								{
+									playerState.velocity.y = -maxHoverVerticalSpeed;
+								}
+								else
+								{
+									playerState.velocity.y -= hoverStrength * deltaTime;
+								}
+
+								if(shouldPlaySounds)
+								{
+									if(rocketHoverSound.getStatus() != sf::Sound::Status::Playing)
+									{
+										rocketHoverSound.play();
+									}
+								}
+
+								playerState.rocketHovering = true;
+							}
+						}
+						//Dont double jump if the player dosent have the ability
+						else if(playerState.canDoubleJump)
 						{
 							//check to make sure that the player really can double jump, and the button hasnt just fired twice
 							if(doubleJumpKeyTimer.getElapsedTime().asMilliseconds() > doubleJumpKeyTime)
@@ -640,6 +685,14 @@ void Player::DoJumping(sf::Event events, bool eventFired, bool shouldPlaySounds)
 					}
 				}
 			}
+		}
+	}
+	else
+	{
+		playerState.rocketHovering = false;
+		if(rocketHoverSound.getStatus() == sf::Sound::Status::Playing)
+		{
+			rocketHoverSound.stop();
 		}
 	}
 
@@ -778,6 +831,11 @@ bool Player::HandleCollision(std::vector<sf::Rect<float>> &staticLevelCollisionB
 					playerState.grounded = true;
 					playerState.firstJumping = false;
 					playerState.doubleJumping = false;
+					playerState.rocketHovering = false;
+					if(rocketHoverSound.getStatus() == sf::Sound::Status::Playing)
+					{
+						rocketHoverSound.stop();
+					}
 				}
 				else
 				{
@@ -816,6 +874,11 @@ bool Player::HandleCollision(std::vector<sf::Rect<float>> &staticLevelCollisionB
 					playerState.firstJumping = false;
 					playerState.doubleJumping = false;
 					playerState.velocity.y = 0;
+					playerState.rocketHovering = false;
+					if(rocketHoverSound.getStatus() == sf::Sound::Status::Playing)
+					{
+						rocketHoverSound.stop();
+					}
 				}
 				else
 				{
@@ -928,6 +991,9 @@ void Player::ToggleAbility(Abilities ability, bool active)
 	{
 	case Abilities::DoubleJump :
 		playerState.canDoubleJump = active;
+		break;
+	case Abilities::RocketHover :
+		playerState.canRocketHover = active;
 		break;
 	}
 }
@@ -1074,9 +1140,30 @@ void Player::HandleAnimations()
 			playerState.animState = PlayerState::AnimationState::FirstJumping;
 		}
 	}
-
+	//Rocket hover
+	if(playerState.rocketHovering == true)
+	{
+		if(playerState.INPUT_Jump)
+		{
+			sprite->SetCurrentAnimation(rocketHoverAnimName);
+			sprite->SetRepeating(true);
+			if(sprite->IsPlaying() == false)
+			{
+				sprite->Play();
+			}
+			playerState.animState = PlayerState::AnimationState::RocketHovering;
+		}
+	}
+	else
+	{
+		//Transition out of rocket hovering into normal land routines
+		if(playerState.animState == PlayerState::AnimationState::RocketHovering)
+		{
+			playerState.animState = PlayerState::AnimationState::FirstJumping;
+		}
+	}
 	//doubleJump
-	if((playerState.doubleJumping == true) && (lastState.doubleJumping == false))
+	if((playerState.doubleJumping == true) && (lastState.doubleJumping == false) && (playerState.rocketHovering == false))
 	{
 		if(playerState.INPUT_Jump)
 		{
@@ -1085,6 +1172,7 @@ void Player::HandleAnimations()
 			sprite->Play();
 			playerState.animState = PlayerState::AnimationState::DoubleJumping;
 		}
+
 	}
 
 	//GointoFallAnim
@@ -1104,7 +1192,10 @@ void Player::HandleAnimations()
 		{
 			sprite->SetCurrentAnimation(doubleJumpToFallAnimName);
 			sprite->SetRepeating(false);
-			sprite->Play();
+			if(sprite->IsPlaying() == false)
+			{
+				sprite->Play();
+			}
 			playerState.animState = PlayerState::AnimationState::Falling;
 		}
 	}
@@ -1199,6 +1290,8 @@ void Player::LoadAnimations()
 	sprite->LoadSingleAnimation(sf::Vector2i(1250,506),125,6,120,156,0.03f,landFromNormalJumpAnimName);
 	//Load Double Jump
 	sprite->LoadSingleAnimation(sf::Vector2i(0,686),125,10,120,156,0.03f,doubleJumpAnimName);
+	//Load Hover Jump
+	sprite->LoadSingleAnimation(sf::Vector2i(0,1030),125,10,120,156,0.024f,rocketHoverAnimName);
 	//Load Kick
 	sprite->LoadSingleAnimation(sf::Vector2i(0,863),125,15,120,156,0.03f,kickAnimName);
 

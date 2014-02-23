@@ -71,6 +71,7 @@
 #define FALLINGFASTSOUND "../Assets/Sounds/FallingFast.wav"
 #define LANDSOUND "../Assets/Sounds/Land.wav"
 #define HARDLANDING "../Assets/Sounds/HardLanding.wav"
+#define FARTHOVERSOUND "../Assets/Sounds/FartHover.wav"
 #define FARTSOUND1 "../Assets/Sounds/FartSounds/Fart1.wav"
 #define FARTSOUND2 "../Assets/Sounds/FartSounds/Fart2.wav"
 #define FARTSOUND3 "../Assets/Sounds/FartSounds/Fart3.wav"

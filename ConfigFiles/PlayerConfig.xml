@@ -38,6 +38,12 @@
 	<!--It feels better if when the player double jump, he gets a sort of impulse adjustment to his velocity, so this is how much this is done horizontally-->
 	<DoubleJumpVelocityChangeImpulse>380</DoubleJumpVelocityChangeImpulse>
 	
+	<!--The force the player is propelled upwards with while hovering, i find 3000 a good value-->
+	<HoverStrength>3000.0f</HoverStrength>
+	
+	<!--The maximum vertical speed that the player can go while hovering, else you'll accelerate upwards forever. 3-600 is a good value-->
+	<MaxHoverVerticalSpeed>400</MaxHoverVerticalSpeed>
+	
 	<!--The range that the main attack, probably a kick, extends from the player-->
 	<AttackRange>60</AttackRange>
 	

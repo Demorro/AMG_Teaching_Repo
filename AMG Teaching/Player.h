@@ -24,7 +24,8 @@ public:
 
 	enum Abilities
 	{
-		DoubleJump
+		DoubleJump,
+		RocketHover
 	};
 
 	Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect);
@@ -84,6 +85,7 @@ private:
 	std::string landFromNormalJumpAnimName;
 	std::string doubleJumpAnimName;
 	std::string doubleJumpToFallAnimName;
+	std::string rocketHoverAnimName;
 	std::string kickAnimName;
 
 	//Loads the player specific animations
@@ -119,7 +121,7 @@ private:
 	//Does the left and right movement for the player, whether the player is on the ground or in the air
 	void DoLeftAndRightMovement(double deltaTime);
 	//Handles the jumping
-	void DoJumping(sf::Event events, bool eventFired, bool shouldPlaySounds);
+	void DoJumping(sf::Event events, bool eventFired, bool shouldPlaySounds, double deltaTime);
 	//Deals with adding the drag, whether the player is on the ground or in the air, they both have different values
 	void AddDrag(double deltaTime);
 	//Pull the player towards the floor
@@ -141,6 +143,8 @@ private:
 	float personalGravity;
 	float terminalVelocity;
 	float jumpStrength;
+	float hoverStrength;
+	float maxHoverVerticalSpeed;
 	float doubleJumpStrength;
 	float doubleJumpVelocityChangeImpulse;
 	float attackRange;
@@ -160,10 +164,12 @@ private:
 	sf::SoundBuffer attackSoundBuffer;
 	sf::SoundBuffer fallingFastSoundBuffer;
 	sf::SoundBuffer landSoundBuffer;
+	sf::SoundBuffer rocketHoverSoundBuffer;
 	sf::Sound jumpSound;
 	sf::Sound attackSound;
 	sf::Sound fallingFastSound;
 	sf::Sound landSound;
+	sf::Sound rocketHoverSound;
 
 	//The speed the player has to be falling to trigger the falling fast sound
 	float fallingFastTriggerSpeed;
@@ -190,6 +196,7 @@ private:
 		bool facingRight;
 		bool firstJumping;
 		bool doubleJumping;
+		bool rocketHovering;
 		bool grounded;
 		bool attacking;
 		bool isOnMovingPlatform;
@@ -199,6 +206,7 @@ private:
 
 		//these variables can be toggled to define what abilites the player has
 		bool canDoubleJump;
+		bool canRocketHover;
 
 		//These variables are updated from ReceiveControlInput() and are the last inputs received, should probably be set back to false every frame unless you're doing something weird.
 		bool INPUT_MoveLeft;
@@ -216,6 +224,7 @@ private:
 			StartJump,
 			FirstJumping,
 			DoubleJumping,
+			RocketHovering,
 			Falling,
 			Landing,
 			Attacking
@@ -239,6 +248,7 @@ private:
 			facingRight = true;
 			firstJumping = false;
 			doubleJumping = false;
+			rocketHovering = false;
 			grounded = false;
 			isOnMovingPlatform = false;
 			attacking = false;
@@ -248,6 +258,7 @@ private:
 			INPUT_Jump = false;
 			INPUT_Attack = false;
 			canDoubleJump = false;
+			canRocketHover = false;
 			wasSprintingUponJump = false;
 			velocity = sf::Vector2f(0,0);
 		}
