@@ -720,6 +720,12 @@ void LoadedLevel::LoadSpecialPlatform(pugi::xml_node &rootNode, sf::Sprite &base
 	specialPlatforms.push_back(platform);
 }
 
+void LoadedLevel::ReloadFallingPlatforms()
+{
+	specialPlatforms.clear();
+	LoadLayer(SPECIALPLATFORMS);
+}
+
 void LoadedLevel::LoadMovementPath(pugi::xml_node &rootNode)
 {
 	std::vector<sf::Vector2f>  movementPathPoints;

@@ -73,6 +73,8 @@ public:
 	//Returns the spawn position
 	sf::Vector2f GetSpawnPosition();
 
+	void ReloadFallingPlatforms();
+
 private:
 	//These functions handle loading the parts of the level that need something beyond a basic sprite and collision or a rect, just better encapsulated here.
 	void LoadSpecialPlatform(pugi::xml_node &rootNode, sf::Sprite &baseSprite);

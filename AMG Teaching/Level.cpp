@@ -183,12 +183,16 @@ void Level::HandlePlayerDeaths(Player &player)
 		{
 			if(player.GetCollider().intersects(loadedLevel->GetDeathZones()[i])) //then the player is in a death zone
 			{
+				//PLAYER IS DIEING
 				activeCheckPointPosition = loadedLevel->GetSpawnPosition();
 
 				deathSequenceTimer.restart();
 				isOnDeathSequence = true;
 				stageCam->SetLocked(true);
 				player.SetIsAcceptingInput(false);
+
+				//reload the falling platforms cause they might have been destroyed
+						loadedLevel->ReloadFallingPlatforms();
 
 				//find the active checkpoint
 				for(int j = 0; j < loadedLevel->GetCheckPoints().size(); j++)

@@ -52,8 +52,7 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 
 	//The player can double jump in this level
 	ToggleAbility(DoubleJump,true);
-	//FOR DEBUG, THE PLAYER CAN ALWAYS ROCKETHOVER
-	ToggleAbility(RocketHover,true);
+
 
 	//Initialise the attack rect collider
 	attackCollider = GetCollider();
