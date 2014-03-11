@@ -4,6 +4,8 @@
 #include "State.h"
 #include "MenuState.h"
 #include "Level1State.h"
+#include "Level2State.h"
+#include "Level3State.h"
 #include "ControlState.h"
 #include "ClockHud.h"
 #include "FrameClock.h"

@@ -34,14 +34,23 @@ private:
 	std::unique_ptr<BigSprite> backGroundSprite;
 
 	MenuSystem mainMenuSystem;
+	MenuSystem levelSelectSystem;
 	float menuVolume;
 
 	void LoadMenuAudio(std::string audioConfigFilePath);
 
+	//the main menu state contains two menus, the main menu and the level select screen, this bool toggles between em.
+	bool isOnLevelSelectStage;
+
 	void ToggleVolume();
 	void GoToFirstLevelState();
+	void GoToSecondLevelState();
+	void GoToThirdLevelState();
 	void QuitApplication();
 	void GoToControlsState();
+
+	void GoToLevelSelect();
+	void ComeBackFromLevelSelect();
 	
 };
 

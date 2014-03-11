@@ -30,7 +30,7 @@ public:
 	void Draw(sf::RenderWindow &renderWindow);
 
 private:
-	std::unique_ptr<Level> level1;
+	std::unique_ptr<Level> level;
 
 	//The level will sometimes need to trigger state changes, but since it cant access SwitchState, this checks if the state needs to be switched. 
 	void CheckIfLevelWantsToSwitchState();

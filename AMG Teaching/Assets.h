@@ -5,6 +5,8 @@
 #define GAMELOGO "../Assets/Images/Menu/Title.png"
 #define STARTBUTTON "../Assets/Images/Menu/StartButtonUnselected.png"
 #define STARTBUTTONSELECTED "../Assets/Images/Menu/StartButtonSelected.png"
+#define LEVELSELECTBUTTONSELECTED "../Assets/Images/Menu/LevelSelectButtonSelected.png"
+#define LEVELSELECTBUTTONUNSELECTED "../Assets/Images/Menu/LevelSelectButtonUnselected.png"
 #define QUITBUTTON "../Assets/Images/Menu/QuitButtonUnselected.png"
 #define QUITBUTTONSELECTED "../Assets/Images/Menu/QuitButtonSelected.png"
 #define VOLUMEBUTTONONNORMAL "../Assets/Images/Menu/VolumeButtonUnselectedOn.png"
@@ -15,6 +17,15 @@
 #define CONTROLBUTTONSELECTED "../Assets/Images/Menu/ControllerButtonSelected.png"
 #define BACKTOMENUNORMAL "../Assets/Images/Menu/BackUnselectedButton.png"
 #define BACKTOMENUSELECTED "../Assets/Images/Menu/BackSelectedButton.png"
+
+//level select
+#define SCOTLANDUNSELECTED "../Assets/Images/Menu/ScotlandUnselected.png"
+#define SCOTLANDSELECTED "../Assets/Images/Menu/ScotlandSelected.png"
+#define MEXICOUNSELECTED "../Assets/Images/Menu/MexicoUnselected.png"
+#define MEXICOSELECTED "../Assets/Images/Menu/MexicoSelected.png"
+#define JAPANUNSELECTED "../Assets/Images/Menu/JapanUnselected.png"
+#define JAPANSELECTED "../Assets/Images/Menu/JapanSelected.png"
+
 //main menu sounds
 #define MENUBACKINGMUSIC "../Assets/Sounds/Music/MenuMusic.wav"
 #define MOVEBETWEENBUTTONSOUND "../Assets/Sounds/MenuSounds/MenuButtonChange.wav"
@@ -50,9 +61,13 @@
 #define CAMERACONFIG "../ConfigFiles/CameraConfig.xml"
 #define LEVELDEFAULTSCONFIG "../ConfigFiles/LevelDefaultsConfig.xml"
 #define LEVEL1CONFIG "../ConfigFiles/Level1Config.xml"
+#define LEVEL2CONFIG "../ConfigFiles/Level2Config.xml"
+#define LEVEL3CONFIG "../ConfigFiles/Level3Config.xml"
 
-#define TESTLEVEL "../Assets/Levels/TestLevel.xml"
-
+//Levels
+#define SCOTLANDLEVEL "../Assets/Levels/Scotland.xml"
+#define MEXICOLEVEL "../Assets/Levels/Mexico.xml"
+#define JAPANLEVEL "../Assets/Levels/Japan.xml"
 
 #define PLAYERTEXTURE "../Assets/Images/Characters/PlayerSpriteSheetNewWalk.png"
 //The filesnames for the assets related to each destructable object. They should be places on the same directory level(in other words, in the same folder) as the base destructible object used in the level editor

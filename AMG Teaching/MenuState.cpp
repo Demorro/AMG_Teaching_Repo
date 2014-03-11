@@ -13,7 +13,8 @@ MenuState::~MenuState(void)
 
 bool MenuState::Load()
 {
-	
+	isOnLevelSelectStage = false;
+
 	LoadMenuAudio(AUDIOCONFIG);
 	
 	if(!backgroundImage.loadFromFile(MENUBACKGROUND)){};
@@ -23,15 +24,19 @@ bool MenuState::Load()
 
 	float menuElementsBobAmount = 150.0f;
 	float menuElementsTweenSpeed = 1.0f;
-
+	
+	//Load the buttons in the main menu system
 	float titleDistanceFromTop = 125;
 	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, titleDistanceFromTop, GAMELOGO, GAMELOGO, false, true, MenuButton::TweenInDirection::Top, menuElementsBobAmount, menuElementsTweenSpeed);
 
-	float startButtonDistanceFromBottom = 320;
-	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y - startButtonDistanceFromBottom, STARTBUTTON, STARTBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToFirstLevelState,this)));
+	float startButtonDistanceFromCenter = -50;
+	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, (Application::GetWindow().getSize().y/2) + startButtonDistanceFromCenter, STARTBUTTON, STARTBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToFirstLevelState,this)));
 
-	float quitButtonDistanceFromBottom = 180;
-	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, Application::GetWindow().getSize().y - quitButtonDistanceFromBottom, QUITBUTTON, QUITBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::QuitApplication,this)));
+	float levelSelectButtonDistanceFromCenter = 100;
+	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, (Application::GetWindow().getSize().y/2) + levelSelectButtonDistanceFromCenter, LEVELSELECTBUTTONUNSELECTED, LEVELSELECTBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToLevelSelect,this)));
+
+	float quitButtonDistanceFromCenter = 230;
+	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, (Application::GetWindow().getSize().y/2) + quitButtonDistanceFromCenter, QUITBUTTON, QUITBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::QuitApplication,this)));
 
 	float controlButtonDistanceFromBottom = 110;
 	float controlButtonDistanceFromCenterX = -500;
@@ -49,7 +54,22 @@ bool MenuState::Load()
 	}
 
 	mainMenuSystem.MoveToFirstButton();
+	//
+	//Load the buttons in the level select system
+	float scotlandLevelDistanceFromCenter = -180;
+	levelSelectSystem.AddMenuButton(Application::GetWindow().getSize().x/2, (Application::GetWindow().getSize().y/2) + scotlandLevelDistanceFromCenter, SCOTLANDUNSELECTED, SCOTLANDSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToFirstLevelState,this)));
 
+	float mexicoLevelDistanceFromCenter = 0;
+	levelSelectSystem.AddMenuButton(Application::GetWindow().getSize().x/2, (Application::GetWindow().getSize().y/2) + mexicoLevelDistanceFromCenter, MEXICOUNSELECTED, MEXICOSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToSecondLevelState,this)));
+
+	float japanDistanceFromCenter = 180;
+	levelSelectSystem.AddMenuButton(Application::GetWindow().getSize().x/2, (Application::GetWindow().getSize().y/2) + japanDistanceFromCenter, JAPANUNSELECTED, JAPANSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToThirdLevelState,this)));
+
+	float backToMenuButtonDistanceFromCenter = -500.0f;
+	float backToMenuButtonDistanceFromBottom = 100.0f;
+	levelSelectSystem.AddMenuButton(Application::GetWindow().getSize().x/2 + backToMenuButtonDistanceFromCenter, Application::GetWindow().getSize().y - backToMenuButtonDistanceFromBottom, BACKTOMENUNORMAL, BACKTOMENUSELECTED, true, true, MenuButton::TweenInDirection::Left, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::ComeBackFromLevelSelect,this)));
+
+	levelSelectSystem.MoveToFirstButton();
 	return true;
 }
 
@@ -83,7 +103,14 @@ void MenuState::LoadMenuAudio(std::string audioConfigFilePath)
 
 void MenuState::Update(sf::Event events, bool eventFired, double deltaTime)
 {
-	mainMenuSystem.Update(events,eventFired,deltaTime);
+	if(isOnLevelSelectStage)
+	{
+		levelSelectSystem.Update(events,eventFired,deltaTime);
+	}
+	else
+	{
+		mainMenuSystem.Update(events,eventFired,deltaTime);
+	}
 }
 
 void MenuState::Draw(sf::RenderWindow &renderWindow)
@@ -91,7 +118,14 @@ void MenuState::Draw(sf::RenderWindow &renderWindow)
 	//Draw things here
 	renderWindow.draw(*backGroundSprite);
 
-	mainMenuSystem.Render(renderWindow);
+	if(isOnLevelSelectStage)
+	{
+		levelSelectSystem.Render(renderWindow);
+	}
+	else
+	{
+		mainMenuSystem.Render(renderWindow);
+	}
 
 }
 
@@ -119,6 +153,18 @@ void MenuState::GoToFirstLevelState()
 	SwitchState(State::LEVEL1_STATE);
 }
 
+void MenuState::GoToSecondLevelState()
+{
+	interStateSingleton.StopInterStateMusic();
+	SwitchState(State::LEVEL2_STATE);
+}
+
+void MenuState::GoToThirdLevelState()
+{
+	interStateSingleton.StopInterStateMusic();
+	SwitchState(State::LEVEL3_STATE);
+}
+
 void MenuState::QuitApplication()
 {
 	Application::SetRunning(false);
@@ -129,6 +175,19 @@ void MenuState::GoToControlsState()
 	SwitchState(State::CONTROL_STATE);
 }
 
+void MenuState::GoToLevelSelect()
+{
+	isOnLevelSelectStage = true;
+	levelSelectSystem.ResetSystemTweens();
+	levelSelectSystem.MoveToFirstButton();
+}
+
+void MenuState::ComeBackFromLevelSelect()
+{
+	isOnLevelSelectStage = false;
+	mainMenuSystem.ResetSystemTweens();
+	mainMenuSystem.MoveToFirstButton();
+}
 
 
 

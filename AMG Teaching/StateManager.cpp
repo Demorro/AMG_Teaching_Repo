@@ -66,6 +66,16 @@ void StateManager::SwitchState(State::StateID stateID)
 			curState = new Level1State();
 		break;
 
+		case State::LEVEL2_STATE:
+			std::cout << "LEVEL2." << std::endl;
+			curState = new Level2State();
+		break;
+
+		case State::LEVEL3_STATE:
+			std::cout << "LEVEL3." << std::endl;
+			curState = new Level3State();
+		break;
+
 		case State::CONTROL_STATE:
 			std::cout << "CONTROL." << std::endl;
 			curState = new ControlState();

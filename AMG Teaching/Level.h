@@ -42,7 +42,7 @@ private:
 	std::unique_ptr<EndingSequence> endingSequence;
 
 	//Loads level specific config values, passes the win times to the end sequence directly
-	void LoadLevelConfigValues(std::string docPath, EndingSequence &endingSequence);
+	void LoadLevelConfigValues(EndingSequence &endingSequence, State::StateID levelState); //The levelstate is passed in so we can load the correct level config doc
 
 	//runs logic to make the pause menu work
 	void PauseMenuLogic(sf::Event events, bool eventFired, double deltaTime);
@@ -72,7 +72,7 @@ private:
 	//Checks if the player has reached the end of the level,
 	bool PlayerHasMadeItToTheEnd();
 	//reacts accordingly
-	void ReactToPlayerWinning();
+	void ReactToPlayerWinning(float deltaTime);
 
 	//these functions are used in the pause menu
 	void ResumeGameFromPaused();
@@ -94,6 +94,7 @@ private:
 	float ambientCrossFadeMaxHeightLevel;
 	float groundLevel;
 	void FadeAmbientSoundsAccordingToHeight(sf::Vector2f playerPosition, float crossFadeMinHeightLevel, float crossFadeMaxHeightLevel);
+	void FadeOutAmbientTracks(const float fadeSpeed,  float deltaTime);
 
 	//Level timer
 	sftools::Chronometer gameTimer;

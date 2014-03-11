@@ -57,8 +57,8 @@ void Level::Load()
 	gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime(),true));
 
 	//Load level specific config values
-	LoadLevelConfigValues(LEVEL1CONFIG, *endingSequence);
 	//StateToSwitchToOnChange is the current state at the start, so this is fine
+	LoadLevelConfigValues(*endingSequence, stateToSwitchToOnChange);
 	LoadLevelAudio(AUDIOCONFIG, stateToSwitchToOnChange);
 
 	needToResetState = false;
@@ -97,7 +97,7 @@ void Level::Update(sf::Event events, bool eventFired, double deltaTime)
 		}
 		gameTimerText.setString(GetTimerTextFromTime(gameTimer.getElapsedTime(),true));
 
-		FadeAmbientSoundsAccordingToHeight(player->GetPosition(),ambientCrossFadeMinHeightLevel,ambientCrossFadeMaxHeightLevel);
+		
 
 		//Run the logic for activating checkpoints and stuff
 		RunCheckPointLogic(*player);
@@ -106,10 +106,20 @@ void Level::Update(sf::Event events, bool eventFired, double deltaTime)
 		if(PlayerHasMadeItToTheEnd())
 		{
 			gameTimer.pause();
-			ReactToPlayerWinning();
+			ReactToPlayerWinning(deltaTime);
 		}
 
 		endingSequence->Update(events,eventFired,deltaTime);
+		//Do the crossfading between ambient sounds depending on height, or fade em out completely if we're at the end sequence
+		if(endingSequence->IsActive() == false)
+		{
+			FadeAmbientSoundsAccordingToHeight(player->GetPosition(),ambientCrossFadeMinHeightLevel,ambientCrossFadeMaxHeightLevel);
+		}
+		else
+		{
+			const float ambientAudioFadeSpeed = 100.0f;
+			FadeOutAmbientTracks(ambientAudioFadeSpeed,deltaTime);
+		}
 	}
 	else
 	{
@@ -192,7 +202,7 @@ void Level::HandlePlayerDeaths(Player &player)
 				player.SetIsAcceptingInput(false);
 
 				//reload the falling platforms cause they might have been destroyed
-						loadedLevel->ReloadFallingPlatforms();
+				loadedLevel->ReloadFallingPlatforms();
 
 				//find the active checkpoint
 				for(int j = 0; j < loadedLevel->GetCheckPoints().size(); j++)
@@ -288,7 +298,7 @@ bool Level::PlayerHasMadeItToTheEnd()
 }
 
 //remember this is run all the time when the player is in the ending collider. Might need to remove that little "quirk," but left it in as it could be useful
-void Level::ReactToPlayerWinning()
+void Level::ReactToPlayerWinning(float deltaTime)
 {
 	//So what we wanna do here is lock the camera, force the player to run offscreen, and then display the win statistics.
 	stageCam->SetLocked(true);
@@ -301,6 +311,7 @@ void Level::ReactToPlayerWinning()
 		endingSequence->ResetEndingSequence(gameTimer.getElapsedTime().asMilliseconds());
 	}
 }
+
 
 void Level::ResetPause(bool isGamePaused)
 {
@@ -331,8 +342,23 @@ void Level::QuitGame()
 }
 
 
-void Level::LoadLevelConfigValues(std::string docPath, EndingSequence &endingSequence)
+void Level::LoadLevelConfigValues(EndingSequence &endingSequence, State::StateID levelState)
 {
+	std::string docPath = LEVEL1CONFIG;
+
+	if(levelState == State::StateID::LEVEL1_STATE)
+	{
+		docPath = LEVEL1CONFIG;
+	}
+	else if(levelState == State::StateID::LEVEL2_STATE)
+	{
+		docPath = LEVEL2CONFIG;
+	}
+	else if(levelState == State::StateID::LEVEL3_STATE)
+	{
+		docPath = LEVEL3CONFIG;
+	}
+
 	pugi::xml_document levelConfigDoc;
 
 	LoadXMLDoc(levelConfigDoc,docPath);
@@ -358,6 +384,34 @@ void Level::FadeAmbientSoundsAccordingToHeight(sf::Vector2f playerPosition, floa
 	}
 }
 
+void Level::FadeOutAmbientTracks(const float fadeSpeed, float deltaTime)
+{
+	if(skyLevelAmbience.getVolume() > 0)
+	{
+		if(skyLevelAmbience.getVolume() - (fadeSpeed * deltaTime) < 0)
+		{
+			skyLevelAmbience.setVolume(0);
+		}
+		else
+		{
+			skyLevelAmbience.setVolume(skyLevelAmbience.getVolume() - (fadeSpeed * deltaTime));
+		}
+	}
+
+	if(groundLevelAmbience.getVolume() > 0)
+	{
+		if(groundLevelAmbience.getVolume() - (fadeSpeed * deltaTime) < 0)
+		{
+			groundLevelAmbience.setVolume(0);
+		}
+		else
+		{
+			groundLevelAmbience.setVolume(groundLevelAmbience.getVolume() - (fadeSpeed * deltaTime));
+		}
+	}
+}
+
+//This whole method is just bad. Dayum son. L2Code.
 void Level::LoadLevelAudio(std::string audioConfigFilePath, State::StateID levelState)
 {
 	std::string level1MusicPathNodeName = "Level1MusicPath";

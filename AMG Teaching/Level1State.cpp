@@ -3,7 +3,7 @@
 
 Level1State::Level1State(void) : State(State::LEVEL1_STATE)
 {
-	level1 = nullptr;
+	level = nullptr;
 }
 
 
@@ -13,8 +13,8 @@ Level1State::~Level1State(void)
 
 bool Level1State::Load()
 {
-	level1 = std::unique_ptr<Level>(new Level(TESTLEVEL, ID));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
-	level1->Load();
+	level = std::unique_ptr<Level>(new Level(SCOTLANDLEVEL, ID));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
+	level->Load();
 	return true;
 }
 
@@ -22,31 +22,31 @@ bool Level1State::Load()
 
 void Level1State::Update(sf::Event events, bool eventFired, double deltaTime)
 {
-	if(level1 != nullptr)
+	if(level != nullptr)
 	{
-		level1->Update(events,eventFired,deltaTime);
+		level->Update(events,eventFired,deltaTime);
 		CheckIfLevelWantsToSwitchState();
 	}
 }
 
 void Level1State::CheckIfLevelWantsToSwitchState()
 {
-	if(level1 != nullptr)
+	if(level != nullptr)
 	{
-		if(level1->needToResetState)
+		if(level->needToResetState)
 		{
 			interStateSingleton.StopInterStateMusic();
 			interStateSingleton.AdjustInterStateMusicVolume(100);
-			SwitchState(level1->stateToSwitchToOnChange);
+			SwitchState(level->stateToSwitchToOnChange);
 		}
 	}
 }
 
 void Level1State::Draw(sf::RenderWindow &renderWindow)
 {
-	if(level1 != nullptr)
+	if(level != nullptr)
 	{
-		level1->Draw(renderWindow);
+		level->Draw(renderWindow);
 	}
 }
 

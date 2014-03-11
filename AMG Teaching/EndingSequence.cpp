@@ -126,9 +126,9 @@ void EndingSequence::Render(sf::RenderWindow &renderWindow)
 		timeTakenText->Render(renderWindow);
 		gradeText->Render(renderWindow);
 		
-		tempThankYouText.move(gameCam->GetScreenSpaceOffsetVector());
-		renderWindow.draw(tempThankYouText);	
-		tempThankYouText.move(-gameCam->GetScreenSpaceOffsetVector());
+		//tempThankYouText.move(gameCam->GetScreenSpaceOffsetVector());
+		//renderWindow.draw(tempThankYouText);	
+		//tempThankYouText.move(-gameCam->GetScreenSpaceOffsetVector());
 
 		gradeSprite.move(gameCam->GetScreenSpaceOffsetVector());
 		renderWindow.draw(gradeSprite);

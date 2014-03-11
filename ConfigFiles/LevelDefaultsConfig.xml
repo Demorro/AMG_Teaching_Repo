@@ -9,7 +9,7 @@
 	<ForegroundParralax>0.0</ForegroundParralax>
 
 	<!--Default values for the falling platforms, some of these can be altered on a platform by platform basis in the editor, some cant.-->
-	<DefaultPlatformFallDelay>1.0</DefaultPlatformFallDelay>
+	<DefaultPlatformFallDelay>0.7</DefaultPlatformFallDelay>
 	<DefaultPlatformFallGravity>2400.0</DefaultPlatformFallGravity>
 	<DefaultPlatformTerminalVelocity>3500.0</DefaultPlatformTerminalVelocity>
 	
