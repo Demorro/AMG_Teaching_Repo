@@ -100,6 +100,5 @@ private:
 	sftools::Chronometer gameTimer;
 	sf::Font timerFont;
 	sf::Text gameTimerText;
-
 };
 
