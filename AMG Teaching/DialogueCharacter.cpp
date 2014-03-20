@@ -1,10 +1,17 @@
 #include "DialogueCharacter.h"
 
 
-DialogueCharacter::DialogueCharacter(sf::Vector2f position, sf::Texture &characterTexture, std::vector<std::pair<std::string, std::string>> speechTextAndAudioPaths, sf::Vector2f speechBubblePosition,  sf::Texture &speechBubbleTexture, bool shouldPhrasesLoop, float speechVolume)
+DialogueCharacter::DialogueCharacter(sf::Vector2f position, sf::Texture &characterTexture, std::vector<std::pair<std::string, std::string>> speechTextAndAudioPaths, sf::Vector2f speechBubblePosition,  sf::Texture &speechBubbleTexture, bool shouldPhrasesLoop, float speechVolume, bool shouldShowBubble, bool shouldWobble)
 {
+	//Whether or not the speech bubble is dispalyed.
+	shouldDisplaySpeechBubble = shouldShowBubble;
+	shouldDoWobble = shouldWobble;
+
 	//whether or not the dialogue phrases loop back to the beginning or whether they just stay at the end when they get there
 	shouldLoopPhrases = shouldPhrasesLoop;
+
+	//Whether the character should wobble back and forth
+	shouldWobble = true;
 
 	characterTexture.setSmooth(true);
 	speechBubbleSprite.setTexture(speechBubbleTexture);
@@ -60,7 +67,6 @@ void DialogueCharacter::Load()
 	isBubbleOn = false;
 	playerWasCollidingLastFrame = false;
 	fadeSpeed = 1400.0f;
-
 
 	//the text
 	speechFont.loadFromFile(DEFAULTFONT);
@@ -160,13 +166,17 @@ void DialogueCharacter::Update(double deltaTime, Player &player)
 
 	character.Update(deltaTime);
 }
+
 void DialogueCharacter::Render(sf::RenderWindow &window)
 {
 	window.draw(character);
-	window.draw(speechBubbleSprite);
-	for(int i = 0; i < speechTextLines.size(); i++)
+	if(shouldDisplaySpeechBubble == true)
 	{
-		window.draw(speechTextLines[i]);
+		window.draw(speechBubbleSprite);
+		for(int i = 0; i < speechTextLines.size(); i++)
+		{
+			window.draw(speechTextLines[i]);
+		}
 	}
 }
 
@@ -192,7 +202,10 @@ void DialogueCharacter::DoSpeech()
 		}
 
 		voice.play();
-		character.DoExpressionWobble(phraseLength,expressionWobbleSpeed,expressionWobbleIntensity);
+		if(shouldDoWobble)
+		{
+			character.DoExpressionWobble(phraseLength,expressionWobbleSpeed,expressionWobbleIntensity);
+		}
 
 		//this increment means the character will go down the phrase list, and then stop on the final one, saying that forever!
 		if(currentSpeechDataIndex < phrases.size() - 1)

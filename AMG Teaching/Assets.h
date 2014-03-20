@@ -31,7 +31,6 @@
 #define MOVEBETWEENBUTTONSOUND "../Assets/Sounds/MenuSounds/MenuButtonChange.wav"
 #define SELECTBUTTONSOUND "../Assets/Sounds/MenuSounds/MenuButtonSelect.wav"
 
-
 //Pause Menu
 #define PAUSEMENUFRAME "../Assets/Images/PauseMenu/PauseMenuFrame.png"
 #define PAUSERESUMEBUTTON "../Assets/Images/PauseMenu/ResumeButtonNormal.png"
@@ -51,18 +50,20 @@
 #define APLUSSOUND "../Assets/Sounds/MenuSounds/Gong.wav"
 #define COUNTUPTIMESOUND "../Assets/Sounds/MenuSounds/TimeCounterClicks.wav"
 
-
 //Control state
 #define CONTROLSIMAGE "../Assets/Images/Menu/controller.png"
 
 //Config files
 #define PLAYERCONFIG "../ConfigFiles/PlayerConfig.xml"
-#define AUDIOCONFIG "../ConfigFiles/AudioConfig.xml"
 #define CAMERACONFIG "../ConfigFiles/CameraConfig.xml"
 #define LEVELDEFAULTSCONFIG "../ConfigFiles/LevelDefaultsConfig.xml"
 #define LEVEL1CONFIG "../ConfigFiles/Level1Config.xml"
 #define LEVEL2CONFIG "../ConfigFiles/Level2Config.xml"
 #define LEVEL3CONFIG "../ConfigFiles/Level3Config.xml"
+#define LEVEL1AUDIOCONFIG "../ConfigFiles/Level1AudioConfig.xml"
+#define LEVEL2AUDIOCONFIG "../ConfigFiles/Level2AudioConfig.xml"
+#define LEVEL3AUDIOCONFIG "../ConfigFiles/Level3AudioConfig.xml"
+#define AUDIOCONFIG "../ConfigFiles/AudioConfig.xml" //Audio that isnt level specific
 
 //Levels
 #define SCOTLANDLEVEL "../Assets/Levels/Scotland.xml"

@@ -513,7 +513,7 @@ void LoadedLevel::LoadDialogueCharacter(sf::Sprite &baseSprite, std::string orig
 		std::unique_ptr<sf::Texture> speechBubbleTexture(new sf::Texture());
 		speechBubbleTexture->loadFromFile(SPEECHBUBBLE);
 		loadedMapTextures[SPEECHBUBBLE] = std::move(speechBubbleTexture);
-	} 
+	}
 	else 
 	{
 		//Checkpoint texture is already in the map
@@ -533,6 +533,8 @@ void LoadedLevel::LoadDialogueCharacter(sf::Sprite &baseSprite, std::string orig
 	std::string speechBubbleYOriginName = "SpeechBubbleOriginFromTopLeftY";
 	std::string shouldLoopAttributeName = "PhrasesShouldLoop";
 	std::string speechVolumeName = "SpeechVolume";
+	std::string shouldDisplayBubbleNodeName = "ShouldDisplayBubble";
+	std::string shouldWobbleNodeName = "ShouldWobble";
 
 	bool shouldLoop = false;
 
@@ -545,6 +547,9 @@ void LoadedLevel::LoadDialogueCharacter(sf::Sprite &baseSprite, std::string orig
 	float speechVolume = 100;
 
 	int noOfSpeechNodes = 0;
+
+	bool charShouldHaveSpeechBubble = false;
+	bool charShouldWobble = false;
 
 	shouldLoop = speechConfigDoc.child("CharacterSpeechConfig").attribute(shouldLoopAttributeName.c_str()).as_bool();
 
@@ -577,6 +582,14 @@ void LoadedLevel::LoadDialogueCharacter(sf::Sprite &baseSprite, std::string orig
 		{
 			LoadNumericalValue(speechVolume,speechConfigDoc.child("CharacterSpeechConfig"),speechVolumeName); //load the y origin position of speech bubble
 		}
+		else if(nodeName == shouldDisplayBubbleNodeName)
+		{
+			LoadBooleanValue(charShouldHaveSpeechBubble,speechConfigDoc.child("CharacterSpeechConfig"),shouldDisplayBubbleNodeName);
+		}
+		else if(nodeName == shouldWobbleNodeName)
+		{
+			LoadBooleanValue(charShouldWobble,speechConfigDoc.child("CharacterSpeechConfig"),shouldWobbleNodeName);
+		}
 	}
 
 	//create a vector of pairs from the speechtext and audio path vectors, to be passed into the dialogue character constructor. first is text, second is audio path
@@ -598,7 +611,7 @@ void LoadedLevel::LoadDialogueCharacter(sf::Sprite &baseSprite, std::string orig
 		textAndAudioPaths.push_back(std::pair<std::string,std::string>(textToPush,pathToPush));
 	}
 	
-	dialogueCharacters.push_back(DialogueCharacter(baseSprite.getPosition(),charTexture,textAndAudioPaths,sf::Vector2f(speechBubbleXOriginPos,speechBubbleYOriginPos),*loadedMapTextures[SPEECHBUBBLE],shouldLoop,speechVolume));
+	dialogueCharacters.push_back(DialogueCharacter(baseSprite.getPosition(),charTexture,textAndAudioPaths,sf::Vector2f(speechBubbleXOriginPos,speechBubbleYOriginPos),*loadedMapTextures[SPEECHBUBBLE],shouldLoop,speechVolume,charShouldHaveSpeechBubble,charShouldWobble));
 	dialogueCharacters.back().Load();
 }
 

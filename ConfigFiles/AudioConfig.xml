@@ -8,22 +8,6 @@
 	<MenuMusicPath>../Assets/Sounds/Music/MenuMusic.wav</MenuMusicPath>
 	<MenuMusicVolume>40</MenuMusicVolume>
 	
-	<!--Level 1 Music-->
-	<Level1MusicPath>../Assets/Sounds/Music/Level1Music.wav</Level1MusicPath>
-	<Level1MusicVolume>22</Level1MusicVolume>
-	
-	<!--Level1 Ground Level Ambience -->
-	<GroundLevel1AmbiencePath>../Assets/Sounds/Level1GroundAmbience.wav</GroundLevel1AmbiencePath>
-	<GroundLevel1AmbienceVolume>100</GroundLevel1AmbienceVolume>
-	<!--Level1 Sky Level Ambience -->
-	<SkyLevel1AmbiencePath>../Assets/Sounds/Level1SkyAmbience.wav</SkyLevel1AmbiencePath>
-	<SkyLevel1AmbienceVolume>60</SkyLevel1AmbienceVolume>
-	<!--This stuff defines how the crossfading between the ground ambience and sky ambience works-->
-	<!--The way this works is that at the minheight, the game will start fading out the ground ambience and fading in the sky ambience as we go up, at the max height, we will only be hearing the sky level ambience and not hear the ground ambience at all, min at 1000, max at 3500 makes sense normally-->
-	<AmbienceCrossFadeMinHeightLevel1>1000</AmbienceCrossFadeMinHeightLevel1>
-	<AmbienceCrossFadeMaxHeightLevel1>3500</AmbienceCrossFadeMaxHeightLevel1>
-	
-	
 	<!--Player Audio-->
 	<JumpSoundPath>../Assets/Sounds/Jump.wav</JumpSoundPath>
 	<JumpSoundVolume>100</JumpSoundVolume>
@@ -44,7 +28,6 @@
 	
 	<FartHoverSoundPath>../Assets/Sounds/FartHover.wav</FartHoverSoundPath>
 	<FartHoverSoundVolume>100</FartHoverSoundVolume>
-	
 	
 	<!--Add as many fart sounds as you like-->
 	<FartSoundPath>../Assets/Sounds/FartSounds/Fart1.wav</FartSoundPath>

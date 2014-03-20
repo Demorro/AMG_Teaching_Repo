@@ -1199,6 +1199,16 @@ void Player::HandleAnimations()
 		}
 	}
 
+	//If we walk off a cliff
+	if((playerState.grounded == false) && (lastState.grounded == true))
+	{
+		sprite->SetCurrentAnimation(jumpAnimName);
+		sprite->SetRepeating(false);
+		sprite->Play();
+		playerState.animState = PlayerState::AnimationState::FirstJumping;
+		playerState.firstJumping = true;
+	}
+
 	//Land
 	if(playerState.animState == PlayerState::AnimationState::Falling)
 	{
@@ -1221,6 +1231,18 @@ void Player::HandleAnimations()
 			sprite->SetCurrentAnimation(idleAnimName);
 			sprite->SetRepeating(true);
 			sprite->Play();
+		}
+	}
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+	{
+		if(playerState.animState == PlayerState::AnimationState::Walk)
+		{
+			std::cout << "WALKSTATE" << std::endl;
+		}
+		else
+		{
+			std::cout << "NOTWALKSTATE" << std::endl;
 		}
 	}
 
@@ -1249,7 +1271,6 @@ void Player::HandleAnimations()
 			}
 		}
 	}
-				
 	//Back to idle from walk
 	else
 	{

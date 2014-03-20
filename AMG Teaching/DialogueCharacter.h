@@ -10,7 +10,7 @@ class DialogueCharacter
 {
 public:
 	//speechtextandaudiopaths, first is the text, second is the audio path.
-	DialogueCharacter(sf::Vector2f position, sf::Texture &characterTexture, std::vector<std::pair<std::string, std::string>> speechTextAndAudioPaths, sf::Vector2f speechBubblePosition, sf::Texture &speechBubbleTexture, bool shouldPhrasesLoop, float speechVolume);
+	DialogueCharacter(sf::Vector2f position, sf::Texture &characterTexture, std::vector<std::pair<std::string, std::string>> speechTextAndAudioPaths, sf::Vector2f speechBubblePosition, sf::Texture &speechBubbleTexture, bool shouldPhrasesLoop, float speechVolume, bool shouldShowBubble, bool shouldWobble);
 	~DialogueCharacter(void);
 
 	void Update(double deltaTime, Player &player);
@@ -52,5 +52,7 @@ private:
 	sf::Sound voice;
 
 	bool shouldLoopPhrases;
+	bool shouldDisplaySpeechBubble;
+	bool shouldDoWobble;
 };
 

@@ -59,7 +59,19 @@ void Level::Load()
 	//Load level specific config values
 	//StateToSwitchToOnChange is the current state at the start, so this is fine
 	LoadLevelConfigValues(*endingSequence, stateToSwitchToOnChange);
-	LoadLevelAudio(AUDIOCONFIG, stateToSwitchToOnChange);
+
+	if(stateToSwitchToOnChange == State::LEVEL1_STATE)
+	{
+		LoadLevelAudio(LEVEL1AUDIOCONFIG, stateToSwitchToOnChange);
+	}
+	else if(stateToSwitchToOnChange == State::LEVEL2_STATE)
+	{
+		LoadLevelAudio(LEVEL2AUDIOCONFIG, stateToSwitchToOnChange);
+	}
+	else if(stateToSwitchToOnChange == State::LEVEL3_STATE)
+	{
+		LoadLevelAudio(LEVEL3AUDIOCONFIG, stateToSwitchToOnChange);
+	}
 
 	needToResetState = false;
 
@@ -113,7 +125,7 @@ void Level::Update(sf::Event events, bool eventFired, double deltaTime)
 		//Do the crossfading between ambient sounds depending on height, or fade em out completely if we're at the end sequence
 		if(endingSequence->IsActive() == false)
 		{
-			FadeAmbientSoundsAccordingToHeight(player->GetPosition(),ambientCrossFadeMinHeightLevel,ambientCrossFadeMaxHeightLevel);
+			FadeAmbientSoundsAccordingToHeight(player->GetPosition(),ambientCrossFadeMinHeight,ambientCrossFadeMaxHeight);
 		}
 		else
 		{
@@ -330,7 +342,7 @@ void Level::ResumeGameFromPaused()
 //Since we cant access switchstate from inside here, the level class stores a StateID "stateToSwitchToOnChange." The level state then looks at this, sees if its different, and if so, switches
 void Level::RestartLevel()
 {
-	stateToSwitchToOnChange = State::LEVEL1_STATE;
+	//stateToSwitchToOnChange = State::LEVEL1_STATE;
 	needToResetState = true;
 }
 
@@ -414,52 +426,49 @@ void Level::FadeOutAmbientTracks(const float fadeSpeed, float deltaTime)
 //This whole method is just bad. Dayum son. L2Code.
 void Level::LoadLevelAudio(std::string audioConfigFilePath, State::StateID levelState)
 {
-	std::string level1MusicPathNodeName = "Level1MusicPath";
-	std::string level1MusicVolumeNodeName = "Level1MusicVolume";
-
-	std::string level1GroundAmbienceNodeName = "GroundLevel1AmbiencePath";
-	std::string level1SkyAmbienceNodeName = "SkyLevel1AmbiencePath";
-	std::string level1GroundAmbienceVolumeNodeName = "GroundLevel1AmbienceVolume";
-	std::string level1SkyAmbienceVolumeNodeName = "SkyLevel1AmbienceVolume";
-
-	std::string ambientCrossFadeMinHeightLevel1NodeName = "AmbienceCrossFadeMinHeightLevel1";
-	std::string ambientCrossFadeMaxHeightLevel1NodeName = "AmbienceCrossFadeMaxHeightLevel1";
-
-	std::string level1GroundAmbiencePath;
-	std::string level1SkyAmbiencePath;
-	groundAmbienceVolume = 100;
-	skyAmbienceVolume = 100;
-
-	std::string level1MusicPath = LEVEL1MUSIC;
-	musicVolume = 100;
-
-	ambientCrossFadeMinHeightLevel = 500;
-	ambientCrossFadeMaxHeightLevel = 1000;
-
 	pugi::xml_document configDoc;
 	LoadXMLDoc(configDoc,audioConfigFilePath);
+
+
+	std::string musicPathNodeName = "MusicPath";
+	std::string musicVolumeNodeName = "MusicVolume";
+	std::string groundAmbienceNodeName = "GroundAmbiencePath";
+	std::string skyAmbienceNodeName = "SkyAmbiencePath";
+	std::string groundAmbienceVolumeNodeName = "GroundAmbienceVolume";
+	std::string skyAmbienceVolumeNodeName = "SkyAmbienceVolume";
+	std::string ambientCrossFadeMinHeightNodeName = "AmbienceCrossFadeMinHeight";
+	std::string ambientCrossFadeMaxHeightNodeName = "AmbienceCrossFadeMaxHeight";
+
+	std::string groundAmbiencePath;
+	std::string skyAmbiencePath;
+	groundAmbienceVolume = 100;
+	skyAmbienceVolume = 100;
+	musicVolume = 100;
+	ambientCrossFadeMinHeight = 500;
+	ambientCrossFadeMaxHeight = 1000;
+
+	//Music to default to if we cant find any
+	std::string musicPath = "";
+
 
 	//Work through all the variables we need to load and load em, checking for if they're there or not each time
 	//TODO : This whole things needs refactoring into a generic loader function, this violates DRY like mad.
 	pugi::xml_node rootNode = configDoc.child("AudioConfig");
 
-	if(levelState == State::LEVEL1_STATE)
-	{
-		//Load in level 1 music, ground and sky ambience paths and volume
-		LoadTextValue(level1MusicPath,rootNode,level1MusicPathNodeName);
-		LoadTextValue(level1GroundAmbiencePath,rootNode,level1GroundAmbienceNodeName);
-		LoadTextValue(level1SkyAmbiencePath,rootNode,level1SkyAmbienceNodeName);
-		LoadNumericalValue(musicVolume,rootNode,level1MusicVolumeNodeName);
-		LoadNumericalValue(groundAmbienceVolume,rootNode,level1GroundAmbienceVolumeNodeName);
-		LoadNumericalValue(skyAmbienceVolume,rootNode,level1SkyAmbienceVolumeNodeName);
+	//Load in level  music, ground and sky ambience paths and volume
+	LoadTextValue(musicPath,rootNode,musicPathNodeName);
+	LoadTextValue(groundAmbiencePath,rootNode,groundAmbienceNodeName);
+	LoadTextValue(skyAmbiencePath,rootNode,skyAmbienceNodeName);
+	LoadNumericalValue(musicVolume,rootNode,musicVolumeNodeName);
+	LoadNumericalValue(groundAmbienceVolume,rootNode,groundAmbienceVolumeNodeName);
+	LoadNumericalValue(skyAmbienceVolume,rootNode,skyAmbienceVolumeNodeName);
 
-		//ambience crossfade height
-		LoadNumericalValue(ambientCrossFadeMinHeightLevel, rootNode,  ambientCrossFadeMinHeightLevel1NodeName);
-		LoadNumericalValue(ambientCrossFadeMaxHeightLevel, rootNode, ambientCrossFadeMaxHeightLevel1NodeName);
-	}
+	//ambience crossfade height
+	LoadNumericalValue(ambientCrossFadeMinHeight, rootNode,  ambientCrossFadeMinHeightNodeName);
+	LoadNumericalValue(ambientCrossFadeMaxHeight, rootNode, ambientCrossFadeMaxHeightNodeName);
 
-	groundLevelAmbienceBuffer.loadFromFile(level1GroundAmbiencePath);
-	skyLevelAmbienceBuffer.loadFromFile(level1SkyAmbiencePath);
+	groundLevelAmbienceBuffer.loadFromFile(groundAmbiencePath);
+	skyLevelAmbienceBuffer.loadFromFile(skyAmbiencePath);
 	groundLevelAmbience.setBuffer(groundLevelAmbienceBuffer);
 	groundLevelAmbience.setVolume(groundAmbienceVolume);
 	groundLevelAmbience.setLoop(true);
@@ -473,7 +482,7 @@ void Level::LoadLevelAudio(std::string audioConfigFilePath, State::StateID level
 	skyLevelAmbience.play();
 
 	//load in the music for this level
-	interStateSingleton.LoadInterStateMusicFile(level1MusicPath);
+	interStateSingleton.LoadInterStateMusicFile(musicPath);
 
 	//Start the music, it's loaded in the singleton
 	if(interStateSingleton.InterStateMusicIsPlaying() == false)

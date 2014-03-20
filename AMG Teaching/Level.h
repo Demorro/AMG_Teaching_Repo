@@ -90,8 +90,8 @@ private:
 	float groundAmbienceVolume;
 	float skyAmbienceVolume;
 
-	float ambientCrossFadeMinHeightLevel;
-	float ambientCrossFadeMaxHeightLevel;
+	float ambientCrossFadeMinHeight;
+	float ambientCrossFadeMaxHeight;
 	float groundLevel;
 	void FadeAmbientSoundsAccordingToHeight(sf::Vector2f playerPosition, float crossFadeMinHeightLevel, float crossFadeMaxHeightLevel);
 	void FadeOutAmbientTracks(const float fadeSpeed,  float deltaTime);
@@ -100,6 +100,5 @@ private:
 	sftools::Chronometer gameTimer;
 	sf::Font timerFont;
 	sf::Text gameTimerText;
-
 };
 

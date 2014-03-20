@@ -4,6 +4,16 @@
 #include "pugixml.hpp"
 #include "pugiconfig.hpp"
 
+//Taken from stackoverflow user "Gerog Fritzsche" answer found here : http://stackoverflow.com/questions/3613284/c-stdstring-to-boolean
+inline bool to_bool(std::string str)
+{
+	std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+	std::istringstream is(str);
+	bool b;
+	is >> std::boolalpha >> b;
+	return b;
+}
+
 //A generic function that loads in a numerical value from the XML in the structure of the provided config file and puts it into the float thats passed in.
 //For example, if you wanted to load a value "CheesesEaten" from the player config file into float cheeses, you would call LoadNumericalValue(cheeses,rootNode,"CheesesEaten");
 inline void LoadNumericalValue(float &valueToLoadInto, pugi::xml_node &rootNode, std::string valueNodeName)
@@ -30,6 +40,21 @@ inline void LoadTextValue(std::string &valueToLoadInto, pugi::xml_node &rootNode
 	else
 	{
 		std::cout << "Couldn't find " << valueNodeName << " in config file, using default" << std::endl;
+	}
+}
+
+inline void LoadBooleanValue(bool &boolToLoadInto, pugi::xml_node &rootNode, std::string valueNodeName)
+{
+	pugi::xml_node workingNode = rootNode.child(valueNodeName.c_str());
+	if(workingNode)
+	{
+		std::string boolString = workingNode.child_value();
+		boolToLoadInto = to_bool(boolString);
+	}
+	else
+	{
+		std::cout << "Couldn't find " << valueNodeName << " in config file, using true" << std::endl;
+		boolToLoadInto = true;
 	}
 }
 
