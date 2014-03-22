@@ -1,9 +1,16 @@
 #include "EndingSequence.h"
 #include "Application.h"
 
-EndingSequence::EndingSequence(Camera *stageCam)
+EndingSequence::EndingSequence(Camera *stageCam, bool shouldDoGradeCountUp)
 {
+	this->shouldDoGradeCountUp = shouldDoGradeCountUp;
+	this->isAScoringSequence = shouldDoGradeCountUp;
+	this->isCountingToSceneTransition = !shouldDoGradeCountUp;
 	this->gameCam = stageCam;
+
+	secondsTillSceneTransition = 4.0f;
+	sceneTransitionTimer.restart();
+	sequenceIsDone = false;
 
 	endFont.loadFromFile(DEFAULTFONT);
 
@@ -79,39 +86,54 @@ EndingSequence::~EndingSequence(void)
 {
 }
 
-void EndingSequence::Update(sf::Event events, bool eventFired, double deltaTime)
+void EndingSequence::Update(sf::Event events, bool eventFired, double deltaTime, std::function<void()> switchToNextState)
 {
 	if(isEndingSequenceActive)
 	{
-		completedText->Update(events,eventFired,deltaTime);
-		timeTakenText->Update(events,eventFired,deltaTime);
-		gradeText->Update(events,eventFired,deltaTime);
-
-		if(timeCountUpDelayClock.getElapsedTime().asSeconds() > timeCountUpDelay)
+		if(shouldDoGradeCountUp)
 		{
-			//if we havnt finished counting up
-			if(currentCountUpDisplay < playerFinishedTime)
-			{
-				//play the clackedy sound if we're counting up
-				if(countUpTimeSound.getStatus() != sf::Sound::Status::Playing)
-				{
-					if(interStateSingleton.GetIsVolumeOn())
-					{
-						countUpTimeSound.play();
-					}
-				}
+			completedText->Update(events,eventFired,deltaTime);
+			timeTakenText->Update(events,eventFired,deltaTime);
+			gradeText->Update(events,eventFired,deltaTime);
 
-				//count up the end-screen timer display
-				timeTakenText->SetText(timeTakenTextString + CountUpTimeDisplay(currentCountUpDisplay, deltaTime, 32000.0f, playerFinishedTime));
+			if(timeCountUpDelayClock.getElapsedTime().asSeconds() > timeCountUpDelay)
+			{
+				//if we havnt finished counting up
+				if(currentCountUpDisplay < playerFinishedTime)
+				{
+					//play the clackedy sound if we're counting up
+					if(countUpTimeSound.getStatus() != sf::Sound::Status::Playing)
+					{
+						if(interStateSingleton.GetIsVolumeOn())
+						{
+							countUpTimeSound.play();
+						}
+					}
+
+					//count up the end-screen timer display
+					timeTakenText->SetText(timeTakenTextString + CountUpTimeDisplay(currentCountUpDisplay, deltaTime, 32000.0f, playerFinishedTime));
+				}
+			}
+			
+			//These two statements control the grade countup, as well as the delay between finish and state switch
+			//if the time counter has finished, we can do the scoring
+			if(currentCountUpDisplay >= playerFinishedTime)
+			{
+				isCountingToSceneTransition = DoGradeStampCountUp(gradeSprite,currentDisplayedGrade,WhatGradeFromTime(playerFinishedTime/1000.0f)); //playerfinishedtime is in milliseconds so we have to divide it
+				countUpTimeSound.stop();
+				if(isCountingToSceneTransition)
+				{
+					sceneTransitionTimer.restart();
+					shouldDoGradeCountUp = false;
+				}
 			}
 		}
-
-		//if the time counter has finished, we can do the storing
-		if(currentCountUpDisplay >= playerFinishedTime)
+		if(isCountingToSceneTransition)
 		{
-			DoGradeStampCountUp(gradeSprite,currentDisplayedGrade,WhatGradeFromTime(playerFinishedTime/1000.0f)); //playerfinishedtime is in milliseconds so we have to divide it
-			countUpTimeSound.stop();
-
+			if(sceneTransitionTimer.getElapsedTime().asSeconds() > secondsTillSceneTransition)
+			{
+				switchToNextState();
+			}
 		}
 	}
 
@@ -120,20 +142,23 @@ void EndingSequence::Update(sf::Event events, bool eventFired, double deltaTime)
 }
 void EndingSequence::Render(sf::RenderWindow &renderWindow)
 {
-	if(isEndingSequenceActive)
-	{
-		completedText->Render(renderWindow);
-		timeTakenText->Render(renderWindow);
-		gradeText->Render(renderWindow);
+		if(isEndingSequenceActive)
+		{
+			if(isAScoringSequence)
+			{
+				completedText->Render(renderWindow);
+				timeTakenText->Render(renderWindow);
+				gradeText->Render(renderWindow);
 		
-		//tempThankYouText.move(gameCam->GetScreenSpaceOffsetVector());
-		//renderWindow.draw(tempThankYouText);	
-		//tempThankYouText.move(-gameCam->GetScreenSpaceOffsetVector());
+				//tempThankYouText.move(gameCam->GetScreenSpaceOffsetVector());
+				//renderWindow.draw(tempThankYouText);	
+				//tempThankYouText.move(-gameCam->GetScreenSpaceOffsetVector());
 
-		gradeSprite.move(gameCam->GetScreenSpaceOffsetVector());
-		renderWindow.draw(gradeSprite);
-		gradeSprite.move(-gameCam->GetScreenSpaceOffsetVector());
-	}
+				gradeSprite.move(gameCam->GetScreenSpaceOffsetVector());
+				renderWindow.draw(gradeSprite);
+				gradeSprite.move(-gameCam->GetScreenSpaceOffsetVector());
+			}
+		}
 }
 
 bool EndingSequence::IsActive()
@@ -156,6 +181,7 @@ void EndingSequence::ResetEndingSequence(float gameTimeInMilliseconds)
 	playerFinishedTime = gameTimeInMilliseconds;
 
 	currentDisplayedGrade = LevelGrade::None;
+	sceneTransitionTimer.restart();
 
 	gradeStampClock.restart();
 }
@@ -222,12 +248,12 @@ void EndingSequence::StampToNewGrade(sf::Sprite &gradeSprite, LevelGrade newGrad
 	}
 }
 
-void EndingSequence::DoGradeStampCountUp(sf::Sprite &gradeSprite, LevelGrade currentGrade, LevelGrade finalGrade)
+bool EndingSequence::DoGradeStampCountUp(sf::Sprite &gradeSprite, LevelGrade currentGrade, LevelGrade finalGrade)
 {
 	//Dont do anymore stamping if we're there.
 	if(currentGrade == finalGrade)
 	{
-		return;
+		return true;
 	}
 
 	switch (currentGrade)
@@ -266,6 +292,8 @@ void EndingSequence::DoGradeStampCountUp(sf::Sprite &gradeSprite, LevelGrade cur
 	default : 
 		break;
 	}
+
+	return false;
 }
 
 void EndingSequence::SetGradeTimes(float aPlusGradeMaxTimeInSeconds, float aGradeMaxTimeInSeconds, float bGradeMaxTimeInSeconds)
@@ -293,4 +321,9 @@ EndingSequence::LevelGrade EndingSequence::WhatGradeFromTime(float timeInSeconds
 	{
 		return LevelGrade::C;
 	}
+}
+
+bool EndingSequence::IsSequenceDone()
+{
+	return sequenceIsDone;
 }

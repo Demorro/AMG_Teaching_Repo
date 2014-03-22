@@ -9,11 +9,12 @@ Level2State::Level2State(void) : State(State::LEVEL2_STATE)
 
 Level2State::~Level2State(void)
 {
+	level.reset();
 }
 
 bool Level2State::Load()
 {
-	level = std::unique_ptr<Level>(new Level(MEXICOLEVEL, ID));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
+	level = std::unique_ptr<Level>(new Level(MEXICOLEVEL, ID, true));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
 	level->Load();
 	return true;
 }
@@ -37,7 +38,7 @@ void Level2State::CheckIfLevelWantsToSwitchState()
 		{
 			interStateSingleton.StopInterStateMusic();
 			interStateSingleton.AdjustInterStateMusicVolume(100);
-			SwitchState(level->stateToSwitchToOnChange);
+			SwitchState(level->currentTargetState);
 		}
 	}
 }

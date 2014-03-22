@@ -1,20 +1,25 @@
 #include "Level.h"
 #include "Application.h"
 
-Level::Level(std::string levelPath, State::StateID levelState)
+Level::Level(std::string levelPath, State::StateID levelState, bool shouldDoScoreBoard)
 {
 	//Load level
 	loadedLevel = std::unique_ptr<LoadedLevel>(new LoadedLevel(levelPath));
 
-	stateToSwitchToOnChange = levelState;
+	currentTargetState = levelState;
+	FigureOutNextState(levelState);
+	this->shouldDoScoreBoard = shouldDoScoreBoard;
 	needToResetState = false;
 }
 
 
 Level::~Level(void)
 {
-
-
+	loadedLevel.reset();
+	stageCam.reset();
+	player.reset();
+	endingSequence.reset();
+	pauseMenu.reset();
 }
 
 void Level::Load()
@@ -25,7 +30,7 @@ void Level::Load()
 	stageCam = std::unique_ptr<Camera>(new Camera(Application::GetWindow(),DEFAULTPLAYERSTART));
 	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,DEFAULTPLAYERSTART,sf::IntRect(0,166,126,156),sf::IntRect(0,0,70,150)));
 
-	endingSequence = std::unique_ptr<EndingSequence>(new EndingSequence(stageCam.get()));
+	endingSequence = std::unique_ptr<EndingSequence>(new EndingSequence(stageCam.get(),shouldDoScoreBoard));
 
 	deathSequenceTimer.restart();
 	deathSequenceTime = 1.0f;
@@ -58,19 +63,19 @@ void Level::Load()
 
 	//Load level specific config values
 	//StateToSwitchToOnChange is the current state at the start, so this is fine
-	LoadLevelConfigValues(*endingSequence, stateToSwitchToOnChange);
+	LoadLevelConfigValues(*endingSequence, currentTargetState);
 
-	if(stateToSwitchToOnChange == State::LEVEL1_STATE)
+	if(currentTargetState == State::LEVEL1_STATE)
 	{
-		LoadLevelAudio(LEVEL1AUDIOCONFIG, stateToSwitchToOnChange);
+		LoadLevelAudio(LEVEL1AUDIOCONFIG, currentTargetState);
 	}
-	else if(stateToSwitchToOnChange == State::LEVEL2_STATE)
+	else if(currentTargetState == State::LEVEL2_STATE)
 	{
-		LoadLevelAudio(LEVEL2AUDIOCONFIG, stateToSwitchToOnChange);
+		LoadLevelAudio(LEVEL2AUDIOCONFIG, currentTargetState);
 	}
-	else if(stateToSwitchToOnChange == State::LEVEL3_STATE)
+	else if(currentTargetState == State::LEVEL3_STATE)
 	{
-		LoadLevelAudio(LEVEL3AUDIOCONFIG, stateToSwitchToOnChange);
+		LoadLevelAudio(LEVEL3AUDIOCONFIG, currentTargetState);
 	}
 
 	needToResetState = false;
@@ -121,7 +126,7 @@ void Level::Update(sf::Event events, bool eventFired, double deltaTime)
 			ReactToPlayerWinning(deltaTime);
 		}
 
-		endingSequence->Update(events,eventFired,deltaTime);
+		endingSequence->Update(events,eventFired,deltaTime,std::function<void()>(std::bind(&Level::GoToNextState,this)));
 		//Do the crossfading between ambient sounds depending on height, or fade em out completely if we're at the end sequence
 		if(endingSequence->IsActive() == false)
 		{
@@ -349,7 +354,7 @@ void Level::RestartLevel()
 void Level::QuitGame()
 {
 	stageCam->JumpToPoint(Application::GetWindow().getSize().x/2,Application::GetWindow().getSize().y/2); //if we dont do this the menustate has a fucked up viewport
-	stateToSwitchToOnChange = State::MENU_STATE;
+	currentTargetState = State::MENU_STATE;
 	needToResetState = true;
 }
 
@@ -494,4 +499,38 @@ void Level::LoadLevelAudio(std::string audioConfigFilePath, State::StateID level
 			interStateSingleton.PlayInterStateMusic();
 		}
 	}
+}
+
+void Level::FigureOutNextState(State::StateID currentState)
+{
+	if(currentState == State::MENU_STATE)
+	{
+		nextState = State::LEVEL1_STATE;
+	}
+	else if(currentState == State::LEVEL1_STATE)
+	{
+		nextState = State::LEVEL1TO2STATE;
+	}
+	else if(currentState == State::LEVEL1TO2STATE)
+	{
+		nextState = State::LEVEL2_STATE;
+	}
+	else if(currentState == State::LEVEL2_STATE)
+	{
+		nextState = State::LEVEL2TO3STATE;
+	}
+	else if(currentState == State::LEVEL2TO3STATE)
+	{
+		nextState = State::LEVEL3_STATE;
+	}
+	else
+	{
+		nextState = State::MENU_STATE;
+	}
+}
+
+void Level::GoToNextState()
+{
+	currentTargetState = nextState;
+	needToResetState = true;
 }

@@ -1,4 +1,7 @@
 #include "Application.h"
+//#include <vld.h>
+#include <iostream>
+
 
 int main()
 {

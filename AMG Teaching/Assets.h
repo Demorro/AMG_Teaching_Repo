@@ -67,7 +67,9 @@
 
 //Levels
 #define SCOTLANDLEVEL "../Assets/Levels/Scotland.xml"
+#define SCOTLANDTOMEXICOTRANSITION "../Assets/Levels/ScotlandToMexicoTransition.xml"
 #define MEXICOLEVEL "../Assets/Levels/Mexico.xml"
+#define MEXICOTOJAPANTRANSITION "../Assets/Levels/MexicoToJapanTransition.xml"
 #define JAPANLEVEL "../Assets/Levels/Japan.xml"
 
 #define PLAYERTEXTURE "../Assets/Images/Characters/PlayerSpriteSheetNewWalk.png"

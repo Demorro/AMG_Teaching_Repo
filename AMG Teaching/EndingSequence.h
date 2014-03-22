@@ -4,14 +4,16 @@
 #include "Assets.h"
 #include "UtilityFunctions.h"
 #include "InterStateSingleTon.h"
+#include <functional>
+
 
 class EndingSequence
 {
 public:
-	EndingSequence(Camera *stageCam);
+	EndingSequence(Camera *stageCam, bool shouldDoGradeCountUp);
 	~EndingSequence(void);
 
-	void Update(sf::Event events, bool eventFired, double deltaTime);
+	void Update(sf::Event events, bool eventFired, double deltaTime, std::function<void()> switchToNextState = nullptr);
 	void Render(sf::RenderWindow &renderWindow);
 
 	bool IsActive();
@@ -20,8 +22,23 @@ public:
 	void ResetEndingSequence(float gameTimeInMilliseconds);
 
 	void SetGradeTimes(float aPlusGradeMaxTimeInSeconds, float aGradeMaxTimeInSeconds, float bGradeMaxTimeInSeconds);
-
+	bool IsSequenceDone();
 private:
+	//Stores whether this sequence should actually do anything, or whether it just tracks time from ending to next scene.
+	bool isAScoringSequence;
+
+	//If false, we dont do the grade overlay, and just wait for the delay before switching to the next state
+	bool shouldDoGradeCountUp;
+	//The time from the end of the sequence till scene transition
+	float secondsTillSceneTransition;
+	
+	//For the part where the ending sequence is done, but we still want the scene to be on for a bit, so we can read and stuff.
+	sf::Clock sceneTransitionTimer;
+	bool isCountingToSceneTransition;
+
+	bool sequenceIsDone;
+
+
 	enum LevelGrade
 	{
 		None,
@@ -79,7 +96,7 @@ private:
 	sf::Clock gradeStampClock;
 	float timeBetweenGradeStamps;
 	//counts up the grades from c to whatever you got
-	void DoGradeStampCountUp(sf::Sprite &gradeSprite, LevelGrade currentGrade, LevelGrade finalGrade);
+	bool DoGradeStampCountUp(sf::Sprite &gradeSprite, LevelGrade currentGrade, LevelGrade finalGrade);
 	void StampToNewGrade(sf::Sprite &gradeSprite, LevelGrade newGrade);
 
 	sf::Text tempThankYouText;

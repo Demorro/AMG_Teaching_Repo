@@ -6,6 +6,8 @@
 #include "Level1State.h"
 #include "Level2State.h"
 #include "Level3State.h"
+#include "Level1To2TransitionState.h"
+#include "Level2To3TransitionState.h"
 #include "ControlState.h"
 #include "ClockHud.h"
 #include "FrameClock.h"

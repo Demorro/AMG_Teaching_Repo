@@ -367,7 +367,6 @@ void LoadedLevel::LoadLayer(LevelLayers layer)
 				std::cout << "Loading Texture : " << relativeTexPath << std::endl;
 				tex->loadFromFile("..\\" + relativeTexPath);
 				loadedMapTextures[texName] = std::move(tex);
-
 				objectSprite.setTexture(*loadedMapTextures[texName]);
 			}
 

@@ -7,6 +7,7 @@ Player::Player(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect
 
 Player::~Player(void)
 {
+
 }
 
 bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf::IntRect startTextureRect, sf::IntRect boundsRect)
@@ -79,6 +80,7 @@ bool Player::Initialise(std::string playerTexturePath, sf::Vector2f startPos, sf
 	fallVelocityTillFallAnimation = 200.0f;
 
 	handleToStandingPlatform = nullptr;
+
 
 	return true;
 }
@@ -283,6 +285,7 @@ bool Player::LoadAudioConfigValues(std::string audioConfigFilePath)
 }
 void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::vector<sf::Rect<float>> &staticLevelCollisionBounds, std::vector<SpecialPlatform> &movingPlatforms, std::vector<DestructibleObject> &destructibleObjects, bool shouldPlaySounds)
 {
+
 	sprite->UpdateAnimations();
 	//Receiving input is done seperate from the movement because ... well because I think it's cleaner, no other real reason.
 	if(playerState.isAcceptingInput) //If we toggle off input, don't want any of these actions to happen (of special note is reset inputs, because we can for instance, toggle left movement on and then turn off inputs and the player will walk himself :))
@@ -294,6 +297,7 @@ void Player::Update(sf::Event events, bool eventFired, double deltaTime, std::ve
 	}
 	DoPassiveSounds(shouldPlaySounds); // Do before handle movement cause it uses the last state set in there
 	HandleMovement(events, eventFired, deltaTime, staticLevelCollisionBounds, movingPlatforms, shouldPlaySounds);
+	
 }
 
 void Player::Respawn(sf::Vector2f spawnPosition)
@@ -304,6 +308,8 @@ void Player::Respawn(sf::Vector2f spawnPosition)
 	//Reset the players state to default.
 	playerState.ResetEverythingButAnimation();
 	lastState.ResetEverythingButAnimation();
+	playerState.animState == PlayerState::AnimationState::Idle;
+	lastState.animState == PlayerState::AnimationState::Idle;
 	
 
 	ToggleAbility(Player::Abilities::DoubleJump, canPlayerDoubleJump);
@@ -1094,8 +1100,17 @@ void Player::AdjustPositionForMovingPlatforms(float deltaTime, std::vector<Speci
 
 void Player::HandleAnimations()
 {
-	//This whole routine is a mess, not really sure how to do it better though. 
+	//This whole method is a mess, not really sure how to do it better though. 
 
+	//Sometimes we walk off a cliff and the fall animation obviously isnt triggered cause we never get into jump state, this ensures that it is.
+	if((playerState.animState == PlayerState::AnimationState::Idle) || (playerState.animState == PlayerState::AnimationState::Walk))
+	{
+		if(playerState.velocity.y > fallVelocityTillFallAnimation)
+		{
+			playerState.animState = PlayerState::AnimationState::FirstJumping;
+		}
+	}
+	
 	//Attack
 	if((playerState.attacking) && (playerState.INPUT_Attack))
 	{
@@ -1127,6 +1142,7 @@ void Player::HandleAnimations()
 			}
 		}
 	}
+
 
 	//Jump
 	if((lastState.grounded == true) || (playerState.grounded == true))
@@ -1199,16 +1215,6 @@ void Player::HandleAnimations()
 		}
 	}
 
-	//If we walk off a cliff
-	if((playerState.grounded == false) && (lastState.grounded == true))
-	{
-		sprite->SetCurrentAnimation(jumpAnimName);
-		sprite->SetRepeating(false);
-		sprite->Play();
-		playerState.animState = PlayerState::AnimationState::FirstJumping;
-		playerState.firstJumping = true;
-	}
-
 	//Land
 	if(playerState.animState == PlayerState::AnimationState::Falling)
 	{
@@ -1231,18 +1237,6 @@ void Player::HandleAnimations()
 			sprite->SetCurrentAnimation(idleAnimName);
 			sprite->SetRepeating(true);
 			sprite->Play();
-		}
-	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
-	{
-		if(playerState.animState == PlayerState::AnimationState::Walk)
-		{
-			std::cout << "WALKSTATE" << std::endl;
-		}
-		else
-		{
-			std::cout << "NOTWALKSTATE" << std::endl;
 		}
 	}
 
@@ -1289,6 +1283,23 @@ void Player::HandleAnimations()
 		if((playerState.animState != PlayerState::AnimationState::Landing) || (playerState.animState != PlayerState::AnimationState::Idle))
 		{
 			playerState.animState = PlayerState::AnimationState::Landing;
+		}
+	}
+
+	//More patchwork animation fixes, this time for the bug when the player just keeps walking on the spot
+	if((!playerState.INPUT_MoveLeft) && (!playerState.INPUT_MoveRight))
+	{
+		if(sprite->GetCurrentAnimationName() == walkAnimName)
+		{
+			if(playerState.velocity.y > fallVelocityTillFallAnimation)
+			{
+				//sprite->SetCurrentAnimation(fallAnimName);
+				playerState.animState = PlayerState::AnimationState::FirstJumping;
+			}
+			else
+			{
+				sprite->SetCurrentAnimation(idleAnimName);
+			}
 		}
 	}
 }

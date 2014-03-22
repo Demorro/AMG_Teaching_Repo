@@ -26,30 +26,27 @@ void AnimatedSprite::UpdateAnimations()
 {
 	if(shouldPlay)
 	{
-		//if(currentAnimation != nullptr)
-		//{
-			if(animationTimer.getElapsedTime().asSeconds() > currentAnimation.frameTime)
+		if(animationTimer.getElapsedTime().asSeconds() > currentAnimation.frameTime)
+		{
+			animationTimer.restart();
+			currentFrame++;
+
+			//check to see if we need to loop back to the start of the anim
+			if(currentFrame >= currentAnimation.animationFrames.size())
 			{
-				animationTimer.restart();
-				currentFrame++;
+				currentFrame = 0;
 
-				//check to see if we need to loop back to the start of the anim
-				if(currentFrame >= currentAnimation.animationFrames.size())
+				if(!repeating)
 				{
-					currentFrame = 0;
-
-					if(!repeating)
-					{
-						shouldPlay = false;
-						return;
-					}
-				}
-				if(currentFrame <= currentAnimation.animationFrames.size())
-				{
-					setTextureRect(currentAnimation.animationFrames[currentFrame]);
+					shouldPlay = false;
+					return;
 				}
 			}
-		//}
+			if(currentFrame <= currentAnimation.animationFrames.size())
+			{
+				setTextureRect(currentAnimation.animationFrames[currentFrame]);
+			}
+		}
 	}
 }
 

@@ -15,7 +15,7 @@ class Level
 {
 public:
 
-	Level(std::string levelPath, State::StateID levelState);
+	Level(std::string levelPath, State::StateID levelState, bool shouldDoScoreBoard);
 	~Level(void);
 	
 	void Load();
@@ -25,8 +25,9 @@ public:
 	//This is neccesary because we need to restart the state if we hit restart in the pause menu, or quit the state, or go to the new level.
 	//The bool is neccesary cause sometimes we want to reset the state to the state we're currently in, so we cant just do a compare or it wont pick up
 	bool needToResetState;
-	//Since we cant access switchstate from inside here, the level class stores a StateID "stateToSwitchToOnChange." The level state then looks at this to see what state to go too.
-	State::StateID stateToSwitchToOnChange;
+	//Since we cant access switchstate from inside here, the level class stores a StateID "currentTargetState." The level state then looks at this to see what state to go too.
+	State::StateID currentTargetState;
+	State::StateID nextState; //The state the levelshould go to next, determined in FigureOutNextState
 
 private:
 	//Loads in and stored data representations of the level, as well as rendering it
@@ -40,6 +41,12 @@ private:
 
 	//The ending sequence text objects
 	std::unique_ptr<EndingSequence> endingSequence;
+
+	//determines the next state depending on the currentState
+	void FigureOutNextState(State::StateID currentState);
+
+	//Move on to the next state
+	void GoToNextState();
 
 	//Loads level specific config values, passes the win times to the end sequence directly
 	void LoadLevelConfigValues(EndingSequence &endingSequence, State::StateID levelState); //The levelstate is passed in so we can load the correct level config doc
@@ -100,5 +107,8 @@ private:
 	sftools::Chronometer gameTimer;
 	sf::Font timerFont;
 	sf::Text gameTimerText;
+
+	//whether or not the scoreboard should be done at the end of the level
+	bool shouldDoScoreBoard;
 };
 

@@ -123,6 +123,12 @@
     <ClCompile Include="Level3State.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="Level1To2TransitionState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Level2To3TransitionState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -234,6 +240,12 @@
       <Filter>Header Files\States</Filter>
     </ClInclude>
     <ClInclude Include="Level3State.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Level1To2TransitionState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Level2To3TransitionState.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
   </ItemGroup>

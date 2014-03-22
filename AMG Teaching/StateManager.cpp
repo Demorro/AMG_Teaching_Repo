@@ -14,6 +14,12 @@ StateManager::StateManager()
 
 StateManager::~StateManager()
 {
+	// Delete previous state, if set
+	if(curState != NULL)
+	{
+		delete curState;
+		curState = NULL;
+	}
 }
 
 void StateManager::Update(sf::Event events, bool eventFired)
@@ -74,6 +80,16 @@ void StateManager::SwitchState(State::StateID stateID)
 		case State::LEVEL3_STATE:
 			std::cout << "LEVEL3." << std::endl;
 			curState = new Level3State();
+		break;
+
+		case State::LEVEL1TO2STATE:
+			std::cout << "LEVEL1TO2TRANSITION." << std::endl;
+			curState = new Level1To2TransitionState();
+		break;
+
+		case State::LEVEL2TO3STATE:
+			std::cout << "LEVEL2TO3TRANSITION." << std::endl;
+			curState = new Level2To3TransitionState();
 		break;
 
 		case State::CONTROL_STATE:
