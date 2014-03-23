@@ -864,11 +864,21 @@ bool Player::HandleCollision(std::vector<sf::Rect<float>> &staticLevelCollisionB
 			//Push the player out in the shortest direction
 			if(abs(collisionDepth.x) < abs(collisionDepth.y))
 			{
+				if(_isnan(collisionDepth.x))
+				{
+					std::cout << "ERROR, collisiondepth x is NaN" << std::endl;
+					return false;
+				}
 				Move(collisionDepth.x,0);
 				playerState.velocity.x = 0;
 			}
 			else
 			{
+				if(_isnan(collisionDepth.y))
+				{
+					std::cout << "ERROR, collisiondepth y is NaN" << std::endl;
+					return false;
+				}
 				Move(0,collisionDepth.y);
 
 				//The different velocities here are due to when you're on top of the platform you get special logic to keep you there, but if you didnt throw the velocity back at the player from the bottom, you would stick there too sometimes. I know it feels wrong, but it works.
@@ -1030,6 +1040,16 @@ void Player::Render(sf::RenderWindow &window)
 
 void Player::Move(float x, float y)
 {
+	if(_isnan(x))
+	{
+		std::cout << "ERROR, x movement value is NaN" << std::endl;
+		return;
+	}
+	if(_isnan(y))
+	{
+		std::cout << "ERROR, y movement value is NaN" << std::endl;
+		return;
+	}
 	sf::Vector2f movementChange(x,y);
 	sprite->move(movementChange);
 	collisionRect.left = collisionRect.left + x;

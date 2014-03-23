@@ -3,11 +3,13 @@
 #include <iostream>
 #include "State.h"
 #include "MenuState.h"
+#include "PrologueState.h"
 #include "Level1State.h"
 #include "Level2State.h"
 #include "Level3State.h"
 #include "Level1To2TransitionState.h"
 #include "Level2To3TransitionState.h"
+#include "EndingState.h"
 #include "ControlState.h"
 #include "ClockHud.h"
 #include "FrameClock.h"

@@ -2075,7 +2075,35 @@
             </ScrollSpeed>
         </Layer>
         <Layer Name="NearBackGround" Visible="true">
-            <Items />
+            <Items>
+                <Item xsi:type="TextureItem" Name="Texture_4302" Visible="true">
+                    <Position>
+                        <X>931</X>
+                        <Y>344</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\ThrowAway\Level1To2.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\ThrowAway\Level1To2</asset_name>
+                    <Origin>
+                        <X>200</X>
+                        <Y>150</Y>
+                    </Origin>
+                </Item>
+            </Items>
             <ScrollSpeed>
                 <X>1</X>
                 <Y>1</Y>
@@ -2685,11 +2713,11 @@
     </Layers>
     <CustomProperties />
     <EditorRelated>
-        <NextItemNumber>4300</NextItemNumber>
-        <ContentRootFolder>C:\Coding\C++\Mikebuld\AMG_Teaching_Repo</ContentRootFolder>
+        <NextItemNumber>4302</NextItemNumber>
+        <ContentRootFolder>C:\Coding\C++\AMG_Teaching_Repo</ContentRootFolder>
         <CameraPosition>
-            <X>-473.768555</X>
-            <Y>629.254</Y>
+            <X>362.231445</X>
+            <Y>452.254028</Y>
         </CameraPosition>
         <Version>1.3.0.0</Version>
     </EditorRelated>

@@ -29,5 +29,7 @@
 	<SpeechBubbleOriginFromTopLeftX>96</SpeechBubbleOriginFromTopLeftX>
 	<SpeechBubbleOriginFromTopLeftY>48</SpeechBubbleOriginFromTopLeftY>
 
+	<ShouldDisplayBubble>true</ShouldDisplayBubble>
+	<ShouldWobble>true</ShouldWobble>
 
 </CharacterSpeechConfig>

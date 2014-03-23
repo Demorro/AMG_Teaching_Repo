@@ -64,19 +64,7 @@ void Level::Load()
 	//Load level specific config values
 	//StateToSwitchToOnChange is the current state at the start, so this is fine
 	LoadLevelConfigValues(*endingSequence, currentTargetState);
-
-	if(currentTargetState == State::LEVEL1_STATE)
-	{
-		LoadLevelAudio(LEVEL1AUDIOCONFIG, currentTargetState);
-	}
-	else if(currentTargetState == State::LEVEL2_STATE)
-	{
-		LoadLevelAudio(LEVEL2AUDIOCONFIG, currentTargetState);
-	}
-	else if(currentTargetState == State::LEVEL3_STATE)
-	{
-		LoadLevelAudio(LEVEL3AUDIOCONFIG, currentTargetState);
-	}
+	LoadLevelAudioConfigValues();
 
 	needToResetState = false;
 
@@ -347,7 +335,6 @@ void Level::ResumeGameFromPaused()
 //Since we cant access switchstate from inside here, the level class stores a StateID "stateToSwitchToOnChange." The level state then looks at this, sees if its different, and if so, switches
 void Level::RestartLevel()
 {
-	//stateToSwitchToOnChange = State::LEVEL1_STATE;
 	needToResetState = true;
 }
 
@@ -389,6 +376,38 @@ void Level::LoadLevelConfigValues(EndingSequence &endingSequence, State::StateID
 	LoadNumericalValue(bGradeMaxTime,configRoot,"BGrade");
 
 	endingSequence.SetGradeTimes(aPlusGradeMaxTime, aGradeMaxTime, bGradeMaxTime);
+}
+
+void Level::LoadLevelAudioConfigValues()
+{
+	if(currentTargetState == State::PROLOGUE_STATE)
+	{
+		LoadLevelAudio(PROLOGUEAUDIOCONFIG, currentTargetState);
+	}
+	else if(currentTargetState == State::LEVEL1_STATE)
+	{
+		LoadLevelAudio(LEVEL1AUDIOCONFIG, currentTargetState);
+	}
+	else if(currentTargetState == State::LEVEL1TO2STATE)
+	{
+		LoadLevelAudio(LEVEL1TO2AUDIOCONFIG, currentTargetState);
+	}
+	else if(currentTargetState == State::LEVEL2_STATE)
+	{
+		LoadLevelAudio(LEVEL2AUDIOCONFIG, currentTargetState);
+	}
+	else if(currentTargetState == State::LEVEL2TO3STATE)
+	{
+		LoadLevelAudio(LEVEL2TO3AUDIOCONFIG, currentTargetState);
+	}
+	else if(currentTargetState == State::LEVEL3_STATE)
+	{
+		LoadLevelAudio(LEVEL3AUDIOCONFIG, currentTargetState);
+	}
+	else if(currentTargetState == State::ENDING_STATE)
+	{
+		LoadLevelAudio(ENDINGAUDIOCONFIG, currentTargetState);
+	}
 }
 
 void Level::FadeAmbientSoundsAccordingToHeight(sf::Vector2f playerPosition, float crossFadeMinHeightLevel, float crossFadeMaxHeightLevel)
@@ -472,8 +491,12 @@ void Level::LoadLevelAudio(std::string audioConfigFilePath, State::StateID level
 	LoadNumericalValue(ambientCrossFadeMinHeight, rootNode,  ambientCrossFadeMinHeightNodeName);
 	LoadNumericalValue(ambientCrossFadeMaxHeight, rootNode, ambientCrossFadeMaxHeightNodeName);
 
-	groundLevelAmbienceBuffer.loadFromFile(groundAmbiencePath);
-	skyLevelAmbienceBuffer.loadFromFile(skyAmbiencePath);
+	if(!groundLevelAmbienceBuffer.loadFromFile(groundAmbiencePath))
+	{
+	}
+	if(!skyLevelAmbienceBuffer.loadFromFile(skyAmbiencePath))
+	{
+	}
 	groundLevelAmbience.setBuffer(groundLevelAmbienceBuffer);
 	groundLevelAmbience.setVolume(groundAmbienceVolume);
 	groundLevelAmbience.setLoop(true);
@@ -501,9 +524,14 @@ void Level::LoadLevelAudio(std::string audioConfigFilePath, State::StateID level
 	}
 }
 
+//This shouldnt be hardcoded, but time is short.
 void Level::FigureOutNextState(State::StateID currentState)
 {
 	if(currentState == State::MENU_STATE)
+	{
+		nextState = State::PROLOGUE_STATE;
+	}
+	else if(currentState == State::PROLOGUE_STATE)
 	{
 		nextState = State::LEVEL1_STATE;
 	}
@@ -523,6 +551,14 @@ void Level::FigureOutNextState(State::StateID currentState)
 	{
 		nextState = State::LEVEL3_STATE;
 	}
+	else if(currentState == State::LEVEL3_STATE)
+	{
+		nextState = State::ENDING_STATE;
+	}
+	else if(currentState == State::ENDING_STATE)
+	{
+		nextState = State::MENU_STATE;
+	}
 	else
 	{
 		nextState = State::MENU_STATE;
@@ -532,5 +568,9 @@ void Level::FigureOutNextState(State::StateID currentState)
 void Level::GoToNextState()
 {
 	currentTargetState = nextState;
+	if(currentTargetState == State::MENU_STATE)
+	{
+		stageCam->Reset();
+	}
 	needToResetState = true;
 }

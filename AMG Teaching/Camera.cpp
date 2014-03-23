@@ -241,3 +241,8 @@ void Camera::SetLocked(bool value)
 {
 	locked = value;
 }
+
+void Camera::Reset()
+{
+	JumpToPoint(Application::GetWindow().getSize().x/2,Application::GetWindow().getSize().y/2);
+}

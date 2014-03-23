@@ -60,17 +60,23 @@
 #define LEVEL1CONFIG "../ConfigFiles/Level1Config.xml"
 #define LEVEL2CONFIG "../ConfigFiles/Level2Config.xml"
 #define LEVEL3CONFIG "../ConfigFiles/Level3Config.xml"
+#define PROLOGUEAUDIOCONFIG "../ConfigFiles/PrologueAudioConfig.xml"
 #define LEVEL1AUDIOCONFIG "../ConfigFiles/Level1AudioConfig.xml"
+#define LEVEL1TO2AUDIOCONFIG "../ConfigFiles/Level1To2AudioConfig.xml"
 #define LEVEL2AUDIOCONFIG "../ConfigFiles/Level2AudioConfig.xml"
+#define LEVEL2TO3AUDIOCONFIG "../ConfigFiles/Level2To3AudioConfig.xml"
 #define LEVEL3AUDIOCONFIG "../ConfigFiles/Level3AudioConfig.xml"
+#define ENDINGAUDIOCONFIG "../ConfigFiles/EndingAudioConfig.xml"
 #define AUDIOCONFIG "../ConfigFiles/AudioConfig.xml" //Audio that isnt level specific
 
 //Levels
+#define PROLOGUELEVEL "../Assets/Levels/Prologue.xml"
 #define SCOTLANDLEVEL "../Assets/Levels/Scotland.xml"
 #define SCOTLANDTOMEXICOTRANSITION "../Assets/Levels/ScotlandToMexicoTransition.xml"
 #define MEXICOLEVEL "../Assets/Levels/Mexico.xml"
 #define MEXICOTOJAPANTRANSITION "../Assets/Levels/MexicoToJapanTransition.xml"
 #define JAPANLEVEL "../Assets/Levels/Japan.xml"
+#define ENDINGLEVEL "../Assets/Levels/Ending.xml"
 
 #define PLAYERTEXTURE "../Assets/Images/Characters/PlayerSpriteSheetNewWalk.png"
 //The filesnames for the assets related to each destructable object. They should be places on the same directory level(in other words, in the same folder) as the base destructible object used in the level editor

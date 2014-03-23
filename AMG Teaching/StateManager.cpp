@@ -67,6 +67,11 @@ void StateManager::SwitchState(State::StateID stateID)
 			curState = new MenuState();
 		break;
 
+		case State::PROLOGUE_STATE:
+			std::cout << "PROLOGUE." << std::endl;
+			curState = new PrologueState();
+		break;
+
 		case State::LEVEL1_STATE:
 			std::cout << "LEVEL1." << std::endl;
 			curState = new Level1State();
@@ -90,6 +95,11 @@ void StateManager::SwitchState(State::StateID stateID)
 		case State::LEVEL2TO3STATE:
 			std::cout << "LEVEL2TO3TRANSITION." << std::endl;
 			curState = new Level2To3TransitionState();
+		break;
+
+		case State::ENDING_STATE:
+			std::cout << "ENDING." << std::endl;
+			curState = new EndingState();
 		break;
 
 		case State::CONTROL_STATE:

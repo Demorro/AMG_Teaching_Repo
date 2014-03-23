@@ -2076,10 +2076,10 @@
         </Layer>
         <Layer Name="NearBackGround" Visible="true">
             <Items>
-                <Item xsi:type="TextureItem" Name="Texture_4302" Visible="true">
+                <Item xsi:type="TextureItem" Name="Texture_4301" Visible="true">
                     <Position>
-                        <X>945</X>
-                        <Y>334</Y>
+                        <X>930</X>
+                        <Y>368</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -2096,8 +2096,8 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\ThrowAway\Level2To3.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\ThrowAway\Level2To3</asset_name>
+                    <texture_filename>Assets\Images\LevelObjects\ThrowAway\Ending.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\ThrowAway\Ending</asset_name>
                     <Origin>
                         <X>200</X>
                         <Y>150</Y>
@@ -2713,11 +2713,11 @@
     </Layers>
     <CustomProperties />
     <EditorRelated>
-        <NextItemNumber>4302</NextItemNumber>
+        <NextItemNumber>4301</NextItemNumber>
         <ContentRootFolder>C:\Coding\C++\AMG_Teaching_Repo</ContentRootFolder>
         <CameraPosition>
-            <X>513.3743</X>
-            <Y>414.968323</Y>
+            <X>355.231445</X>
+            <Y>296.254028</Y>
         </CameraPosition>
         <Version>1.3.0.0</Version>
     </EditorRelated>

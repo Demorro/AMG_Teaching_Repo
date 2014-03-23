@@ -150,7 +150,7 @@ void MenuState::ToggleVolume()
 void MenuState::GoToFirstLevelState()
 {
 	interStateSingleton.StopInterStateMusic();
-	SwitchState(State::LEVEL1_STATE);
+	SwitchState(State::PROLOGUE_STATE);
 }
 
 void MenuState::GoToSecondLevelState()

@@ -50,6 +50,9 @@ private:
 
 	//Loads level specific config values, passes the win times to the end sequence directly
 	void LoadLevelConfigValues(EndingSequence &endingSequence, State::StateID levelState); //The levelstate is passed in so we can load the correct level config doc
+	
+	//Loads level specific audio config files
+	void LoadLevelAudioConfigValues();
 
 	//runs logic to make the pause menu work
 	void PauseMenuLogic(sf::Event events, bool eventFired, double deltaTime);

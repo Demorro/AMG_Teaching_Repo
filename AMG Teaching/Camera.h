@@ -31,6 +31,8 @@ public:
 
 	bool GetLocked();
 	void SetLocked(bool value);
+
+	void Reset();
 private:
 
 	sf::View cameraView;
