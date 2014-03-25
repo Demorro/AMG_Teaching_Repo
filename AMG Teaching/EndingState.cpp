@@ -14,7 +14,7 @@ EndingState::~EndingState(void)
 
 bool EndingState::Load()
 {
-	level = std::unique_ptr<Level>(new Level(ENDINGLEVEL, ID, false));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
+	level = std::unique_ptr<Level>(new Level(ENDINGLEVEL, ID, false, false, false));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
 	level->Load();
 	return true;
 }
@@ -22,6 +22,7 @@ bool EndingState::Load()
 
 void EndingState::Update(sf::Event events, bool eventFired, double deltaTime)
 {
+	credits.Update(deltaTime);
 	if(level != nullptr)
 	{
 		level->Update(events,eventFired,deltaTime);
@@ -39,6 +40,14 @@ void EndingState::CheckIfLevelWantsToSwitchState()
 			interStateSingleton.AdjustInterStateMusicVolume(100);
 			SwitchState(level->currentTargetState);
 		}
+
+		if(credits.ShouldSwitchOutOfCreditsState())
+		{
+			interStateSingleton.StopInterStateMusic();
+			interStateSingleton.AdjustInterStateMusicVolume(100);
+			level->GetStageCam().Reset();
+			SwitchState(State::MENU_STATE);
+		}
 	}
 }
 
@@ -48,5 +57,6 @@ void EndingState::Draw(sf::RenderWindow &renderWindow)
 	{
 		level->Draw(renderWindow);
 	}
+	credits.Render(renderWindow);
 }
 

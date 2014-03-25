@@ -54,7 +54,10 @@ void SpecialPlatform::Fall()
 {
 	shouldBeFalling = true;
 	velocity.x = 0;
-	fallSound.play();
+	if(interStateSingleton.GetIsVolumeOn())
+	{
+		fallSound.play();
+	}
 }
 
 void SpecialPlatform::Update(float deltaTime,sf::Rect<float> &playerBounds,  sf::Vector2f playerVelocity)

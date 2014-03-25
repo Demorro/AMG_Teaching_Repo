@@ -15,7 +15,7 @@ class Level
 {
 public:
 
-	Level(std::string levelPath, State::StateID levelState, bool shouldDoScoreBoard);
+	Level(std::string levelPath, State::StateID levelState, bool shouldDoScoreBoard = true, bool cameraShouldFollowPlayer = true, bool shouldShowClock = true);
 	~Level(void);
 	
 	void Load();
@@ -28,6 +28,8 @@ public:
 	//Since we cant access switchstate from inside here, the level class stores a StateID "currentTargetState." The level state then looks at this to see what state to go too.
 	State::StateID currentTargetState;
 	State::StateID nextState; //The state the levelshould go to next, determined in FigureOutNextState
+
+	Camera GetStageCam();
 
 private:
 	//Loads in and stored data representations of the level, as well as rendering it
@@ -113,5 +115,11 @@ private:
 
 	//whether or not the scoreboard should be done at the end of the level
 	bool shouldDoScoreBoard;
+
+	//whether or not the camera follows the player
+	bool cameraShouldFollowPlayer;
+
+	//just a toggle for whether the game timer is displayed or not
+	bool shouldShowClock;
 };
 

@@ -12,6 +12,7 @@ public:
 	void Render(sf::RenderWindow& window);
 
 	void SetText(std::string newText);
+	void SetTextColor(sf::Color textColor);
 
 	sf::Vector2f GetPosition();
 	sf::Rect<float> GetLocalBounds();

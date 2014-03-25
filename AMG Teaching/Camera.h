@@ -54,7 +54,6 @@ private:
 
 	//read only, do not set
 	sf::Vector2f velocity;
-	//Elliot : Added this so I can test precise collision, this is just a 1 to 1 camera/player follow as it was before, set in initialise
 	bool simpleCam;
 
 };

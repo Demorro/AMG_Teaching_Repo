@@ -68,6 +68,8 @@
 #define LEVEL3AUDIOCONFIG "../ConfigFiles/Level3AudioConfig.xml"
 #define ENDINGAUDIOCONFIG "../ConfigFiles/EndingAudioConfig.xml"
 #define AUDIOCONFIG "../ConfigFiles/AudioConfig.xml" //Audio that isnt level specific
+#define CREDITSDATA "../ConfigFiles/Credits.xml"
+#define HIGHSCORES "../ConfigFiles/HighScores.xml"
 
 //Levels
 #define PROLOGUELEVEL "../Assets/Levels/Prologue.xml"

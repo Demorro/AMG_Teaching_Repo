@@ -30,7 +30,7 @@ bool MenuState::Load()
 	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, titleDistanceFromTop, GAMELOGO, GAMELOGO, false, true, MenuButton::TweenInDirection::Top, menuElementsBobAmount, menuElementsTweenSpeed);
 
 	float startButtonDistanceFromCenter = -50;
-	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, (Application::GetWindow().getSize().y/2) + startButtonDistanceFromCenter, STARTBUTTON, STARTBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToFirstLevelState,this)));
+	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, (Application::GetWindow().getSize().y/2) + startButtonDistanceFromCenter, STARTBUTTON, STARTBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToPrologueState,this)));
 
 	float levelSelectButtonDistanceFromCenter = 100;
 	mainMenuSystem.AddMenuButton(Application::GetWindow().getSize().x/2, (Application::GetWindow().getSize().y/2) + levelSelectButtonDistanceFromCenter, LEVELSELECTBUTTONUNSELECTED, LEVELSELECTBUTTONSELECTED, true, true, MenuButton::TweenInDirection::Bottom, menuElementsBobAmount, menuElementsTweenSpeed, std::function<void()>(std::bind(&MenuState::GoToLevelSelect,this)));
@@ -94,6 +94,10 @@ void MenuState::LoadMenuAudio(std::string audioConfigFilePath)
 	//Start the music, it's loaded in the singleton
 	if(interStateSingleton.InterStateMusicIsPlaying() == false)
 	{
+		if(interStateSingleton.GetIsVolumeOn() == false)
+		{
+			menuVolume = 0;
+		}
 		interStateSingleton.AdjustInterStateMusicVolume(menuVolume);
 		interStateSingleton.LoadInterStateMusicFile(menuMusicPath);
 		interStateSingleton.SetInterStateMusicLooping(true);
@@ -147,10 +151,16 @@ void MenuState::ToggleVolume()
 	mainMenuSystem.RecheckIfVolumeIsOn();
 }
 
-void MenuState::GoToFirstLevelState()
+void MenuState::GoToPrologueState()
 {
 	interStateSingleton.StopInterStateMusic();
 	SwitchState(State::PROLOGUE_STATE);
+}
+
+void MenuState::GoToFirstLevelState()
+{
+	interStateSingleton.StopInterStateMusic();
+	SwitchState(State::LEVEL1_STATE);
 }
 
 void MenuState::GoToSecondLevelState()

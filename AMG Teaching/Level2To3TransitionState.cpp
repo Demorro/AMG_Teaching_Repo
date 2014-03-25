@@ -14,7 +14,7 @@ Level2To3TransitionState::~Level2To3TransitionState(void)
 
 bool Level2To3TransitionState::Load()
 {
-	level = std::unique_ptr<Level>(new Level(MEXICOTOJAPANTRANSITION, ID, false));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
+	level = std::unique_ptr<Level>(new Level(MEXICOTOJAPANTRANSITION, ID, false, true, false));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
 	level->Load();
 	return true;
 }

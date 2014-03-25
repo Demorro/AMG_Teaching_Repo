@@ -65,6 +65,8 @@ public:
 	void SetIsAcceptingInput(bool isAcceptingInput);
 	bool GetIsAcceptingInput();
 
+	//We want to mute the walking when the end sequence is active cause of the way the player just keeps walking off screen.
+	void MuteFootFalls();
 private:
 	//these values are stored here so we can flip the sprite and keep the same scale
 	float loadedScaleX;

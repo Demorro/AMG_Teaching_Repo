@@ -1,8 +1,10 @@
 #include "EndingSequence.h"
 #include "Application.h"
 
-EndingSequence::EndingSequence(Camera *stageCam, bool shouldDoGradeCountUp)
+EndingSequence::EndingSequence(Camera *stageCam, bool shouldDoGradeCountUp, State::StateID currentState)
 {
+	currentEndingState = currentState;
+
 	this->shouldDoGradeCountUp = shouldDoGradeCountUp;
 	this->isAScoringSequence = shouldDoGradeCountUp;
 	this->isCountingToSceneTransition = !shouldDoGradeCountUp;
@@ -42,6 +44,18 @@ EndingSequence::EndingSequence(Camera *stageCam, bool shouldDoGradeCountUp)
 	float gradeTextYFromCenter = 100;
 	gradeText = std::unique_ptr<TweeningText>(new TweeningText(endFont,textSize,sf::Vector2f(Application::GetWindow().getSize().x/2 + endTextXOffsetFromCenter,Application::GetWindow().getSize().y/2 + gradeTextYFromCenter),gradeTextString,true,true,stageCam));
 	gradeText->GenerateTween(gradeText->GetPosition(), gradeText->GetLocalBounds(), TweenableElement::TweenInDirection::Left, endTweenBobAmount, endTweenSpeed);
+
+	//Deal with the top scores
+	newHighScoreColor = sf::Color::Yellow;
+	hasDealtWithTopScores = false;
+	bestScoreString = "Not Found";
+	bestScoreString = GetBestScoreString(HIGHSCORES,currentState);
+	bestTimeString = "Best Time  :  " + bestScoreString;
+	float bestScoreTextYFromCenter = 250;
+	float bestScoreTextSize = 40;
+	bestTimeText = std::unique_ptr<TweeningText>(new TweeningText(endFont,bestScoreTextSize,sf::Vector2f(Application::GetWindow().getSize().x/2 + 0,Application::GetWindow().getSize().y/2 + bestScoreTextYFromCenter),bestTimeString,true,true,stageCam));
+	bestTimeText->GenerateTween(bestTimeText->GetPosition(), bestTimeText->GetLocalBounds(), TweenableElement::TweenInDirection::Left, endTweenBobAmount, endTweenSpeed);
+
 
 	ResetEndingSequence(0.0f);
 	timeCountUpDelay = 0.5f; //if this was 0 the time counter on the end screen would start scrollig up as soon as the tween starts
@@ -92,9 +106,15 @@ void EndingSequence::Update(sf::Event events, bool eventFired, double deltaTime,
 	{
 		if(shouldDoGradeCountUp)
 		{
+			if(isAScoringSequence)
+			{
+				DealWithTopScores(playerFinishedTime);
+			}
+
 			completedText->Update(events,eventFired,deltaTime);
 			timeTakenText->Update(events,eventFired,deltaTime);
 			gradeText->Update(events,eventFired,deltaTime);
+			bestTimeText->Update(events,eventFired,deltaTime);
 
 			if(timeCountUpDelayClock.getElapsedTime().asSeconds() > timeCountUpDelay)
 			{
@@ -136,29 +156,27 @@ void EndingSequence::Update(sf::Event events, bool eventFired, double deltaTime,
 			}
 		}
 	}
-
-	
-
 }
 void EndingSequence::Render(sf::RenderWindow &renderWindow)
 {
-		if(isEndingSequenceActive)
+	if(isEndingSequenceActive)
+	{
+		if(isAScoringSequence)
 		{
-			if(isAScoringSequence)
-			{
-				completedText->Render(renderWindow);
-				timeTakenText->Render(renderWindow);
-				gradeText->Render(renderWindow);
+			completedText->Render(renderWindow);
+			timeTakenText->Render(renderWindow);
+			gradeText->Render(renderWindow);
+			bestTimeText->Render(renderWindow);
 		
-				//tempThankYouText.move(gameCam->GetScreenSpaceOffsetVector());
-				//renderWindow.draw(tempThankYouText);	
-				//tempThankYouText.move(-gameCam->GetScreenSpaceOffsetVector());
+			//tempThankYouText.move(gameCam->GetScreenSpaceOffsetVector());
+			//renderWindow.draw(tempThankYouText);	
+			//tempThankYouText.move(-gameCam->GetScreenSpaceOffsetVector());
 
-				gradeSprite.move(gameCam->GetScreenSpaceOffsetVector());
-				renderWindow.draw(gradeSprite);
-				gradeSprite.move(-gameCam->GetScreenSpaceOffsetVector());
-			}
+			gradeSprite.move(gameCam->GetScreenSpaceOffsetVector());
+			renderWindow.draw(gradeSprite);
+			gradeSprite.move(-gameCam->GetScreenSpaceOffsetVector());
 		}
+	}
 }
 
 bool EndingSequence::IsActive()
@@ -184,6 +202,22 @@ void EndingSequence::ResetEndingSequence(float gameTimeInMilliseconds)
 	sceneTransitionTimer.restart();
 
 	gradeStampClock.restart();
+
+}
+
+void EndingSequence::DealWithTopScores(float gameTimeInMilliseconds)
+{
+	if(hasDealtWithTopScores == false)
+	{
+		if( (gameTimeInMilliseconds / 1000.0f) < GetBestScoreFloatInSeconds(HIGHSCORES,currentEndingState))
+		{
+			std::string gameTimeString = GetTimerTextFromTime(gameTimeInMilliseconds,false);
+			bestTimeText->SetText("Best Time  :  " + gameTimeString);
+			bestTimeText->SetTextColor(newHighScoreColor);
+			WriteCurrentScoreToBest(gameTimeInMilliseconds / 1000.0f, HIGHSCORES, currentEndingState);
+		}
+		hasDealtWithTopScores = true;
+	}
 }
 
 std::string EndingSequence::CountUpTimeDisplay(float &currentTimeDisplayInMilliseconds, double deltaTime, float countUpSpeed, double valueToStopAtInMilliseconds)
@@ -326,4 +360,87 @@ EndingSequence::LevelGrade EndingSequence::WhatGradeFromTime(float timeInSeconds
 bool EndingSequence::IsSequenceDone()
 {
 	return sequenceIsDone;
+}
+
+std::string EndingSequence::GetBestScoreString(std::string scoreFilePath, State::StateID currentScoreState)
+{
+	pugi::xml_document scoreDoc;
+	LoadXMLDoc(scoreDoc, scoreFilePath);
+
+	std::string scoreNodeName;
+	float scoreInSeconds;
+	std::string timeString = "None Set";
+
+	if(currentScoreState == State::LEVEL1_STATE)
+	{
+		scoreNodeName = "ScotlandScore";
+	}
+	else if(currentScoreState == State::LEVEL2_STATE)
+	{
+		scoreNodeName = "MexicoScore";
+	}
+	else if(currentScoreState == State::LEVEL3_STATE)
+	{
+		scoreNodeName = "JapanScore";
+	}
+
+	LoadNumericalValue(scoreInSeconds, scoreDoc.child("HighScore"), scoreNodeName);
+	timeString = GetTimerTextFromTime(scoreInSeconds * 1000.0f, false);
+
+	return timeString;
+}
+
+float EndingSequence::GetBestScoreFloatInSeconds(std::string scoreFilePath, State::StateID currentScoreState)
+{
+	pugi::xml_document scoreDoc;
+	LoadXMLDoc(scoreDoc, scoreFilePath);
+
+	std::string scoreNodeName;
+	float scoreInSeconds;
+
+	if(currentScoreState == State::LEVEL1_STATE)
+	{
+		scoreNodeName = "ScotlandScore";
+	}
+	else if(currentScoreState == State::LEVEL2_STATE)
+	{
+		scoreNodeName = "MexicoScore";
+	}
+	else if(currentScoreState == State::LEVEL3_STATE)
+	{
+		scoreNodeName = "JapanScore";
+	}
+
+	LoadNumericalValue(scoreInSeconds, scoreDoc.child("HighScore"), scoreNodeName);
+
+	return scoreInSeconds;
+}
+
+void EndingSequence::WriteCurrentScoreToBest(float scoreInSeconds, std::string scoreFilePath, State::StateID currentScoreState)
+{
+	pugi::xml_document scoreDoc;
+	LoadXMLDoc(scoreDoc, scoreFilePath);
+
+	std::string scoreNodeName;
+
+	if(currentScoreState == State::LEVEL1_STATE)
+	{
+		scoreNodeName = "ScotlandScore";
+	}
+	else if(currentScoreState == State::LEVEL2_STATE)
+	{
+		scoreNodeName = "MexicoScore";
+	}
+	else if(currentScoreState == State::LEVEL3_STATE)
+	{
+		scoreNodeName = "JapanScore";
+	}
+
+	pugi::xml_node scoreNode = scoreDoc.child("HighScore").child(scoreNodeName.c_str()).first_child();
+	std::string scoreString = std::to_string(scoreInSeconds);
+	scoreNode.set_value(scoreString.c_str());
+
+	scoreDoc.save_file(scoreFilePath.c_str());
+
+
 }

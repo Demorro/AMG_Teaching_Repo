@@ -132,8 +132,11 @@
     <ClCompile Include="PrologueState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
-    <ClCompile Include="EndingState.cpp">
+    <ClCompile Include="ScrollingCredits.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingState.cpp">
+      <Filter>Source Files\States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,8 +260,11 @@
     <ClInclude Include="PrologueState.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
-    <ClInclude Include="EndingState.h">
+    <ClInclude Include="ScrollingCredits.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingState.h">
+      <Filter>Header Files\States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

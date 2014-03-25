@@ -48,6 +48,11 @@ void TweeningText::SetText(std::string newText)
 	text.setString(newText);
 }
 
+void TweeningText::SetTextColor(sf::Color textColor)
+{
+	text.setColor(textColor);
+}
+
 sf::Vector2f TweeningText::GetPosition()
 {
 	return text.getPosition();

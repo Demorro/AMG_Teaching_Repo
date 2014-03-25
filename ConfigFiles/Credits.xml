@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Credits Name="Credits" Visible="true">
+	
+	<CreditsText>
+	Created By
+	Cpt Jean Luc Picard
+	The Doctor
+	Commander Adama
+	Seven of Nine
+	Malcolm Reynolds
+	Cpt Jack Harkness
+	Dave Lister
+	Dr Julian Bashir
+	Slartibartfast
+	Chief Petty Officer Miles Edwards O'Brien
+	Echo
+	Spock
+	
+	
+	
+	Special thanks to Jackson Walters
+	for doing all the work
+	
+	</CreditsText>
+
+	<TextSize>50</TextSize>
+	<ScrollSpeed>-60</ScrollSpeed>
+	<LineGap>120</LineGap>
+	
+	<StartPosX>-380</StartPosX>
+	<StartPosY>900</StartPosY>
+	
+	<TimeToGoBackToMenuInSeconds>60</TimeToGoBackToMenuInSeconds>
+	
+</Credits>
+

@@ -1,7 +1,7 @@
 #include "Level.h"
 #include "Application.h"
 
-Level::Level(std::string levelPath, State::StateID levelState, bool shouldDoScoreBoard)
+Level::Level(std::string levelPath, State::StateID levelState, bool shouldDoScoreBoard, bool cameraShouldFollowPlayer, bool shouldShowClock)
 {
 	//Load level
 	loadedLevel = std::unique_ptr<LoadedLevel>(new LoadedLevel(levelPath));
@@ -10,6 +10,9 @@ Level::Level(std::string levelPath, State::StateID levelState, bool shouldDoScor
 	FigureOutNextState(levelState);
 	this->shouldDoScoreBoard = shouldDoScoreBoard;
 	needToResetState = false;
+
+	this->cameraShouldFollowPlayer = cameraShouldFollowPlayer;
+	this->shouldShowClock = shouldShowClock;
 }
 
 
@@ -30,7 +33,7 @@ void Level::Load()
 	stageCam = std::unique_ptr<Camera>(new Camera(Application::GetWindow(),DEFAULTPLAYERSTART));
 	player = std::unique_ptr<Player>(new Player(PLAYERTEXTURE,DEFAULTPLAYERSTART,sf::IntRect(0,166,126,156),sf::IntRect(0,0,70,150)));
 
-	endingSequence = std::unique_ptr<EndingSequence>(new EndingSequence(stageCam.get(),shouldDoScoreBoard));
+	endingSequence = std::unique_ptr<EndingSequence>(new EndingSequence(stageCam.get(),shouldDoScoreBoard,currentTargetState));
 
 	deathSequenceTimer.restart();
 	deathSequenceTime = 1.0f;
@@ -90,7 +93,10 @@ void Level::Update(sf::Event events, bool eventFired, double deltaTime)
 		HandlePlayerDeaths(*player);
 
 		//Camera update, follow the player
-		stageCam->Update(events, eventFired,deltaTime, &player->GetPosition());
+		if(cameraShouldFollowPlayer)
+		{
+			stageCam->Update(events, eventFired,deltaTime, &player->GetPosition());
+		}
 
 		//Update the level timer text
 		if(!gameTimer.isRunning())
@@ -148,10 +154,13 @@ void Level::Draw(sf::RenderWindow &renderWindow)
 	loadedLevel->DrawLayersInFrontOfPlayer(renderWindow);
 
 	//add in this vector(then remove it) to make the object appear in screen space
-	sf::Vector2f screenCorrectionMoveVector = stageCam->GetScreenSpaceOffsetVector();
-	gameTimerText.move(screenCorrectionMoveVector);
-	renderWindow.draw(gameTimerText);
-	gameTimerText.move(-screenCorrectionMoveVector);
+	if(shouldShowClock)
+	{
+		sf::Vector2f screenCorrectionMoveVector = stageCam->GetScreenSpaceOffsetVector();
+		gameTimerText.move(screenCorrectionMoveVector);
+		renderWindow.draw(gameTimerText);
+		gameTimerText.move(-screenCorrectionMoveVector);
+	}
 
 	if(endingSequence->IsActive())
 	{
@@ -309,6 +318,7 @@ void Level::ReactToPlayerWinning(float deltaTime)
 	stageCam->SetLocked(true);
 	player->SetIsAcceptingInput(false);
 	player->SetInputs(false,true,false,false,false);
+	player->MuteFootFalls();
 	
 	if(endingSequence->IsActive() == false)
 	{
@@ -506,8 +516,11 @@ void Level::LoadLevelAudio(std::string audioConfigFilePath, State::StateID level
 
 
 	skyLevelAmbience.setVolume(0); // Set this to 0 immediately, as we start at ground level and dont want both playing right off the bat
-	groundLevelAmbience.play();
-	skyLevelAmbience.play();
+	if(interStateSingleton.GetIsVolumeOn())
+	{
+		groundLevelAmbience.play();
+		skyLevelAmbience.play();
+	}
 
 	//load in the music for this level
 	interStateSingleton.LoadInterStateMusicFile(musicPath);
@@ -573,4 +586,16 @@ void Level::GoToNextState()
 		stageCam->Reset();
 	}
 	needToResetState = true;
+}
+
+Camera Level::GetStageCam()
+{
+	if(stageCam != nullptr)
+	{
+		return *stageCam;
+	}
+	else
+	{
+		return Camera();
+	}
 }

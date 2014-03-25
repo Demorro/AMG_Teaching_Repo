@@ -201,7 +201,10 @@ void DialogueCharacter::DoSpeech()
 			std::cout << "Error in background character, phrase index out of bound" << std::endl;
 		}
 
-		voice.play();
+		if(interStateSingleton.GetIsVolumeOn())
+		{
+			voice.play();
+		}
 		if(shouldDoWobble)
 		{
 			character.DoExpressionWobble(phraseLength,expressionWobbleSpeed,expressionWobbleIntensity);

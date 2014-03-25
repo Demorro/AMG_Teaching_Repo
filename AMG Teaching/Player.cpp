@@ -1043,11 +1043,13 @@ void Player::Move(float x, float y)
 	if(_isnan(x))
 	{
 		std::cout << "ERROR, x movement value is NaN" << std::endl;
+
 		return;
 	}
 	if(_isnan(y))
 	{
 		std::cout << "ERROR, y movement value is NaN" << std::endl;
+
 		return;
 	}
 	sf::Vector2f movementChange(x,y);
@@ -1403,4 +1405,9 @@ void Player::SetIsAcceptingInput(bool isAcceptingInput)
 bool Player::GetIsAcceptingInput()
 {
 	return playerState.isAcceptingInput;
+}
+
+void Player::MuteFootFalls()
+{
+	footStepSound.setVolume(0);
 }

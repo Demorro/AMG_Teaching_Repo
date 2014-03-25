@@ -3,6 +3,7 @@
 #include <SFML\Audio.hpp>
 #include "MovementPath.h"
 #include "VectorMath.h"
+#include "InterStateSingleTon.h"
 
 class SpecialPlatform : public sf::Sprite
 {

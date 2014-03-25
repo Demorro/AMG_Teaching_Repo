@@ -8,6 +8,7 @@
 #include "XBoxButtons.h"
 #include "Chronometer.h"
 #include "EndingSequence.h"
+#include "ScrollingCredits.h"
 
 #define DEFAULTPLAYERSTART sf::Vector2f(300,545)
 
@@ -31,6 +32,7 @@ public:
 
 private:
 	std::unique_ptr<Level> level;
+	ScrollingCredits credits;
 
 	//The level will sometimes need to trigger state changes, but since it cant access SwitchState, this checks if the state needs to be switched. 
 	void CheckIfLevelWantsToSwitchState();

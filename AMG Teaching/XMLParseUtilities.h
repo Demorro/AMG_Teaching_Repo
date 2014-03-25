@@ -3,6 +3,7 @@
 #include <iostream>
 #include "pugixml.hpp"
 #include "pugiconfig.hpp"
+#include <sstream>
 
 //Taken from stackoverflow user "Gerog Fritzsche" answer found here : http://stackoverflow.com/questions/3613284/c-stdstring-to-boolean
 inline bool to_bool(std::string str)
@@ -15,7 +16,7 @@ inline bool to_bool(std::string str)
 }
 
 //A generic function that loads in a numerical value from the XML in the structure of the provided config file and puts it into the float thats passed in.
-//For example, if you wanted to load a value "CheesesEaten" from the player config file into float cheeses, you would call LoadNumericalValue(cheeses,rootNode,"CheesesEaten");
+//For example, if you wanted to load a value "CheesesEaten" from a config file into float cheeses, you would call LoadNumericalValue(cheeses,rootNode,"CheesesEaten");
 inline void LoadNumericalValue(float &valueToLoadInto, pugi::xml_node &rootNode, std::string valueNodeName)
 {
 	pugi::xml_node workingNode = rootNode.child(valueNodeName.c_str());

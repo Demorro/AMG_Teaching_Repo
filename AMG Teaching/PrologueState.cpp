@@ -14,7 +14,7 @@ PrologueState::~PrologueState(void)
 
 bool PrologueState::Load()
 {
-	level = std::unique_ptr<Level>(new Level(PROLOGUELEVEL, ID, false));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
+	level = std::unique_ptr<Level>(new Level(PROLOGUELEVEL, ID, false, true, false));	//Pass in the path to the level to be loaded, as well as the state ID of the current state.
 	level->Load();
 	return true;
 }

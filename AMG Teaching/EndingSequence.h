@@ -5,12 +5,13 @@
 #include "UtilityFunctions.h"
 #include "InterStateSingleTon.h"
 #include <functional>
+#include "State.h"
 
 
 class EndingSequence
 {
 public:
-	EndingSequence(Camera *stageCam, bool shouldDoGradeCountUp);
+	EndingSequence(Camera *stageCam, bool shouldDoGradeCountUp, State::StateID currentState);
 	~EndingSequence(void);
 
 	void Update(sf::Event events, bool eventFired, double deltaTime, std::function<void()> switchToNextState = nullptr);
@@ -56,9 +57,11 @@ private:
 	std::unique_ptr<TweeningText> completedText;
 	std::unique_ptr<TweeningText> timeTakenText;
 	std::unique_ptr<TweeningText> gradeText;
+	std::unique_ptr<TweeningText> bestTimeText;;
 
 	std::string timeTakenTextString;
 	std::string gradeTextString;
+	std::string bestTimeString;
 	
 	//The time display sort of "scrolls" up, so this is the delay from the start of that onwards
 	sf::Clock timeCountUpDelayClock;
@@ -102,5 +105,18 @@ private:
 	sf::Text tempThankYouText;
 	//A reference to the stage camera.
 	Camera* gameCam;
+
+	//Load the best score from file
+	std::string bestScoreString;
+
+	void DealWithTopScores(float gameTimeInMilliseconds);
+	bool hasDealtWithTopScores;
+	sf::Color newHighScoreColor;
+
+	std::string GetBestScoreString(std::string scoreFilePath, State::StateID currentScoreState);
+	float GetBestScoreFloatInSeconds(std::string scoreFilePath, State::StateID currentScoreState);
+	void WriteCurrentScoreToBest(float scoreInSeconds, std::string scoreFilePath, State::StateID currentScoreState);
+
+	State::StateID currentEndingState;
 };
 

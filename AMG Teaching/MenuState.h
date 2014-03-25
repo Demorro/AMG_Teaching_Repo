@@ -43,6 +43,7 @@ private:
 	bool isOnLevelSelectStage;
 
 	void ToggleVolume();
+	void GoToPrologueState();
 	void GoToFirstLevelState();
 	void GoToSecondLevelState();
 	void GoToThirdLevelState();

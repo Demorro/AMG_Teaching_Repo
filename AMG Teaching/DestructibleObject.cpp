@@ -39,7 +39,10 @@ void DestructibleObject::Destroy()
 	if(GetDestructibleState() == Intact)
 	{
 		SetDestructibleState(BeingDestroyed);
-		destructionSound.play();
+		if(interStateSingleton.GetIsVolumeOn())
+		{
+			destructionSound.play();
+		}
 	}
 }
 
