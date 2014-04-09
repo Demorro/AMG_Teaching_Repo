@@ -4,18 +4,46 @@
 	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
 	<Speech>
 		<SpeechText>
-		Press 'A' to Jump
+		blank
 		</SpeechText>
-		<AudioFilePath>pressa.wav</AudioFilePath>
+		<AudioFilePath>Daft Heid-03.wav</AudioFilePath>
+	</Speech>
+
+	<Speech>
+		<SpeechText>
+		blank
+		</SpeechText>
+		<AudioFilePath>Calm doon.wav</AudioFilePath>
 	</Speech>
 	
+	<Speech>
+		<SpeechText>
+		blank
+		</SpeechText>
+		<AudioFilePath>Fart and laugh.wav</AudioFilePath>
+	</Speech>
+
+	<Speech>
+		<SpeechText>
+		blank
+		</SpeechText>
+		<AudioFilePath>Naw.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		blank
+		</SpeechText>
+		<AudioFilePath>Oh no!.wav</AudioFilePath>
+	</Speech>
+
 	
 	
 	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
 	<SpeechBubbleOriginFromTopLeftX>30</SpeechBubbleOriginFromTopLeftX>
 	<SpeechBubbleOriginFromTopLeftY>52</SpeechBubbleOriginFromTopLeftY>
 
-	<ShouldDisplayBubble>true</ShouldDisplayBubble>
-	<ShouldWobble>true</ShouldWobble>
+	<ShouldDisplayBubble>false</ShouldDisplayBubble>
+	<ShouldWobble>false</ShouldWobble>
 
 </CharacterSpeechConfig>

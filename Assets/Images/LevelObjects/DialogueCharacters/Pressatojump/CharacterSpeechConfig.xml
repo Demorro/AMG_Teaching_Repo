@@ -2,13 +2,56 @@
 <CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
 
 	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
+	
 	<Speech>
 		<SpeechText>
 		Press 'A' to Jump
 		</SpeechText>
 		<AudioFilePath>pressa.wav</AudioFilePath>
 	</Speech>
-	
+	<Speech>
+		<SpeechText>
+		Honestly lad, See 
+		the green button. 
+		Press it! Press A
+		to jump
+		</SpeechText>
+		<AudioFilePath>atojump.wav</AudioFilePath>
+	</Speech>
+	<Speech>
+		<SpeechText>
+		Come on Lad you can
+		do it, just press
+		A to jump
+		</SpeechText>
+		<AudioFilePath>doit.wav</AudioFilePath>
+	</Speech>
+	<Speech>
+		<SpeechText>
+		See that green thing 
+		there laddie, press that
+		to jump
+		</SpeechText>
+		<AudioFilePath>green.wav</AudioFilePath>
+	</Speech>
+	<Speech>
+		<SpeechText>
+		Look, I know we Scots
+		don't jump often but
+		sometimes there's a 
+		necessary reason to 
+		do it.
+		</SpeechText>
+		<AudioFilePath>jumpoften.wav</AudioFilePath>
+	</Speech>
+	<Speech>
+		<SpeechText>
+		I'm gettin' tired of 
+		this. C'mon now, you
+		can do it.
+		</SpeechText>
+		<AudioFilePath>youcandoit.wav</AudioFilePath>
+	</Speech>
 	
 	
 	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
+
+	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
+	<Speech>
+		<SpeechText>
+		Ah dinnae ken like!
+		Alreet Lad!
+		</SpeechText>
+		<AudioFilePath>Ah dinnae ken like!.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		How did I get here?
+		</SpeechText>
+		<AudioFilePath>Did ye aye.wav</AudioFilePath>
+	</Speech>
+
+	<Speech>
+		<SpeechText>
+		Nevermind
+		Smell ya later!
+		</SpeechText>
+		<AudioFilePath>Smell ya later.wav</AudioFilePath>
+	</Speech>
+
+	
+	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
+	<SpeechBubbleOriginFromTopLeftX>30</SpeechBubbleOriginFromTopLeftX>
+	<SpeechBubbleOriginFromTopLeftY>52</SpeechBubbleOriginFromTopLeftY>
+
+	<ShouldDisplayBubble>true</ShouldDisplayBubble>
+	<ShouldWobble>true</ShouldWobble>
+
+</CharacterSpeechConfig>

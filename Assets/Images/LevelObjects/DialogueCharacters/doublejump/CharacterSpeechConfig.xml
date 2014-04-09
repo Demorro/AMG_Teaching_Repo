@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="false">
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
 
 	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
 	<Speech>
@@ -8,7 +8,7 @@
 		top of your jump,
 		press A again.
 		</SpeechText>
-		<AudioFilePath>BerBerBer1.wav</AudioFilePath>
+		<AudioFilePath>Top of jump, Press A.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -17,7 +17,7 @@
 		allows you to feel 
 		true force
 		</SpeechText>
-		<AudioFilePath>BerBerBer2.wav</AudioFilePath>
+		<AudioFilePath>True force.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -26,7 +26,7 @@
 		sky by pressing 
 		A twice
 		</SpeechText>
-		<AudioFilePath>BerBerBer3.wav</AudioFilePath>
+		<AudioFilePath>Soar higher.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -35,7 +35,7 @@
 		Pass wind somewhere 
 		else.
 		</SpeechText>
-		<AudioFilePath>BerBerBer4.wav</AudioFilePath>
+		<AudioFilePath>areyou.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -44,7 +44,7 @@
 		Press A twice.
 		Press A twice.
 		</SpeechText>
-		<AudioFilePath>BerBerBer5.wav</AudioFilePath>
+		<AudioFilePath>pressatwice.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -54,7 +54,7 @@
 		sometimes. 
 		Journey on hero!
 		</SpeechText>
-		<AudioFilePath>BerBerBer6.wav</AudioFilePath>
+		<AudioFilePath>I get frustrated.wav</AudioFilePath>
 	</Speech>
 	
 	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->

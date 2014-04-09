@@ -6,7 +6,7 @@
 		<SpeechText>
 		 ? ? ? ?
 		</SpeechText>
-		<AudioFilePath>pianodownload.wav</AudioFilePath>
+		<AudioFilePath>Short Piano.wav</AudioFilePath>
 	</Speech>
 	
 	
@@ -15,7 +15,7 @@
 	<SpeechBubbleOriginFromTopLeftX>96</SpeechBubbleOriginFromTopLeftX>
 	<SpeechBubbleOriginFromTopLeftY>48</SpeechBubbleOriginFromTopLeftY>
 
-	<ShouldDisplayBubble>true</ShouldDisplayBubble>
-	<ShouldWobble>true</ShouldWobble>
+	<ShouldDisplayBubble>false</ShouldDisplayBubble>
+	<ShouldWobble>false</ShouldWobble>
 
 </CharacterSpeechConfig>

@@ -3,24 +3,15 @@
 	
 	<CreditsText>
 	Created By
-	Cpt Jean Luc Picard
-	The Doctor
-	Commander Adama
-	Seven of Nine
-	Malcolm Reynolds
-	Cpt Jack Harkness
-	Dave Lister
-	Dr Julian Bashir
-	Slartibartfast
-	Chief Petty Officer Miles Edwards O'Brien
-	Echo
-	Spock
-	
-	
-	
-	Special thanks to Jackson Walters
-	for doing all the work
-	
+	YOU!
+
+	Developed by
+	Michael Saiger
+	Elliot Charles Morris
+	Ross Colston
+	Simone Elliot
+	Lewis Brown
+		
 	</CreditsText>
 
 	<TextSize>50</TextSize>
@@ -30,7 +21,7 @@
 	<StartPosX>-380</StartPosX>
 	<StartPosY>900</StartPosY>
 	
-	<TimeToGoBackToMenuInSeconds>60</TimeToGoBackToMenuInSeconds>
+	<TimeToGoBackToMenuInSeconds>40</TimeToGoBackToMenuInSeconds>
 	
 </Credits>
 

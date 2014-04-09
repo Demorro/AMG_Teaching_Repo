@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="false">
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
 
 	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
 	<Speech>
@@ -9,7 +9,7 @@
 		look like they are about
 		to fall
 		</SpeechText>
-		<AudioFilePath>BerBerBer1.wav</AudioFilePath>
+		<AudioFilePath>Careful of mossy platforms.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -18,7 +18,7 @@
 		Yepp, that's a health
 		hazard.
 		</SpeechText>
-		<AudioFilePath>BerBerBer2.wav</AudioFilePath>
+		<AudioFilePath>Cracks in the wood 1.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -27,15 +27,15 @@
 		Honestly, someone could
 		have an accident.
 		</SpeechText>
-		<AudioFilePath>BerBerBer3.wav</AudioFilePath>
+		<AudioFilePath>Who makes these things_.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
 		<SpeechText>
 		If you fall, 
-		shout GIRONIMO!
+		shout GERONIMO!
 		</SpeechText>
-		<AudioFilePath>BerBerBer4.wav</AudioFilePath>
+		<AudioFilePath>Geronimo 1.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -44,7 +44,7 @@
 		are actually a portal
 		to another world.
 		</SpeechText>
-		<AudioFilePath>BerBerBer5.wav</AudioFilePath>
+		<AudioFilePath>Platform Portal.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -53,7 +53,7 @@
 		definitely dangerous
 		don't stay on them long
 		</SpeechText>
-		<AudioFilePath>BerBerBer6.wav</AudioFilePath>
+		<AudioFilePath>Definitely dangerous.wav</AudioFilePath>
 	</Speech>
 	
 	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->

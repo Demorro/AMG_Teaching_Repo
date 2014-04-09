@@ -284,5 +284,6 @@ private:
 
 	//The downwards speed at which the fall animation triggers
 	float fallVelocityTillFallAnimation;
+
 };
 

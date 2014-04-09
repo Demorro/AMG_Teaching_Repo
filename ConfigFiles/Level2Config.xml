@@ -2,9 +2,9 @@
 <LevelSpecificConfig Name="Level2Config" Visible="true">
 
 	<!--Maximum Time values in seconds for the grades. Don't need a C one as you always get a C even if you take a million years -->
-	<APlusGrade>1</APlusGrade>
-	<AGrade>2</AGrade>
-	<BGrade>3</BGrade>
+	<APlusGrade>80</APlusGrade>
+	<AGrade>100</AGrade>
+	<BGrade>120</BGrade>
 	
 	
 </LevelSpecificConfig>

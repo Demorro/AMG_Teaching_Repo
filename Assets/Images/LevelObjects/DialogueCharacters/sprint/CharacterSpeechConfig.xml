@@ -1,45 +1,45 @@
 <?xml version="1.0"?>
-<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="false">
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
 
 	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
 	<Speech>
 		<SpeechText>
-		If you hold LB you 
+		If you hold RB you 
 		can run even faster!
 		</SpeechText>
-		<AudioFilePath>BerBerBer1.wav</AudioFilePath>
+		<AudioFilePath>Hold RB to run faster.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
 		<SpeechText>
-		Hold LB to Sprint. 
+		Hold RB to Sprint. 
 		You can even jump 
 		further too 
 		</SpeechText>
-		<AudioFilePath>BerBerBer2.wav</AudioFilePath>
+		<AudioFilePath>RB to sprint and jump further.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
 		<SpeechText>
-		Combining LB and A 
+		Combining RB and A 
 		will make you jump 
 		further than a Gazelle!
 		</SpeechText>
-		<AudioFilePath>BerBerBer3.wav</AudioFilePath>
+		<AudioFilePath>faster than a gazelle.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
 		<SpeechText>
-		GOTTA GO FAST!
+		GOTTA GO FASTER!
 		</SpeechText>
-		<AudioFilePath>BerBerBer4.wav</AudioFilePath>
+		<AudioFilePath>Gotta got faster 3.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
 		<SpeechText>
 		RUN LAD RUN!
 		</SpeechText>
-		<AudioFilePath>BerBerBer5.wav</AudioFilePath>
+		<AudioFilePath>Run lad run!.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -49,7 +49,7 @@
 		You go on ahead, 
 		I'll rest. 
 		</SpeechText>
-		<AudioFilePath>BerBerBer6.wav</AudioFilePath>
+		<AudioFilePath>All this excitement.wav</AudioFilePath>
 	</Speech>
 	
 	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->

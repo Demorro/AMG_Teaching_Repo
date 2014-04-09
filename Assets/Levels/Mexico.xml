@@ -6836,6 +6836,168 @@
                         <Y>65</Y>
                     </Origin>
                 </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5122" Visible="true">
+                    <Position>
+                        <X>7507</X>
+                        <Y>-773</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\Arribalady\ladyblonde.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\Arribalady\ladyblonde</asset_name>
+                    <Origin>
+                        <X>30</X>
+                        <Y>79</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5123" Visible="true">
+                    <Position>
+                        <X>11894</X>
+                        <Y>563</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\Groupcheer\crowd.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\Groupcheer\crowd</asset_name>
+                    <Origin>
+                        <X>99</X>
+                        <Y>80</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5124" Visible="true">
+                    <Position>
+                        <X>15700</X>
+                        <Y>461</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\mexicocharacter\mexicanguy2.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\mexicocharacter\mexicanguy2</asset_name>
+                    <Origin>
+                        <X>37</X>
+                        <Y>73</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5125" Visible="true">
+                    <Position>
+                        <X>22417</X>
+                        <Y>639</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\cowboy\cowboy.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\cowboy\cowboy</asset_name>
+                    <Origin>
+                        <X>32</X>
+                        <Y>67</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5126" Visible="true">
+                    <Position>
+                        <X>25747</X>
+                        <Y>225</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\Wrestler\wrestler.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\Wrestler\wrestler</asset_name>
+                    <Origin>
+                        <X>47</X>
+                        <Y>87</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5128" Visible="true">
+                    <Position>
+                        <X>27944</X>
+                        <Y>1012</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\Groupcheer\crowd.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\DialogueCharacters\mexicocharacters\Groupcheer\crowd</asset_name>
+                    <Origin>
+                        <X>99</X>
+                        <Y>80</Y>
+                    </Origin>
+                </Item>
             </Items>
             <ScrollSpeed>
                 <X>1</X>
@@ -8219,33 +8381,6 @@
                     <Origin>
                         <X>50</X>
                         <Y>20</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_4825" Visible="true">
-                    <Position>
-                        <X>15390</X>
-                        <Y>499</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\Cactus_2.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\Cactus_2</asset_name>
-                    <Origin>
-                        <X>30</X>
-                        <Y>38</Y>
                     </Origin>
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_4826" Visible="true">
@@ -9868,33 +10003,6 @@
                         <Y>39</Y>
                     </Origin>
                 </Item>
-                <Item xsi:type="TextureItem" Name="Texture_4975" Visible="true">
-                    <Position>
-                        <X>23725</X>
-                        <Y>657</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\bar.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\bar</asset_name>
-                    <Origin>
-                        <X>39</X>
-                        <Y>39</Y>
-                    </Origin>
-                </Item>
                 <Item xsi:type="TextureItem" Name="Texture_4976" Visible="true">
                     <Position>
                         <X>23573</X>
@@ -9925,33 +10033,6 @@
                 <Item xsi:type="TextureItem" Name="Texture_4977" Visible="true">
                     <Position>
                         <X>23003</X>
-                        <Y>657</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\bar.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\bar</asset_name>
-                    <Origin>
-                        <X>39</X>
-                        <Y>39</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_4978" Visible="true">
-                    <Position>
-                        <X>23079</X>
                         <Y>657</Y>
                     </Position>
                     <CustomProperties />
@@ -10030,33 +10111,6 @@
                         <Y>39</Y>
                     </Origin>
                 </Item>
-                <Item xsi:type="TextureItem" Name="Texture_4982" Visible="true">
-                    <Position>
-                        <X>25826</X>
-                        <Y>274</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\bar.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\bar</asset_name>
-                    <Origin>
-                        <X>39</X>
-                        <Y>39</Y>
-                    </Origin>
-                </Item>
                 <Item xsi:type="TextureItem" Name="Texture_4983" Visible="true">
                     <Position>
                         <X>25674</X>
@@ -10086,35 +10140,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_4984" Visible="true">
                     <Position>
-                        <X>15683</X>
-                        <Y>501</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\bar.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\bar</asset_name>
-                    <Origin>
-                        <X>39</X>
-                        <Y>39</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_4985" Visible="true">
-                    <Position>
-                        <X>15759</X>
-                        <Y>501</Y>
+                        <X>15615</X>
+                        <Y>499</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -10140,8 +10167,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_4986" Visible="true">
                     <Position>
-                        <X>15607</X>
-                        <Y>501</Y>
+                        <X>15539</X>
+                        <Y>499</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -10165,199 +10192,10 @@
                         <Y>39</Y>
                     </Origin>
                 </Item>
-                <Item xsi:type="TextureItem" Name="Texture_5093" Visible="true">
-                    <Position>
-                        <X>15613</X>
-                        <Y>435</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\ironbru.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\ironbru</asset_name>
-                    <Origin>
-                        <X>10</X>
-                        <Y>26</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_5094" Visible="true">
-                    <Position>
-                        <X>15663</X>
-                        <Y>435</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\ironbru.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\ironbru</asset_name>
-                    <Origin>
-                        <X>10</X>
-                        <Y>26</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_5095" Visible="true">
-                    <Position>
-                        <X>22928</X>
-                        <Y>590</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\ironbru.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\ironbru</asset_name>
-                    <Origin>
-                        <X>10</X>
-                        <Y>26</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_5096" Visible="true">
-                    <Position>
-                        <X>22978</X>
-                        <Y>590</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\ironbru.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\ironbru</asset_name>
-                    <Origin>
-                        <X>10</X>
-                        <Y>26</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_5097" Visible="true">
-                    <Position>
-                        <X>23564</X>
-                        <Y>591</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\ironbru.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\ironbru</asset_name>
-                    <Origin>
-                        <X>10</X>
-                        <Y>26</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_5098" Visible="true">
-                    <Position>
-                        <X>23614</X>
-                        <Y>591</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\ironbru.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\ironbru</asset_name>
-                    <Origin>
-                        <X>10</X>
-                        <Y>26</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_5099" Visible="true">
-                    <Position>
-                        <X>23641</X>
-                        <Y>591</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <R>255</R>
-                        <G>255</G>
-                        <B>255</B>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Assets\Images\LevelObjects\Mexico\ironbru.png</texture_filename>
-                    <asset_name>Assets\Images\LevelObjects\Mexico\ironbru</asset_name>
-                    <Origin>
-                        <X>10</X>
-                        <Y>26</Y>
-                    </Origin>
-                </Item>
                 <Item xsi:type="TextureItem" Name="Texture_5107" Visible="true">
                     <Position>
-                        <X>15489</X>
-                        <Y>473</Y>
+                        <X>15421</X>
+                        <Y>471</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -10379,6 +10217,222 @@
                     <Origin>
                         <X>74</X>
                         <Y>65</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5129" Visible="true">
+                    <Position>
+                        <X>15540</X>
+                        <Y>429</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\mexico\irnbru-.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\mexico\irnbru-</asset_name>
+                    <Origin>
+                        <X>10</X>
+                        <Y>29</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5130" Visible="true">
+                    <Position>
+                        <X>15569</X>
+                        <Y>429</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\mexico\irnbru-.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\mexico\irnbru-</asset_name>
+                    <Origin>
+                        <X>10</X>
+                        <Y>29</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5131" Visible="true">
+                    <Position>
+                        <X>15623</X>
+                        <Y>430</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\mexico\irnbru-.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\mexico\irnbru-</asset_name>
+                    <Origin>
+                        <X>10</X>
+                        <Y>29</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5132" Visible="true">
+                    <Position>
+                        <X>23564</X>
+                        <Y>589</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\mexico\irnbru-.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\mexico\irnbru-</asset_name>
+                    <Origin>
+                        <X>10</X>
+                        <Y>29</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5133" Visible="true">
+                    <Position>
+                        <X>23592</X>
+                        <Y>587</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\mexico\irnbru-.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\mexico\irnbru-</asset_name>
+                    <Origin>
+                        <X>10</X>
+                        <Y>29</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5134" Visible="true">
+                    <Position>
+                        <X>23645</X>
+                        <Y>587</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\mexico\irnbru-.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\mexico\irnbru-</asset_name>
+                    <Origin>
+                        <X>10</X>
+                        <Y>29</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5135" Visible="true">
+                    <Position>
+                        <X>23021</X>
+                        <Y>587</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\mexico\irnbru-.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\mexico\irnbru-</asset_name>
+                    <Origin>
+                        <X>10</X>
+                        <Y>29</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_5136" Visible="true">
+                    <Position>
+                        <X>25643</X>
+                        <Y>204</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Assets\Images\LevelObjects\mexico\irnbru-.png</texture_filename>
+                    <asset_name>Assets\Images\LevelObjects\mexico\irnbru-</asset_name>
+                    <Origin>
+                        <X>10</X>
+                        <Y>29</Y>
                     </Origin>
                 </Item>
             </Items>
@@ -16366,8 +16420,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_4810" Visible="true">
                     <Position>
-                        <X>22503</X>
-                        <Y>580</Y>
+                        <X>22213</X>
+                        <Y>588</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -16445,11 +16499,11 @@
                 <Item xsi:type="RectangleItem" Name="Rectangle_4357" Visible="true">
                     <Position>
                         <X>-2496</X>
-                        <Y>-1024</Y>
+                        <Y>-1019</Y>
                     </Position>
                     <CustomProperties />
                     <Width>4672</Width>
-                    <Height>3959</Height>
+                    <Height>3954</Height>
                     <FillColor>
                         <R>192</R>
                         <G>0</G>
@@ -17268,7 +17322,7 @@
             <Items>
                 <Item xsi:type="TextureItem" Name="Texture_4650" Visible="true">
                     <Position>
-                        <X>23003</X>
+                        <X>23130</X>
                         <Y>664</Y>
                     </Position>
                     <CustomProperties />
@@ -17295,8 +17349,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_4651" Visible="true">
                     <Position>
-                        <X>23514</X>
-                        <Y>664</Y>
+                        <X>23446</X>
+                        <Y>663</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -17322,8 +17376,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_4652" Visible="true">
                     <Position>
-                        <X>23768</X>
-                        <Y>664</Y>
+                        <X>23815</X>
+                        <Y>663</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -18293,11 +18347,11 @@
     </Layers>
     <CustomProperties />
     <EditorRelated>
-        <NextItemNumber>5120</NextItemNumber>
-        <ContentRootFolder>C:\Coding\C++\AMG_Teaching_Repo</ContentRootFolder>
+        <NextItemNumber>5136</NextItemNumber>
+        <ContentRootFolder>C:\Users\User\Desktop\CurrentBuild270314</ContentRootFolder>
         <CameraPosition>
-            <X>7913.676</X>
-            <Y>-1738.45313</Y>
+            <X>25683.8125</X>
+            <Y>293.907959</Y>
         </CameraPosition>
         <Version>1.3.0.0</Version>
     </EditorRelated>

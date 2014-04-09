@@ -6,7 +6,7 @@
 
 	<!--Menu Music-->
 	<MenuMusicPath>../Assets/Sounds/Music/MenuMusic.wav</MenuMusicPath>
-	<MenuMusicVolume>40</MenuMusicVolume>
+	<MenuMusicVolume>20</MenuMusicVolume>
 	
 	<!--Player Audio-->
 	<JumpSoundPath>../Assets/Sounds/Jump.wav</JumpSoundPath>

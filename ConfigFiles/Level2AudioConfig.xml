@@ -6,7 +6,7 @@
 
 	<!--Level Music-->
 	<MusicPath>../Assets/Sounds/Music/Level2Music.wav</MusicPath>
-	<MusicVolume>70</MusicVolume>
+	<MusicVolume>35</MusicVolume>
 	
 	<!--Ground Level Ambience -->
 	<GroundAmbiencePath>../Assets/Sounds/Level1GroundAmbience.wav</GroundAmbiencePath>

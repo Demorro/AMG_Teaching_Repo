@@ -5,7 +5,7 @@
 	<!--All Volume levels are from 0-100, 0 being silent, 100 being full source volume-->
 
 	<!--Level Music-->
-	<MusicPath>../Assets/Sounds/Music/Level1Music.wav</MusicPath>
+	<MusicPath>../Assets/Sounds/Music/Japan Level Idea.wav</MusicPath>
 	<MusicVolume>22</MusicVolume>
 	
 	<!--Ground Level Ambience -->

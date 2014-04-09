@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="false">
+
+	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
+	<Speech>
+		<SpeechText>
+		If you hold LB you 
+		can run even faster!
+		</SpeechText>
+		<AudioFilePath>BerBerBer1.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		Hold LB to Sprint. 
+		You can even jump 
+		further too 
+		</SpeechText>
+		<AudioFilePath>BerBerBer2.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		Combining LB and A 
+		will make you jump 
+		further than a Gazelle!
+		</SpeechText>
+		<AudioFilePath>BerBerBer3.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		GOTTA GO FAST!
+		</SpeechText>
+		<AudioFilePath>BerBerBer4.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		RUN LAD RUN!
+		</SpeechText>
+		<AudioFilePath>BerBerBer5.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		Wow all this excitement
+		has got me worn out. 
+		You go on ahead, 
+		I'll rest. 
+		</SpeechText>
+		<AudioFilePath>BerBerBer6.wav</AudioFilePath>
+	</Speech>
+	
+	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
+	<SpeechBubbleOriginFromTopLeftX>30</SpeechBubbleOriginFromTopLeftX>
+	<SpeechBubbleOriginFromTopLeftY>52</SpeechBubbleOriginFromTopLeftY>
+
+	<ShouldDisplayBubble>true</ShouldDisplayBubble>
+	<ShouldWobble>true</ShouldWobble>
+
+</CharacterSpeechConfig>

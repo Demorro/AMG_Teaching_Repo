@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<AudioConfig Name="AudioConfig" Visible="true">
+
+	<!--All paths are reletive from the project root folder-->
+	<!--All Volume levels are from 0-100, 0 being silent, 100 being full source volume-->
+
+	<!--Level Music-->
+	<MusicPath>../Assets/Sounds/Music/Level2Music.wav</MusicPath>
+	<MusicVolume>70</MusicVolume>
+	
+	<!--Ground Level Ambience -->
+	<GroundAmbiencePath>../Assets/Sounds/Level1GroundAmbience.wav</GroundAmbiencePath>
+	<GroundAmbienceVolume>100</GroundAmbienceVolume>
+	<!--Sky Level Ambience -->
+	<SkyAmbiencePath>../Assets/Sounds/Level1SkyAmbience.wav</SkyAmbiencePath>
+	<SkyAmbienceVolume>60</SkyAmbienceVolume>
+	<!--This stuff defines how the crossfading between the ground ambience and sky ambience works-->
+	<!--The way this works is that at the minheight, the game will start fading out the ground ambience and fading in the sky ambience as we go up, at the max height, we will only be hearing the sky level ambience and not hear the ground ambience at all, min at 1000, max at 3500 makes sense normally-->
+	<AmbienceCrossFadeMinHeight>1000</AmbienceCrossFadeMinHeight>
+	<AmbienceCrossFadeMaxHeight>3500</AmbienceCrossFadeMaxHeight>
+	
+</AudioConfig>
+
+
+<!--REMINDER : Remember to tell a programmer to set the code defaults to whats in this file before we ship, knowing me i'll forget because i'm drunk or hibernating or something. This is important because if someone deletes the config file you want the game to still run anyways.-->

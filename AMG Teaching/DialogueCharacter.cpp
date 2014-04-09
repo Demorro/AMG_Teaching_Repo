@@ -10,9 +10,6 @@ DialogueCharacter::DialogueCharacter(sf::Vector2f position, sf::Texture &charact
 	//whether or not the dialogue phrases loop back to the beginning or whether they just stay at the end when they get there
 	shouldLoopPhrases = shouldPhrasesLoop;
 
-	//Whether the character should wobble back and forth
-	shouldWobble = true;
-
 	characterTexture.setSmooth(true);
 	speechBubbleSprite.setTexture(speechBubbleTexture);
 
@@ -63,7 +60,7 @@ void DialogueCharacter::Load()
 	sf::Color transColor = sf::Color::White;
 	transColor.a = 0;
 	speechBubbleSprite.setColor(transColor);
-
+	
 	isBubbleOn = false;
 	playerWasCollidingLastFrame = false;
 	fadeSpeed = 1400.0f;

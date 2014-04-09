@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="false">
+
+	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
+	<Speech>
+		<SpeechText>
+		I am a test character
+		</SpeechText>
+		<AudioFilePath>BerBerBer1.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		My speech and audio
+		are defined in
+		CharacterSpeechConfig
+		.xml
+		</SpeechText>
+		<AudioFilePath>BerBerBer2.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		You can find the config
+		file in LevelObjects\
+		DialogueCharacters\
+		TestCharacter\
+		</SpeechText>
+		<AudioFilePath>BerBerBer3.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		It's super easy to add
+		other characters, just
+		make a new folder just
+		like the one I'm in.
+		</SpeechText>
+		<AudioFilePath>BerBerBer4.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		I'm sure you'll
+		figure it out
+		</SpeechText>
+		<AudioFilePath>BerBerBer5.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		You can change 
+		whether these phrases 
+		loop by changing the
+		PhrasesShouldLoop
+		property near the top.
+		</SpeechText>
+		<AudioFilePath>BerBerBer6.wav</AudioFilePath>
+	</Speech>
+	
+	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
+	<SpeechBubbleOriginFromTopLeftX>30</SpeechBubbleOriginFromTopLeftX>
+	<SpeechBubbleOriginFromTopLeftY>52</SpeechBubbleOriginFromTopLeftY>
+
+	<ShouldDisplayBubble>true</ShouldDisplayBubble>
+	<ShouldWobble>true</ShouldWobble>
+
+</CharacterSpeechConfig>

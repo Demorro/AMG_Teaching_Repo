@@ -215,8 +215,6 @@ void Level::HandlePlayerDeaths(Player &player)
 				stageCam->SetLocked(true);
 				player.SetIsAcceptingInput(false);
 
-				//reload the falling platforms cause they might have been destroyed
-				loadedLevel->ReloadFallingPlatforms();
 
 				//find the active checkpoint
 				for(int j = 0; j < loadedLevel->GetCheckPoints().size(); j++)
@@ -242,6 +240,9 @@ void Level::HandlePlayerDeaths(Player &player)
 			isOnDeathSequence = false;
 			player.Respawn(activeCheckPointPosition);
 			stageCam->SetLocked(false);
+
+			//reload the falling platforms cause they might have been destroyed
+			loadedLevel->ReloadFallingPlatforms();
 		}
 	}
 }

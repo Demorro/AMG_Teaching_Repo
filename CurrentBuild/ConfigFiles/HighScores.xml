@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<HighScore Name="HighScore" Visible="true">
+	<ScotlandScore>999999</ScotlandScore>
+	<MexicoScore>999999</MexicoScore>
+	<JapanScore>999999</JapanScore>
+</HighScore>

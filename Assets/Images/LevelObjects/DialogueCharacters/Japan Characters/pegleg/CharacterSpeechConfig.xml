@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
+
+	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
+	<Speech>
+		<SpeechText>
+		Wait wait wait!
+		Gotcha!
+		</SpeechText>
+		<AudioFilePath>Wait wait wait.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		HAHAHA!
+		</SpeechText>
+		<AudioFilePath>Fart and laugh.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		See just cause I
+		have a wooden leg
+		doesnt make me any 
+		different
+		</SpeechText>
+		<AudioFilePath>Aye right.wav</AudioFilePath>
+	</Speech>
+	
+	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
+	<SpeechBubbleOriginFromTopLeftX>30</SpeechBubbleOriginFromTopLeftX>
+	<SpeechBubbleOriginFromTopLeftY>52</SpeechBubbleOriginFromTopLeftY>
+
+	<ShouldDisplayBubble>true</ShouldDisplayBubble>
+	<ShouldWobble>true</ShouldWobble>
+
+</CharacterSpeechConfig>

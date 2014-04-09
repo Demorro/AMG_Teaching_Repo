@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
+
+	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
+	<Speech>
+		<SpeechText>
+		Hello fellow warrior
+		You must learn to
+		move like tiger or snake
+		</SpeechText>
+		<AudioFilePath>Move like tiger or snake.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		HAHA You are slow,
+		like fat panda.
+		Bet I will win
+		</SpeechText>
+		<AudioFilePath>You are slow, like fat panda.wav</AudioFilePath>
+	</Speech>
+
+	
+	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
+	<SpeechBubbleOriginFromTopLeftX>30</SpeechBubbleOriginFromTopLeftX>
+	<SpeechBubbleOriginFromTopLeftY>52</SpeechBubbleOriginFromTopLeftY>
+
+	<ShouldDisplayBubble>true</ShouldDisplayBubble>
+	<ShouldWobble>true</ShouldWobble>
+
+</CharacterSpeechConfig>

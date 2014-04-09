@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="false">
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
 
 	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
 	<Speech>
@@ -8,7 +8,7 @@
 		a good kick with B 
 		they'll break
 		</SpeechText>
-		<AudioFilePath>BerBerBer1.wav</AudioFilePath>
+		<AudioFilePath>Give crates a kick.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -18,7 +18,7 @@
 		high I worried it 
 		wouldn't go down
 		</SpeechText>
-		<AudioFilePath>BerBerBer2.wav</AudioFilePath>
+		<AudioFilePath>Lift the leg.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -26,7 +26,7 @@
 		Then again, I could just 
 		sit on them
 		</SpeechText>
-		<AudioFilePath>BerBerBer3.wav</AudioFilePath>
+		<AudioFilePath>Could just sit on them.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -34,7 +34,7 @@
 		But they are quite far 
 		away. 
 		</SpeechText>
-		<AudioFilePath>BerBerBer4.wav</AudioFilePath>
+		<AudioFilePath>Theyre quite far away.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -42,7 +42,7 @@
 		And I'm really 
 		comfortable here.
 		</SpeechText>
-		<AudioFilePath>BerBerBer5.wav</AudioFilePath>
+		<AudioFilePath>Really comfortable.wav</AudioFilePath>
 	</Speech>
 	
 	<Speech>
@@ -51,7 +51,7 @@
 		break the boxes with B.
 		Your ever so kind laddie
 		</SpeechText>
-		<AudioFilePath>BerBerBer6.wav</AudioFilePath>
+		<AudioFilePath>Break boxes with B 2.wav</AudioFilePath>
 	</Speech>
 	
 	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->

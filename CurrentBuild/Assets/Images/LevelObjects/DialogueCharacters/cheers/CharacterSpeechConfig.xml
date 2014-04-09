@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
+
+	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
+	<Speech>
+		<SpeechText>
+		WOOOOOOO!
+		</SpeechText>
+		<AudioFilePath>Group Cheer 1.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		YAYYYYY!
+		</SpeechText>
+		<AudioFilePath>Group Cheer 2.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		WOOP WOOP
+		</SpeechText>
+		<AudioFilePath>Group Cheer 3.wav</AudioFilePath>
+	</Speech>
+	
+	
+	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
+	<SpeechBubbleOriginFromTopLeftX>96</SpeechBubbleOriginFromTopLeftX>
+	<SpeechBubbleOriginFromTopLeftY>48</SpeechBubbleOriginFromTopLeftY>
+
+	<ShouldDisplayBubble>true</ShouldDisplayBubble>
+	<ShouldWobble>true</ShouldWobble>
+
+</CharacterSpeechConfig>

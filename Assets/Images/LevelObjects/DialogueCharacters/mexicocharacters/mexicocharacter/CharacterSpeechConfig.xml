@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<CharacterSpeechConfig Name="SpeechConfig" Visible="true" PhrasesShouldLoop="true">
+
+	<!--These speech nodes have two elements, the first is the text that is displayed when the player comes close to the character, and the second is the local wav file name that is played-->
+	<Speech>
+		<SpeechText>
+		Por favor!
+		How are you?
+		</SpeechText>
+		<AudioFilePath>Por favor how are u_.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		We like to show
+		support to our amigos
+		Then everyone can 
+		have a good time!
+		</SpeechText>
+		<AudioFilePath>Fajita Manana.wav</AudioFilePath>
+	</Speech>
+	
+	<Speech>
+		<SpeechText>
+		ARRIBA!
+		Good Luck traveller
+		</SpeechText>
+		<AudioFilePath>Arriba 2.wav</AudioFilePath>
+	</Speech>
+	
+	
+	<!-- these values define where the speech bubble is placed, just fiddle with em, it's cool playaaaa..... -->
+	<SpeechBubbleOriginFromTopLeftX>30</SpeechBubbleOriginFromTopLeftX>
+	<SpeechBubbleOriginFromTopLeftY>52</SpeechBubbleOriginFromTopLeftY>
+
+	<ShouldDisplayBubble>true</ShouldDisplayBubble>
+	<ShouldWobble>true</ShouldWobble>
+
+</CharacterSpeechConfig>
